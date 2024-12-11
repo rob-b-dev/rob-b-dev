@@ -8,7 +8,7 @@ function Homepage() {
         <div className="content">
           <h2>Improve your coding <br />skills by building realistic <br />projects</h2>
           <p>
-            Our professionally designed challenges help you gain hands-on <br /> experience writing HTML, CSS, and JavaScript. 
+            Our professionally designed challenges help you gain hands-on <br /> experience writing HTML, CSS, and JavaScript.
             We create the  <br />designs so you can focus on the code and see your skills <br /> skyrocket!
           </p>
           <button className="cta-button-red">
@@ -24,9 +24,9 @@ function Homepage() {
         </div>
 
         <div className="image-container">
-          <img src="src/assets/static/project-images.jpg" alt="Picture"/>
+          <img src="src/assets/static/project-images.jpg" alt="Picture" />
         </div>
-      
+
       </div>
     </>
   );
