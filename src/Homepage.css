@@ -4,12 +4,12 @@
   /* Center on web page */
   justify-content: center;
   /* Gap between the containers */
-  gap: 30px;
+  gap: 20px;
 }
 
 .content {
   /* Space inside the content */
-  padding: 20px;
+  padding-bottom: 20px;
   border-radius: 8px;
   /* Flexbox layout to create flex items for spacing */
   display: flex;
@@ -51,6 +51,7 @@
 .image-container {
   display: block;
   position: relative;
+  padding-bottom: 20px;
 }
 
 .image-container::before {
