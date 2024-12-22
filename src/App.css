@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   font-family: '__Barlow_f46a1f, __Barlow_Fallback_f46a1f';
   background-color: transparent;
   color: rgba(0, 0, 0, 0.87);

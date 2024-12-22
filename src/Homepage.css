@@ -1,27 +1,22 @@
-.container {
-  /* Flexbox layout for child containers to enable side by side format and centering */
+.intro-container {
+  /* Flexbox layout applied to parent - side by side layout */
   display: flex;
-  /* Center on web page */
+  /* Center children */
   justify-content: center;
-  /* Gap between the containers */
   gap: 20px;
+  height: 611px;
 }
 
-.content {
-  /* Space inside the content */
-  padding-bottom: 20px;
-  border-radius: 8px;
-  /* Flexbox layout to create flex items for spacing */
+.intro-desc {
+  /* Flexbox layout applied to flex item - allows for props specific to this containers contents */
   display: flex;
-  /* Stack in columns */
   flex-direction: column;
-  /* Space between flex items */
   gap: 20px;
   position: relative;
 }
 
 /* CSS pseudo element selector */
-.content::before {
+.intro-desc::before {
   content: '';
   position: absolute;
   top: 0;
@@ -37,24 +32,22 @@
   z-index: -1;
 }
 
-.content h2 {
+.intro-desc h2 {
   color: rgb(62, 84, 163);
   font-size: 30px;
   font-weight: 300;
   font-family: '__Barlow_f46a1f, __Barlow_Fallback_f46a1f';
 }
 
-.content p {
+.intro-desc p {
   color: rgb(115, 115, 115)
 }
 
-.image-container {
-  display: block;
+.hero-image-container {
   position: relative;
-  padding-bottom: 20px;
 }
 
-.image-container::before {
+.hero-image-container::before {
   content: '';
   position: absolute;
   top: 0;
@@ -70,14 +63,9 @@
   /* Ensure the background image sits behind the content */
 }
 
-.image-container img {
+.hero-image-container img {
   width: 500px;
-  /* Image fills the container */
   height: 400px;
-  /* Maintain aspect ratio */
-  max-height: 500px;
-  /* Limit the height of the image to avoid it becoming too large */
-  border-radius: 8px;
 }
 
 .cta-button-red {
@@ -86,7 +74,7 @@
   background-color: rgb(211, 18, 47);
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 9999px;
   font-weight: bold;
   cursor: pointer;
   width: 170px;
@@ -105,10 +93,10 @@
   vertical-align: middle;
 }
 
-.border-container {
+.promotion-info {
   background-color: rgb(255, 255, 255);
   border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   height: 100px;
@@ -117,15 +105,199 @@
   align-items: center;
 }
 
-.border-container img {
+.promotion-info img {
   height: 67px;
   width: 150px;
 }
 
-.border-container p {
+.promotion-info p {
   color: rgb(28, 32, 34);
 }
 
 .blue-text {
   color: rgb(62, 84, 163);
+}
+
+.feedback-container {
+  /* Flex set to parent to allow side by side layout */
+  display: flex;
+  /* Center on page */
+  justify-content: center;
+  /* Space children */
+  gap: 20px;
+  padding: 40px 33.75px 100px 33.75px;
+  width: 1440px;
+  margin: 0 auto;
+  border-radius: 13.5px;
+  position: relative;
+  box-shadow: transparent,
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: '__Heebo_72b39c, __Heebo_Fallback_72b39c';
+}
+
+.feedback-container::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(to bottom, transparent, rgb(240, 244, 244));
+  border-radius: 15px;
+  z-index: -1;
+}
+
+
+.feedback {
+  padding: 20px;
+  /* Flex on child to allow for column direction and spacing for content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 400px;
+  width: 600px;
+}
+
+.feedback p {
+  font-size: 20px;
+  text-align: center;
+
+}
+
+.speechmarks {
+  height: 62px;
+  width: 70px;
+}
+
+.feedback-portofolio-pic {
+  height: 70px;
+  width: 75px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.feedback-creator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.creator-name {
+  color: rgb(62, 84, 163);
+  font-size: 17.24px;
+  font-weight: 700;
+  letter-spacing: 1.72px;
+  line-height: 25.87px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.creator-title {
+  font-family: 18px;
+  color: rgb(115, 115, 115);
+}
+
+.featured-on-container {
+  display: flex;
+  justify-content: center;
+  padding: 120px 33.75px;
+}
+
+.featured-on {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.featured-on h2 {
+  display: block;
+  text-transform: uppercase;
+  font-size: 17px;
+  letter-spacing: 1px;
+  font-weight: 900;
+  margin-bottom: 40px;
+}
+
+.images {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+}
+
+.images div {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 33.75px 70px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.images img:nth-child(1) {
+  height: 30px;
+  width: 200px;
+}
+
+.images img:nth-child(2) {
+  height: 40px;
+  width: 200px;
+}
+
+.images img:nth-child(3) {
+  height: 50px;
+  width: 210px;
+}
+
+.content-overview {
+  padding: 37.1px 27.82px;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  align-items: center;
+  height: 400px;
+}
+
+.image-container {
+  position: relative;
+}
+
+.image-container img {
+  width: 450px;
+  height: 375px;
+}
+
+.content-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.content-desc .emoji {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
+  border-radius: 50%;
+  border: 2px solid rgb(240, 244, 244);
+  background-color: rgb(240, 244, 244);
+}
+
+.content-desc h3 {
+  font-size: 42px;
+  font-weight: 400;
+  height: 47px;
+  line-height: 47px;
+  font-family: '__Barlow_f46a1f, __Barlow_Fallback_f46a1f';
 }

@@ -3,11 +3,13 @@ import React from 'react';
 function Header() {
   return (
     <header className="header">
-      <div className="logo">
-        <img src="src/assets/static/logo.svg" alt="Logo" />
-        <span className="logo-text">
-          <span className="spelled-wrong">frontend</span> mentor
-        </span> {/* Add text here */}
+      <div className='header-left'>
+        <div className="logo">
+          <img src="src/assets/static/logo.svg" alt="Logo" />
+          <span className="logo-text">
+            <span className="spelled-wrong">frontend</span> mentor
+          </span>
+        </div>
       </div>
 
       <div className="header-right">
