@@ -12,12 +12,14 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  /* Relative position used to set parent container to enable reference point for children through absolute*/
   position: relative;
 }
 
-/* CSS pseudo element selector */
+/* CSS pseudo element selector - before used to insert content before container - decoration purposes */
 .intro-desc::before {
   content: '';
+  /* Absolute removes the element from the document flow, meaning it doesnt effect the layout of other elements and is positioning in the top left of the relative parent container */
   position: absolute;
   top: 0;
   left: 0;
@@ -25,7 +27,7 @@
   bottom: 0;
   background-image: url("https://res.cloudinary.com/dz209s6jk/image/upload/v1709046170/DesignSystem/bg-premium-intro-1.svg");
   background-size: cover;
-  background-position: center 20%;
+  background-position: center 100%;
   /* Lighten only the background image */
   filter: brightness(1.2);
   /* Ensure the background image sits behind the content */
@@ -47,6 +49,7 @@
   position: relative;
 }
 
+/* Pseudo element selector used to target through specificity  */
 .hero-image-container::before {
   content: '';
   position: absolute;
@@ -155,7 +158,6 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  position: relative;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   height: 400px;
