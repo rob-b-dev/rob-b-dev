@@ -1,12 +1,13 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Homepage() {
   return (
     <>
       {/* Introduction */}
-      <div className='section flex justify-center'>
-        <div className="grid grid--columns-2">
+      <div className='section flex justify-center space-y-8'>
+        <div className="grid grid--columns-2 space-y-8">
           <div className="space-y-8">
             <h2 className="header-2xl text-blue text-secondary">Improve your coding skills <br />by building realistic <br />projects</h2>
             <p className='text-lg text-grey'>
@@ -19,7 +20,7 @@ function Homepage() {
             </button>
             <div className='card space-x-8 inline-flex items-center'>
               <img src="src/assets/static/image-promotion.jpg" width="200px" alt="Image" />
-              <p className='text-sm'>Join <strong className='strong'>936,546</strong> developers building projects,<br /> reviewing code, and helping each other <br />improve.</p>
+              <p className='text-sm'>Join <strong>936,546</strong> developers building projects,<br /> reviewing code, and helping each other <br />improve.</p>
             </div>
           </div>
           <div>
@@ -29,28 +30,32 @@ function Homepage() {
       </div>
 
       {/* Feedback */}
-      <div className="section flex justify-center">
-        <div className="grid grid--columns-2 grid--justify-center">
-          <div className='text-center space-y-8 card' style={{ height: '457px', width: '585px' }}>
-            <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
-            <p className='text-lg'>I highly recommend Frontend Mentor. Skip the search <br />for project ideas and dive into ready-made challenges <br />that help you level up as a developer.</p>
-            <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
-            <div className="space-y-2">
-              <p className='text-md strong upper'>Kevin Powell</p>
-              <p className='text-grey'>Web Developer & YouTuber</p>
+
+      <div className="section">
+        <div className='flex justify-center background-grey--gradient'>
+          <div className="grid grid--columns-2 grid--justify-center">
+            <div className='text-center space-y-8 card' style={{ height: '457px', width: '585px' }}>
+              <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
+              <p className='text-lg'>I highly recommend Frontend Mentor. Skip the search <br />for project ideas and dive into ready-made challenges <br />that help you level up as a developer.</p>
+              <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
+              <div className="space-y-2">
+                <p className='text-md strong upper'>Kevin Powell</p>
+                <p className='text-grey'>Web Developer & YouTuber</p>
+              </div>
             </div>
-          </div>
-          <div className='text-center space-y-8 card' style={{ height: '457px', width: '585px' }}>
-            <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
-            <p className='text-lg'>Frontend Mentor is a win-win. You can sharpen your <br />skills building websites and add finished projects to <br />your portfolio to help land a job!</p>
-            <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
-            <div className="space-y-2">
-              <p className='text-md strong upper'>Jessica Chan</p>
-              <p className='text-grey'>Web Developer & YouTuber</p>
+            <div className='text-center space-y-8 card' style={{ height: '457px', width: '585px' }}>
+              <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
+              <p className='text-lg'>Frontend Mentor is a win-win. You can sharpen your <br />skills building websites and add finished projects to <br />your portfolio to help land a job!</p>
+              <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
+              <div className="space-y-2">
+                <p className='text-md strong upper'>Jessica Chan</p>
+                <p className='text-grey'>Web Developer & YouTuber</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
 
 
       {/* As Featured on intro */}
@@ -116,6 +121,52 @@ function Homepage() {
             </div>
             <div>
               <img height='568px' width='560px' src="src/assets/static/asfeatured-4.webp" alt="Image" className="homepage__image" />
+            </div>
+          </div>
+        </div>
+
+        <div className='flex justify-center'>
+          <div className='grid grid--columns-2 items-center override-gap-80'>
+            <div>
+              <img height='568px' width='560px' src="src/assets/static/asfeatured-5.png" alt="Image" className="homepage__image" />
+            </div>
+            <div className='space-y-8'>
+              <div className='emoji'>🤝</div>
+              <h3 className='header-xl'>Practice new tools</h3>
+              <p className='text-md text-grey'>We have a <span className='underline'>Hiring Platform</span> that runs alongside this platform. Just by<br /> building projects and engaging with the community, you could open<br /> up job opportunities!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className='section'>
+        <div className='background-grey flex justify-center'>
+          <div className='grid grid--columns-2 items-center'>
+            <div className='space-y-8'>
+              <div>
+                <h2 className="header-xl">How it works</h2>
+              </div>
+              <div className='space-y-4'>
+                <div style={{ width: '553px', height: '80px' }} className="card flex items-center space-x-4 pointer">
+                  <p className="number-list">1</p>
+                  <span className="bold text-lg">Choose your challenge</span>
+                </div>
+                <div className="card flex items-center space-x-4 pointer">
+                  <p className="number-list">2</p>
+                  <span className="bold text-lg">Code the design</span>
+                </div>
+                <div className="card flex items-center space-x-4 pointer">
+                  <p className="number-list">3</p>
+                  <span className="bold text-lg">Share your results</span>
+                </div>
+                <div className="card flex items-center space-x-4 pointer">
+                  <p className="number-list">4</p>
+                  <span className="bold text-lg">Give others feedback</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img width='791px' height='627px' src="src/assets/static/choosechallenge.png" alt="" />
             </div>
           </div>
         </div>

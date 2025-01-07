@@ -237,3 +237,7 @@
 .override-gap-100 {
     gap: 100px;
 }
+
+.rm-padding-top {
+    padding-top: 0px;
+}
