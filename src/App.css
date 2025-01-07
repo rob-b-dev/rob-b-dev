@@ -4,9 +4,13 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  font-family: '__Barlow_f46a1f, __Barlow_Fallback_f46a1f';
-  background-color: transparent;
-  color: rgba(0, 0, 0, 0.87);
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  max-width: 100%;
 }

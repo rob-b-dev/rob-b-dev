@@ -1,79 +1,36 @@
+@import url('Typography.css');
+
 header {
-  /* Flex layout for header - creation of flex items and side by side layout  */
   display: flex;
-  align-items: center;
-  padding: 0 4rem 0 14.85rem;
-  height: 75px;
-  margin-bottom: 9rem;
+  justify-content: space-between;
+  padding: 30px 10%;
 }
 
-.header-left .logo {
+.navigation {
+  /* Take up full screen width - allows items to take space across screen by deleting unallocated space */
+  width: 100%;
+}
+
+.navigation__list {
+  /* Flexbox on full list to place and center on one line */
   display: flex;
-}
-
-.logo img {
-  padding-right: 8px;
-  width: 31px;
-  height: 28px;
-}
-
-.logo-text {
-  text-transform: capitalize;
-  font-size: 20px;
-}
-
-.logo-text .spelled-wrong {
-  text-decoration: underline;
-  text-decoration-color: rgb(177, 56, 56);
-  text-decoration-style: wavy;
-  text-underline-offset: 4px;
-}
-
-.navigation ul {
   list-style-type: none;
-  display: flex;
-  gap: 1.1rem;
+  /* Centers left side with right side list items */
+  align-items: center;
 }
 
-.navigation a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  font-size: 12px;
-  height: 20px;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-.header-right {
+.header__right {
   display: flex;
+  /* Centers right side list items in their own container */
   align-items: center;
   margin-left: auto;
 }
 
-.cta-button {
-  display: flex;
-  padding: 0.75rem 1.5rem;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 9999px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-left: 1rem;
-  width: 170px;
-  height: 37px;
-  text-transform: uppercase;
-  justify-content: center;
-  align-items: center;
-  font-size: 11.5px;
+.logo {
+  margin-right: auto;
 }
 
-
-.cta-button img {
-  width: 25px;
-  height: 20px;
-  border-radius: 10px;
-  margin-left: 0.5rem;
-  vertical-align: middle;
+.logo img {
+  height: 28px;
+  width: 196px;
 }

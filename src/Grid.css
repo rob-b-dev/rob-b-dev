@@ -1,0 +1,87 @@
+.grid {
+    display: grid;
+    gap: 60px;
+    padding: 16px;
+    grid-auto-rows: auto;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.grid img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.grid--columns-1 {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.grid--columns-2 {
+    grid-template-columns: repeat(2, auto);
+}
+
+.grid--columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--columns-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.grid--columns-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.grid--columns-7 {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.grid--columns-8 {
+    grid-template-columns: repeat(8, 1fr);
+}
+
+.grid--columns-9 {
+    grid-template-columns: repeat(9, 1fr);
+}
+
+.grid--columns-10 {
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.grid--columns-11 {
+    grid-template-columns: repeat(11, 1fr);
+}
+
+.grid--columns-12 {
+    grid-template-columns: repeat(12, 1fr);
+}
+
+/* Alignment modifiers */
+.grid--align-top {
+    align-items: start;
+}
+
+.grid--align-center {
+    align-items: center;
+}
+
+.grid--align-bottom {
+    align-items: end;
+}
+
+.grid--justify-start {
+    justify-items: start;
+}
+
+.grid--justify-center {
+    justify-items: center;
+}
+
+.grid--justify-end {
+    justify-items: end;
+}
