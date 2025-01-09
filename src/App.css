@@ -19,3 +19,25 @@
 img {
   max-width: 100%;
 }
+
+.container {
+  padding: 20px;
+  color: black;
+  max-width: 100%;
+}
+
+.container__grey {
+  margin: 0 20px;
+  border-radius: 15px;
+  background-color: rgb(240, 244, 244);
+}
+
+.container__grey--gradient {
+  background: linear-gradient(to bottom, transparent, rgb(240, 244, 244));
+  padding-bottom: 60px;
+}
+
+.container__blue {
+  background-color: #3E53A3;
+  color: white;
+}

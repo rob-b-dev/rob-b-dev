@@ -19,7 +19,7 @@ function Header() {
             <li><a href="#contact">Unlock pro</a></li>
             <li>
               <button className="button button__primary">
-                Log in with Github
+                <span>Log in with Github</span>
                 <FontAwesomeIcon icon={['fab', 'github']} size="2xl" />
               </button>
             </li>

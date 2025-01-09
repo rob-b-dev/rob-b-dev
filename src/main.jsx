@@ -10,7 +10,7 @@ import './App.css'
 import './Typography.css'
 import './Grid.css'
 
-// Components
+// Style components
 import './Header.css'
 import './Buttons.css'
 
@@ -20,6 +20,7 @@ import './Homepage.css'
 // Utils
 import './Utils.css'
 
+// Content components
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Homepage from './components/Homepage'
@@ -30,8 +31,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 // Solid icons
 import { fas } from '@fortawesome/free-solid-svg-icons'
+// Regular icons
+import { far } from '@fortawesome/free-regular-svg-icons'
 // Add modules exported from library
-library.add(fab, fas)
+library.add(fab, fas, far)
+
 
 
 createRoot(document.getElementById('root')).render(

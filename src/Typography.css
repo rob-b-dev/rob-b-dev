@@ -7,10 +7,6 @@ body {
     line-height: normal;
 }
 
-.text-secondary {
-    font-family: 'Barlow', sans-serif;
-}
-
 .text-xl {
     font-size: 24px;
 }
@@ -59,9 +55,10 @@ body {
     color: rgb(62, 84, 163)
 }
 
-strong {
+.strong {
     color: rgb(53, 78, 169);
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .bold {

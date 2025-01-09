@@ -13,21 +13,6 @@
   font-size: 2em;
 }
 
-.background-grey {
-  margin-left: 20px;
-  margin-right: 20px;
-  border-radius: 15px;
-  background-color: rgb(240, 244, 244);
-}
-
-.background-grey--gradient {
-  margin-left: 20px;
-  margin-right: 20px;
-  background: linear-gradient(to bottom, transparent, rgb(240, 244, 244));
-  border-radius: 15px;
-  padding-bottom: 60px;
-}
-
 .number-list {
   background-color: rgb(106, 190, 205);
   width: 40px;
@@ -37,4 +22,11 @@
   justify-content: center;
   align-items: center;
   color: white;
+}
+
+.blue-background {
+  background-color: #3E53A3;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 15px;
 }

@@ -77,6 +77,8 @@
     --space-y: 32px;
 }
 
+/* Make one which targets all elements */
+
 /* Display */
 .flex {
     display: flex;
@@ -84,6 +86,10 @@
 
 .inline-flex {
     display: inline-flex;
+}
+
+.block {
+    display: block;
 }
 
 /* Flex Direction */
@@ -240,4 +246,13 @@
 
 .rm-padding-top {
     padding-top: 0px;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.max-w-screen-lg {
+    max-width: 1208px;
+
 }
