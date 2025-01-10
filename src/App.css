@@ -40,4 +40,5 @@ img {
 .container__blue {
   background-color: #3E53A3;
   color: white;
+  padding: 20px;
 }

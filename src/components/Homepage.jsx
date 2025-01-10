@@ -150,7 +150,7 @@ function Homepage() {
 
         <div className='flex justify-center text-center'>
           <div className='space-y-8'>
-            <h2 className='header-xl'>Take your skills to the next level<br /> with our <span className='blue-background bold--full'>PRO</span> subscription</h2>
+            <h2 className='header-xl'>Take your skills to the next level<br /> with our <span className='container__blue container__blue--pro bold--full'>PRO</span> subscription</h2>
             <p className='text-lg text-grey'>Step into the shoes of a professional developer and build projects in<br /> the most realistic way possible.
               Our Pro subscription will help you<br /> prepare for life as a professional developer.</p>
           </div>

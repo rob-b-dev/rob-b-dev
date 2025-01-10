@@ -24,9 +24,7 @@
   color: white;
 }
 
-.blue-background {
-  background-color: #3E53A3;
-  color: white;
+.container__blue--pro {
   padding: 2px 4px;
   border-radius: 15px;
 }
