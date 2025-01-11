@@ -37,19 +37,23 @@ function Homepage() {
             <div className='text-center space-y-8 card content-center' style={{ height: '457px', width: '585px' }}>
               <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
               <p className='text-lg'>I highly recommend Frontend Mentor. Skip the search <br />for project ideas and dive into ready-made challenges <br />that help you level up as a developer.</p>
-              <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
-              <div className="space-y-2">
-                <p className='text-md strong'>Kevin Powell</p>
-                <p className='text-grey'>Web Developer & YouTuber</p>
+              <div className='flex flex-col space-y-8 items-center'>
+                <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
+                <div className="space-y-2">
+                  <p className='text-md strong'>Kevin Powell</p>
+                  <p className='text-grey'>Web Developer & YouTuber</p>
+                </div>
               </div>
             </div>
             <div className='text-center space-y-8 card content-center' style={{ height: '457px', width: '585px' }}>
               <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
               <p className='text-lg'>Frontend Mentor is a win-win. You can sharpen your <br />skills building websites and add finished projects to <br />your portfolio to help land a job!</p>
-              <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
-              <div className="space-y-2">
-                <p className='text-md strong'>Jessica Chan</p>
-                <p className='text-grey'>Web Developer & YouTuber</p>
+              <div className='flex flex-col space-y-8 items-center'>
+                <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
+                <div className="space-y-2">
+                  <p className='text-md strong'>Jessica Chan</p>
+                  <p className='text-grey'>Web Developer & YouTuber</p>
+                </div>
               </div>
             </div>
           </div>
@@ -65,7 +69,7 @@ function Homepage() {
           <h2 className="upper header-sm bold--full text-center">as featured on. . .</h2>
           <div className='grid grid--columns-3'>
 
-            <div className='flex justify-center items-center card' style={{ height: '112px', width: '390px' }}>
+            <div className='flex justify-center items-center card' style={{ height: '112px', width: '390px', minwidth: '100%' }}>
               <img height='30px' width='200px' src="src/assets/static/css-tricks.svg" alt="Image" className="homepage__featured-on__image" /></div>
             <div className='flex justify-center items-center card'><img height='40px' width='200px' src="src/assets/static/stack.svg" alt="Image" className="homepage__featured-on__image" /></div>
             <div className='flex justify-center items-center card'><img height='50px' width='210px' src="src/assets/static/product-hunt.svg" alt="Image" className="homepage__featured-on__image" /></div>
