@@ -12,7 +12,7 @@
 }
 
 .grid--columns-2 {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .grid--columns-3 {
@@ -53,12 +53,6 @@
 
 .grid--columns-12 {
     grid-template-columns: repeat(12, auto);
-}
-
-.grid img {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
 }
 
 /* Alignment modifiers */
@@ -132,3 +126,5 @@
 .grid-span-row-4 {
     grid-row: span 4;
 }
+
+/* When screen width is <= 1200px (typically for tablets or smaller desktops) */

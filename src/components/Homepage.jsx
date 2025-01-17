@@ -2,8 +2,11 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import HowItWorks from './HowItWorks';
 import CommunityPage from './CommunityPage';
+import { useEffect } from 'react';
 
 function Homepage() {
+  useEffect(() => {
+  }, []);
   return (
     <>
       {/* Introduction */}
@@ -20,12 +23,12 @@ function Homepage() {
               <FontAwesomeIcon icon={['fab', 'github']} size="2xl" />
             </button>
             <div className='card space-x-8 inline-flex items-center'>
-              <img src="src/assets/static/image-promotion.jpg" width="200px" alt="Image" />
+              <img src="src/assets/static/image-promotion.jpg" alt="Image" />
               <p className='text-sm'>Join <strong className='strong'>936,546</strong> developers building projects,<br /> reviewing code, and helping each other <br />improve.</p>
             </div>
           </div>
           <div>
-            <img src="src/assets/static/project-images.png" width="700px" alt="Image" />
+            <img src="src/assets/static/project-images.png" alt="Image" />
           </div>
         </div>
       </div>
@@ -34,22 +37,22 @@ function Homepage() {
       <div className="section">
         <div className='flex justify-center container__grey container__grey--gradient'>
           <div className="grid grid--columns-2">
-            <div className='text-center space-y-8 card content-center' style={{ height: '457px', width: '585px' }}>
+            <div className='text-center space-y-8 card content-center'>
               <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
               <p className='text-lg'>I highly recommend Frontend Mentor. Skip the search <br />for project ideas and dive into ready-made challenges <br />that help you level up as a developer.</p>
               <div className='flex flex-col space-y-8 items-center'>
-                <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
+                <img style={{ borderRadius: '50%' }} src="src/assets/static/feedback-left-img.png" alt="Image" />
                 <div className="space-y-2">
                   <p className='text-md strong'>Kevin Powell</p>
                   <p className='text-grey'>Web Developer & YouTuber</p>
                 </div>
               </div>
             </div>
-            <div className='text-center space-y-8 card content-center' style={{ height: '457px', width: '585px' }}>
+            <div className='text-center space-y-8 card content-center'>
               <FontAwesomeIcon icon={['fas', 'quote-left']} size="4x" color='#d3d3d3' />
               <p className='text-lg'>Frontend Mentor is a win-win. You can sharpen your <br />skills building websites and add finished projects to <br />your portfolio to help land a job!</p>
               <div className='flex flex-col space-y-8 items-center'>
-                <img style={{ width: '80px', height: '80px', borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
+                <img style={{ borderRadius: '50%' }} src="src/assets/static/feedback-right-img.jpg" alt="Image" />
                 <div className="space-y-2">
                   <p className='text-md strong'>Jessica Chan</p>
                   <p className='text-grey'>Web Developer & YouTuber</p>
@@ -69,10 +72,10 @@ function Homepage() {
           <h2 className="upper header-sm bold--full text-center">as featured on. . .</h2>
           <div className='grid grid--columns-3'>
 
-            <div className='flex justify-center items-center card' style={{ height: '112px', width: '390px', minwidth: '100%' }}>
-              <img height='30px' width='200px' src="src/assets/static/css-tricks.svg" alt="Image" className="homepage__featured-on__image" /></div>
-            <div className='flex justify-center items-center card'><img height='40px' width='200px' src="src/assets/static/stack.svg" alt="Image" className="homepage__featured-on__image" /></div>
-            <div className='flex justify-center items-center card'><img height='50px' width='210px' src="src/assets/static/product-hunt.svg" alt="Image" className="homepage__featured-on__image" /></div>
+            <div className='flex justify-center items-center card'>
+              <img src="src/assets/static/css-tricks.svg" alt="Image" className="homepage__featured-on__image" /></div>
+            <div className='flex justify-center items-center card'><img src="src/assets/static/stack.svg" alt="Image" className="homepage__featured-on__image" /></div>
+            <div className='flex justify-center items-center card'><img src="src/assets/static/product-hunt.svg" alt="Image" className="homepage__featured-on__image" /></div>
           </div>
 
         </div>
@@ -83,7 +86,7 @@ function Homepage() {
         <div className='flex justify-center'>
           <div className='grid grid--columns-2 items-center override-gap-80'>
             <div>
-              <img height='516px' width='560px' src="src/assets/static/asfeatured-1.webp" alt="Image" className="homepage__image" />
+              <img src="src/assets/static/asfeatured-1.webp" alt="Image" className="homepage__image" />
             </div>
             <div className='space-y-8'>
               <div className='emoji'>😈</div>
@@ -101,7 +104,7 @@ function Homepage() {
               <p className='text-md text-grey'>Design is hard. We take care of the project ideas and design so you<br /> can focus on the coding. You'll end up with an incredible portfolio of<br /> stunning projects!</p>
             </div>
             <div>
-              <img height='595px' width='560px' src="src/assets/static/asfeatured-2.webp" alt="Image" className="homepage__image" />
+              <img src="src/assets/static/asfeatured-2.webp" alt="Image" className="homepage__image" />
             </div>
           </div>
         </div>
@@ -109,7 +112,7 @@ function Homepage() {
         <div className='flex justify-center'>
           <div className='grid grid--columns-2 items-center override-gap-80'>
             <div>
-              <img height='602px' width='560px' src="src/assets/static/asfeatured-3.webp" alt="Image" className="homepage__image" />
+              <img src="src/assets/static/asfeatured-3.webp" alt="Image" className="homepage__image" />
             </div>
             <div className='space-y-8'>
               <div className='emoji'>🚀</div>
@@ -127,7 +130,7 @@ function Homepage() {
               <p className='text-md text-grey'>The front-end landscape changes constantly. Our design-led<br /> challenges let you pick your tools to help you adapt, experiment, and<br /> keep up with the latest trends.</p>
             </div>
             <div>
-              <img height='568px' width='560px' src="src/assets/static/asfeatured-4.webp" alt="Image" className="homepage__image" />
+              <img src="src/assets/static/asfeatured-4.webp" alt="Image" className="homepage__image" />
             </div>
           </div>
         </div>
@@ -135,7 +138,7 @@ function Homepage() {
         <div className='flex justify-center'>
           <div className='grid grid--columns-2 items-center override-gap-80'>
             <div>
-              <img height='568px' width='560px' src="src/assets/static/asfeatured-5.webp" alt="Image" className="homepage__image" />
+              <img src="src/assets/static/asfeatured-5.webp" alt="Image" className="homepage__image" />
             </div>
             <div className='space-y-8'>
               <div className='emoji'>🤝</div>
@@ -163,13 +166,13 @@ function Homepage() {
         <div className='section'>
           <div className='flex justify-center'>
             <div className='grid grid--columns-2'>
-              <div className='card space-y-8 text-center content-center' style={{ height: '398px', width: '598px' }}>
+              <div className='card space-y-8 text-center content-center'>
                 <FontAwesomeIcon icon={['fab', 'fa-figma']} size="4x" color='#3E53A3' />
                 <h3 className='header-md'>Access each challenge's design file</h3>
                 <p className='text-lg text-grey'>Professional teams use tools like Figma. By using these<br /> tools when building projects,
                   you'll save time, create<br /> more accurate solutions, and gain hands-on experience<br /> working like a pro.</p>
               </div>
-              <div className='card space-y-8 text-center content-center' style={{ height: '398px', width: '598px' }}>
+              <div className='card space-y-8 text-center content-center'>
                 <FontAwesomeIcon icon={['far', 'fa-star']} size="4x" color='#3E53A3' />
                 <h3 className='header-md'>Tackle our premium challenges</h3>
                 <p className='text-lg text-grey'>Our premium challenges are the most realistic,<br /> comprehensive practice projects you'll find.
@@ -183,11 +186,6 @@ function Homepage() {
       </div>
 
       <div className='section'><CommunityPage /></div>
-
-
-
-
-
     </>
   );
 }

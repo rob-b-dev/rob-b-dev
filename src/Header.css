@@ -1,35 +1,51 @@
-header {
+.header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 30px 10%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
 }
 
 .navigation {
-  /* Take up full screen width - allows items to take space across screen by deleting unallocated space */
+  display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 .navigation__list {
-  /* Flexbox on full list to place and center on one line */
   display: flex;
   list-style-type: none;
-  /* Centers left side with right side list items */
   align-items: center;
+  justify-content: space-evenly;
+  /* Space items evenly on one line */
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .header__right {
   display: flex;
-  /* Centers right side list items in their own container */
   align-items: center;
   margin-left: auto;
 }
 
 .logo {
-  margin-right: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  /* Vertically align the logo */
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .logo img {
   height: 28px;
-  width: 196px;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  display: block;
 }
 
 li {
@@ -37,6 +53,61 @@ li {
   font-family: 'Barlow', sans-serif;
   font-style: italic;
   font-weight: 500;
-  line-height: 22.483244px;
+  line-height: 22.483px;
   text-transform: uppercase;
+}
+
+.login-form__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Optional: keep the dark overlay */
+  backdrop-filter: blur(5px);
+  /* Adjust the value to control the blur effect */
+  -webkit-backdrop-filter: blur(5px);
+  /* For Safari support */
+}
+
+input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Back button styling */
+.back-button {
+  position: absolute;
+  top: 10px;
+  /* Adjust the distance from the top */
+  left: 10px;
+  /* Adjust the distance from the left */
+  background: none;
+  border: none;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+/* Styling for the Register link */
+.register-link {
+  background: none;
+  border: none;
+  color: #007BFF;
+  /* Adjust color as needed */
+  cursor: pointer;
+  text-align: center;
+  padding: 5px;
+}
+
+.register-link:hover {
+  text-decoration: underline;
 }

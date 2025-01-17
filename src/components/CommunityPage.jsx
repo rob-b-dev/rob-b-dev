@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function CommunityPage() {
     return (
 
-        <div className='container container__grey flex flex-col justify-center space-y-8' style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
+        <div className='container container__grey space-y-8' style={{ paddingTop: '5rem', paddingBottom: '5rem' }}>
             <div className='flex justify-center'>
                 <div className='w-full' style={{ maxWidth: '1208px' }}>
                     <div className='flex justify-between items-center'>
@@ -30,11 +30,11 @@ function CommunityPage() {
                             through regular submissions, and allow me to build a professional portfolio by
                             showcasing diverse projects.
                         </p>
-                        <div className='flex space-x-4 items-center'>
+                        <div className='flex space-x-4 justify-items-center'>
                             <img src="src/assets/static/communityprofile-1.webp" alt="Image" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-                            <div className='flex flex-col'>
-                                <span className='text-md text-blue bold'>Francesca</span>
-                                <span className='text-md text-grey'>@frrann</span>
+                            <div className='flex flex-col text-md'>
+                                <span className='text-blue bold'>Francesca</span>
+                                <span className='text-grey'>@frrann</span>
                             </div>
                         </div>
                     </div>
@@ -46,9 +46,9 @@ function CommunityPage() {
                         </p>
                         <div className='flex space-x-4 items-center'>
                             <img src="src/assets/static/communityprofile-2.webp" alt="Image" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-                            <div className='flex flex-col'>
-                                <span className='text-md bold text-blue'>Alfie</span>
-                                <span className='text-md text-grey'>@alfiemitchell123</span>
+                            <div className='flex flex-col text-md'>
+                                <span className='bold text-blue'>Alfie</span>
+                                <span className='text-grey'>@alfiemitchell123</span>
                             </div>
                         </div>
                     </div>
@@ -60,9 +60,9 @@ function CommunityPage() {
                         </p>
                         <div className='flex space-x-4 items-center'>
                             <img src="src/assets/static/communityprofile-3.webp" alt="Image" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-                            <div className='flex flex-col'>
-                                <span className='text-md bold text-blue'>Francesca</span>
-                                <span className='text-md text-grey'>@Hikmahx</span>
+                            <div className='flex flex-col text-md'>
+                                <span className='bold text-blue'>Francesca</span>
+                                <span className='text-grey'>@Hikmahx</span>
                             </div>
                         </div>
                     </div>

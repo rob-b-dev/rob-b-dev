@@ -37,7 +37,7 @@ const HowItWorks = () => {
                         <div
                             // Inline styles to adjust the card's appearance based on its expanded state
                             style={{
-                                width: '553px',
+                                width: '100%',
                                 backgroundColor: expandedCard === 1 ? '#3E53A3' : 'inherit', // Change background color if expanded
                                 color: expandedCard === 1 ? 'white' : 'inherit' // Change text color if expanded
                             }}
@@ -116,7 +116,7 @@ const HowItWorks = () => {
                 </div>
                 {/* Display the currently selected image */}
                 <div>
-                    <img width='791px' height='627px' src={images[image]} alt={`Image ${image}`} />
+                    <img src={images[image]} alt={`Image ${image}`} />
                 </div>
             </div>
         </div>
