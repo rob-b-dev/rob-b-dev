@@ -1,4 +1,4 @@
-// Purpose - use inside routes to manipulate data
+// Connect to db
 const Pool = require("pg").Pool
 
 const pool = new Pool({
@@ -9,4 +9,5 @@ const pool = new Pool({
     database: 'webapp'
 })
 
+// Export to be used in routes
 module.exports = pool;
