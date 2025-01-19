@@ -1,4 +1,5 @@
-// This module checks to see if the JWT token being sent to us as a req is valid when the user accesses certain features - authorizing the user
+// This module decodes the JWT Token gathered from the heaer and verifies its payload
+// If a user wants to access sensitive data, this module runs and stores the users id in the request object
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // Access environmental variables
@@ -14,13 +15,13 @@ module.exports = async (req, res, next) => {
             return res.status(403).json("Not Authorized")
         }
 
-        // decodes and verifies the JWT payload as this is what is used to generate the token
+        // Decodes and verifies the JWT payload as this is what is used to generate the token, along with the secret key
         const payload = jwt.verify(jwtToken, process.env.jwtSecret)
-        // assigns the user id to the request body to be used in other routes
+        // Stores user id in the request body to be used in other routes
         req.user = payload.user
-        console.log(req.body)
 
     } catch (error) {
+        // If the user has an invalid JWT Token (has been tampered with), that user is unauthorized
         return res.status(403).json("Not Authorized")
     }
 

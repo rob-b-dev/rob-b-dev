@@ -5,7 +5,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 
-// Connect db for user existence checking and new user addition 
+// Connect to db module
 const pool = require("../db");
 
 // Require the JWT Generator
