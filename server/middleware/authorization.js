@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config(); // Access environmental variables
 
 // This block authorizes the user based on the req body and generates a response to either grant or deny access
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
     try {
 
         // Gathers the token prop from the header allowing access to its value pair (the encoded token)

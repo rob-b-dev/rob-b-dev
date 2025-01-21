@@ -1,5 +1,6 @@
-import React, { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { React, useState } from 'react';
 
 // Specificity when importing
 // Reset to allow overrides to resets in below imports
@@ -11,8 +12,9 @@ import './Typography.css'
 import './Grid.css'
 
 // Style components
-import './Header.css'
 import './Buttons.css'
+import './Header.css'
+import './Form.css'
 
 // Pages
 import './Homepage.css'
@@ -21,9 +23,12 @@ import './Homepage.css'
 import './Utils.css'
 
 // Content components
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import Homepage from './components/Homepage'
+import Homepage from './components/Homepage';
+import Login from './components/Login';
+import Register from './components/Register';
+import TermsAndConditions from './components/TermsAndConditions';
+import { AuthProvider } from './components/AuthContext';
 
 // Fontawesome library
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -34,13 +39,23 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 // Regular icons
 import { far } from '@fortawesome/free-regular-svg-icons'
 // Add modules exported from library
-library.add(fab, fas, far)
+library.add(fab, fas, far);
 
+function App() {
 
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path='/home' element={<Homepage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
+}
 
-createRoot(document.getElementById('root')).render(
-  <>
-    <Header />
-    <Homepage />
-  </>
-)
+// Rendering the app to the DOM
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
