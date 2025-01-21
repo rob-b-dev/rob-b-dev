@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useAuth } from './AuthContext';  // Import the useAuth hook
 import Header from './Header';
 
@@ -25,13 +26,10 @@ function Register() {
 
             const data = await response.json();
             if (response.ok) {
-                localStorage.setItem('authtoken', data.token);  // Store the auth token on registration to be accessed by authContext
+                Cookies.set('authToken', data.token, { expires: 7 });  // Set token in cookies with expiration of 7 days
                 login(data.token);  // Call the login function to set isAuthenticated to true
                 alert('Register successful');
-
-                const previousPage = location.state?.from || '/home'; // Redirect to previous page or home
-                localStorage.setItem('previousPage', previousPage);
-                navigate(previousPage);
+                navigate("/home")
             } else {
                 alert('Error during registration');
             }
@@ -44,7 +42,7 @@ function Register() {
     return (
         <>
             <Header />
-            <form onSubmit={handleRegisterClick} className="form">
+            <form onSubmit={handleRegisterClick} className="container-col container-col__form center">
                 <h2 className="header-sm">Welcome! Register here</h2>
                 <input
                     type="text"

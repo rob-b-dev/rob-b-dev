@@ -1,6 +1,6 @@
 /* Fixed header */
 .header {
-  position: fixed;
+  position: sticky;
   background-color: white;
   top: 0px;
   left: 0px;
@@ -10,7 +10,7 @@
   max-height: 10%;
   border-bottom: 2px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0 100px;
+  padding: 10px 100px;
   display: flex;
   align-items: center;
 }

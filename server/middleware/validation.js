@@ -12,8 +12,6 @@ module.exports = (req, res, next) => {
         return /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/.test(userPassword);
     }
 
-
-
     if (req.path === '/register') {
         // Checks for empty values. If it comes back true, there are empty values
         if (![email, name, password].every(Boolean)) {

@@ -8,7 +8,6 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const location = useLocation();
     const navigate = useNavigate()
     const { login } = useAuth();  // Get the login function from context - stored globally
 
@@ -29,12 +28,7 @@ function Login() {
                 login(data.token);  // Call login function from context after successful login
                 alert('Login successful');
                 console.log("Token received:", data.token);  // Log the token to ensure it's being received
-
-                // Store the previous page URL before navigation
-                const previousPage = location.state?.from || '/home'; // Default to home if not from another page
-                localStorage.setItem('previousPage', previousPage);
-
-                navigate("/home");  // Redirect to the stored previous page or home
+                navigate("/home")  // Redirect to home
             } else {
                 alert('Error during login');
             }
@@ -48,7 +42,7 @@ function Login() {
     return (
         <>
             <Header />
-            <form onSubmit={handleSubmitLogin} className="form">
+            <form onSubmit={handleSubmitLogin} className="container-col container-col__form center">
                 <h2 className="header-sm">Log into my account</h2>
 
                 {/* Email input */}

@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
             return res.status(403).json("Not Authorized")
         }
 
-        // Decodes and verifies the JWT payload as this is what is used to generate the token, along with the secret key
+        // Decodes and verifies the JWT payload (user id) as this is what is used to generate the token, along with the secret key
         const payload = jwt.verify(jwtToken, process.env.jwtSecret)
         // Stores user id in the request body to be used in other routes
         req.user = payload.user

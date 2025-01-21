@@ -1,6 +1,7 @@
 // Context object created for authorizing user through passed token from server
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const AuthContext = createContext(); // Create a context object to store data from the provider function
 
@@ -15,8 +16,8 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        // Check for token in localStorage on app load or refresh
-        const token = localStorage.getItem('authToken');
+        // Check for token in cookies on app load or refresh
+        const token = Cookies.get('authToken');
         if (token) {
             setIsAuthenticated(true); // Set authentication status based on token presence
         }
@@ -24,13 +25,13 @@ export const AuthProvider = ({ children }) => {
 
     const login = (token) => {
         // Places token in localStorage on login state
-        localStorage.setItem('authToken', token);
+        Cookies.set('authToken', token, { expires: 7 });
         setIsAuthenticated(true); // Set user as authenticated
     };
 
     const logout = () => {
-        // Removes token from localStorage on logout state
-        localStorage.removeItem('authToken');
+        // Removes token from cookies on logout state
+        Cookies.remove('authToken');
         setIsAuthenticated(false); // Remove authenticated state
     };
 

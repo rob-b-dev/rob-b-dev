@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from './AuthContext'; // Import the useAuth hook to access authenticated state and functions
+import DropdownMenu from './DropdownMenu';
 
 function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth(); // Access the isAuthenticated state and the logout function from context provider
+  const [menu, setShowMenu] = useState(false)
 
-  const handleProfileClick = () => {
-
+  const handleMenuClick = () => {
+    setShowMenu((prev) => !prev)
   }
 
   const handleLoginClick = (e) => {
-    // Prevents page reload
+    // Prevents page reload - e represents the event 
     e.preventDefault();
     navigate('/login')
   }
@@ -35,9 +37,13 @@ function Header() {
           <div className="header__left">
             <li>
               <button className="icon-button"
+                onClick={handleMenuClick}
               >
                 <FontAwesomeIcon icon={['fas', 'bars']} size="3x" />
               </button>
+              {menu && (
+                <DropdownMenu />
+              )}
             </li>
             <li>
               <h1 className="logo">
@@ -53,8 +59,9 @@ function Header() {
               <a href="/home"><button className="button button__primary">Home</button></a>
             </li>
             <li>
-              <button className="button button__primary">Favourites</button>
+              <a href="/favourites"><button className="button button__primary">Favourites</button></a>
             </li>
+            {/* Conditionally render elements based on authorization state */}
             {!isAuthenticated ? (
               <>
                 <li>

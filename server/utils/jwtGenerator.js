@@ -14,7 +14,7 @@ function jwtGenerator(user_id) {
     // - `jwt.sign()` creates the token
     // - `process.env.jwtSecret` is the secret key used to sign the token (stored securely in environment variables)
     // - `{ expiresIn: "1hr" }` means the token will expire in 1 hour
-    return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "1hr" })
+    return jwt.sign(payload, process.env.jwtSecret)
 }
 
 module.exports = jwtGenerator;

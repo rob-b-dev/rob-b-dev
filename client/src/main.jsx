@@ -29,6 +29,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import TermsAndConditions from './components/TermsAndConditions';
 import { AuthProvider } from './components/AuthContext';
+import Favourites from './components/Favourites';
 
 // Fontawesome library
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -50,6 +51,7 @@ function App() {
           <Route path='/home' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </Router>
     </AuthProvider>
