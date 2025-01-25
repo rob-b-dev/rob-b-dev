@@ -1,49 +1,64 @@
-// Context object created for authorizing user through passed token from server
+import { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';  // Import PropTypes
+import { isLoggedIn } from '../helpers/jwt';
+import authService from '../services/authentication';
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import Cookies from 'js-cookie';
+const AuthContext = createContext();
 
-const AuthContext = createContext(); // Create a context object to store data from the provider function
-
-// Custom hook which simplifies accessing the authContext object - used when importing
-export const useAuth = () => {
-    // Returns context as useAuth (including the provider methods) to import into a component and use
-    return useContext(AuthContext);
-};
-
-// The children prop represents any component wrapped inside the AuthProvider. These components can then access the 'useAuth' hook to utilize the context provided by AuthProvider.
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
-        // Check for token in cookies on app load or refresh
-        const token = Cookies.get('authToken');
-        if (token) {
-            setIsAuthenticated(true); // Set authentication status based on token presence
-        }
+        const checkAuthentication = async () => {
+            try {
+                const response = await authService.verifyToken();
+                handleAuth(response.jwt);
+            } catch {
+                setIsAuthenticated(false);
+            }
+        };
+
+        checkAuthentication();
     }, []);
 
-    const login = (token) => {
-        // Places token in localStorage on login state
-        Cookies.set('authToken', token, { expires: 7 });
-        setIsAuthenticated(true); // Set user as authenticated
+    const login = async (data) => {
+        try {
+            const response = await authService.login(data);
+            handleAuth(response.jwt);
+        } catch (error) {
+            console.error('Login failed:', error.message);
+        }
     };
 
-    const logout = () => {
-        // Removes token from cookies on logout state
-        Cookies.remove('authToken');
-        setIsAuthenticated(false); // Remove authenticated state
+    const register = async (data) => {
+        try {
+            const response = await authService.register(data);
+            handleAuth(response.jwt);
+        } catch (error) {
+            console.error('Registration failed:', error.message);
+        }
     };
 
-    // Debugging - updates on authentication update
-    useEffect(() => {
-        console.log("Authentication status:", isAuthenticated);
-    }, [isAuthenticated]);
+    const logout = async () => {
+        try {
+            const response = await authService.logout();
+            handleAuth(response.jwt);
+        } catch (error) {
+            console.error('Logout failed:', error.message);
+        }
+    };
+
+    const handleAuth = async (jwt) => {
+        setIsAuthenticated(isLoggedIn(jwt));
+    }
 
     return (
-        // Returns the AuthContext object alongside provider - provides the state of authentication as well as the login and logout functions
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}> { /* Props passed to be destructured when imported */}
-            {children} { /* Children represent the wrapped components when importing and referencing provider methods */}
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
+            {children}
         </AuthContext.Provider>
     );
+};
+
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired, // Validate that 'children' is a React node and is required
 };

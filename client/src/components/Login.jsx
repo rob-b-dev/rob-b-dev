@@ -1,6 +1,5 @@
-// Login.jsx
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';  // Import the useAuth hook
 import Header from './Header';
 
@@ -8,36 +7,17 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate()
     const { login } = useAuth();  // Get the login function from context - stored globally
+    const navigate = useNavigate();
 
     const handleSubmitLogin = async (e) => {
         e.preventDefault();
-        const loginData = { email, password };
-
-        try {
-            const response = await fetch('http://localhost:5001/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                login(data.token);  // Call login function from context after successful login
-                alert('Login successful');
-                console.log("Token received:", data.token);  // Log the token to ensure it's being received
-                navigate("/home")  // Redirect to home
-            } else {
-                alert('Error during login');
-            }
-        } catch (error) {
-            alert('Server Error');
-            console.error(error.message);
-        }
+        login({
+            email,
+            password
+        });
+        navigate("/home");
     };
-
 
     return (
         <>
@@ -85,7 +65,7 @@ function Login() {
                 </p>
 
                 <div className="self-start space-y-2">
-                    <p>Don't have an account? <a href="/register">Register</a></p>
+                    <p>Don&apos;t have an account? <a href="/register">Register</a></p>
                     <a>Forgot password?</a>
                 </div>
             </form>

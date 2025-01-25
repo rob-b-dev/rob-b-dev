@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';  // Import the useAuth hook
 import Header from './Header';
 
@@ -10,33 +9,16 @@ function Register() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const { login } = useAuth();  // Access the login function from context
+    const { register } = useAuth();  // Access the login function from context
 
     const handleRegisterClick = async (e) => {
         e.preventDefault();
-        const registerData = { name, email, password };
-
-        try {
-            const response = await fetch("http://localhost:5001/auth/register", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(registerData),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                Cookies.set('authToken', data.token, { expires: 7 });  // Set token in cookies with expiration of 7 days
-                login(data.token);  // Call the login function to set isAuthenticated to true
-                alert('Register successful');
-                navigate("/home")
-            } else {
-                alert('Error during registration');
-            }
-        } catch (error) {
-            alert('Server Error');
-            console.error(error.message);
-        }
+        register({
+            name,
+            email,
+            password
+        });
+        navigate("/home");
     };
 
     return (

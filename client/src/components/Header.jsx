@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuth } from './AuthContext'; // Import the useAuth hook to access authenticated state and functions
+import { useAuth } from './AuthContext';
 import DropdownMenu from './DropdownMenu';
 
 function Header() {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth(); // Access the isAuthenticated state and the logout function from context provider
-  const [menu, setShowMenu] = useState(false)
+  const { isAuthenticated, logout } = useAuth();
+  const [menu, setShowMenu] = useState(false);
 
   const handleMenuClick = () => {
-    setShowMenu((prev) => !prev)
-  }
+    setShowMenu((prev) => !prev);
+  };
 
   const handleLoginClick = (e) => {
-    // Prevents page reload - e represents the event 
     e.preventDefault();
-    navigate('/login')
-  }
+    navigate('/login');
+  };
 
   const handleLogoutClick = (e) => {
     e.preventDefault();
-    logout(); // Call logout function from context
-    navigate('/home'); // Redirect to home on logout
+    logout();
+    navigate('/home');
   };
 
   const handleRegisterClick = (e) => {
@@ -30,20 +29,43 @@ function Header() {
     navigate('/register');
   };
 
+  let authButtons;
+
+  if (isAuthenticated === false) {
+    authButtons = (
+      <>
+        <li>
+          <button className="button button__primary" onClick={handleLoginClick}>
+            Log in
+          </button>
+        </li>
+        <li>
+          <button className="button button__primary" onClick={handleRegisterClick}>
+            New? Sign up
+          </button>
+        </li>
+      </>
+    );
+  } else if (isAuthenticated === true) {
+    authButtons = (
+      <li>
+        <button className="icon-button" onClick={handleLogoutClick}>
+          <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
+        </button>
+      </li>
+    );
+  }
+
   return (
     <header className="header">
       <nav className="navigation">
         <ul className="navigation__list">
           <div className="header__left">
             <li>
-              <button className="icon-button"
-                onClick={handleMenuClick}
-              >
+              <button className="icon-button" onClick={handleMenuClick}>
                 <FontAwesomeIcon icon={['fas', 'bars']} size="3x" />
               </button>
-              {menu && (
-                <DropdownMenu />
-              )}
+              {menu && <DropdownMenu />}
             </li>
             <li>
               <h1 className="logo">
@@ -53,7 +75,6 @@ function Header() {
               </h1>
             </li>
           </div>
-
           <div className="header__right">
             <li>
               <a href="/home"><button className="button button__primary">Home</button></a>
@@ -61,28 +82,7 @@ function Header() {
             <li>
               <a href="/favourites"><button className="button button__primary">Favourites</button></a>
             </li>
-            {/* Conditionally render elements based on authorization state */}
-            {!isAuthenticated ? (
-              <>
-                <li>
-                  <button className="button button__primary" onClick={handleLoginClick}>
-                    Log in
-                  </button>
-                </li>
-                <li>
-                  <button className='button button__primary' onClick={handleRegisterClick}>
-                    New? Sign up
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li>
-                <button className="icon-button" onClick={handleLogoutClick}>
-                  <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
-                </button>
-                {/* <button className='button button__primary' onClick={handleLogoutClick}>Log out</button> */}
-              </li>
-            )}
+            {authButtons}
           </div>
         </ul>
       </nav>
