@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';  // Import the useAuth hook
-import Header from './Header';
+import { useAuth } from '../hooks/useAuth';
 
 function Register() {
     const [name, setName] = useState('');
@@ -9,7 +8,7 @@ function Register() {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
-    const { register } = useAuth();  // Access the login function from context
+    const { register } = useAuth();  // Access the register function from context
 
     const handleRegisterClick = async (e) => {
         e.preventDefault();
@@ -18,60 +17,77 @@ function Register() {
             email,
             password
         });
-        navigate("/home");
+        navigate("/");
     };
 
     return (
         <>
-            <Header />
-            <form onSubmit={handleRegisterClick} className="container-col container-col__form center">
-                <h2 className="header-sm">Welcome! Register here</h2>
-                <input
-                    type="text"
-                    value={name}
-                    placeholder="Name"
-                    onChange={(e) => setName(e.target.value)}
-                    id="name"
-                    required
-                />
-                <input
-                    type="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    id="email"
-                    required
-                />
-                <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    id="password"
-                    required
-                />
-                <div className="input-checkbox-container space-x-2">
-                    <input
-                        type="checkbox"
-                        id="password"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                    />
-                    <label htmlFor="password">Show Password</label>
+            <form onSubmit={handleRegisterClick}>
+                <div>
+                    <h2>Welcome! Register here</h2>
+
+                    {/* Name input */}
+                    <div>
+                        <input
+                            type="text"
+                            value={name}
+                            placeholder="Name"
+                            onChange={(e) => setName(e.target.value)}
+                            id="name"
+                            required
+                        />
+
+                        {/* Email input */}
+                        <input
+                            type="email"
+                            value={email}
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            id="email"
+                            required
+                        />
+
+                        {/* Password input */}
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            id="password"
+                            required
+                        />
+
+                        {/* Show password checkbox */}
+                        <div>
+                            <input
+                                type="checkbox"
+                                id="password"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                            />
+                            <label htmlFor="password">Show Password</label>
+                        </div>
+                    </div>
+
+                    {/* Continue button */}
+                    <button>
+                        Continue
+                    </button>
+
                 </div>
-                <button className="button button__primary" type="submit">
-                    Continue
-                </button>
+
+                {/* Terms and conditions */}
                 <p>
                     By signing up, you are agreeing to our{' '}
                     <a href="/termsandconditions">Terms and Conditions</a> and{' '}
                     <a href="/termsandconditions#privacy-policy">Privacy Policy</a>.
                 </p>
-                <p className="self-start">
+
+                {/* Sign-in link */}
+                <p>
                     Have an account? <a href="/login">Sign in</a>
                 </p>
             </form>
         </>
-
     );
 }
 

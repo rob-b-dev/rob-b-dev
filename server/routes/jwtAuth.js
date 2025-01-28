@@ -1,9 +1,6 @@
-// This module defines the routes the backend posts across in order to store user specific data.
-// Routes related to gathering external API data can be defined here too under an endpoint defined in index.js
+// Private routes
 
-
-// JWT used for building routes
-const router = require("express").Router();
+const router = require("express").Router(); // Building routes
 const bcrypt = require("bcrypt");
 
 // Connect to db module
@@ -17,20 +14,16 @@ const validation = require("../middleware/validation");
 
 router.post("/logout", async (req, res) => {
     try {
-        createJWT(res);
+        // Public JWT on logout without user id - not user specific but still handling user sessions
+        createJWT(res); // Response passed without user id. This is checked when signing the JWT and if no user id is passed the it signs a token with a public access level which is decoded and authorized in the frontend ot determine user authorization
     } catch (error) {
         console.error(error.message)
         res.status(500).send("Server Error")
     }
 });
 
-router.post("/patient-details", async () => {
-
-});
-
 router.post("/login", validation, async (req, res) => {
     try {
-
         // Destructure req.body
         const { email, password } = req.body;
 
@@ -50,8 +43,9 @@ router.post("/login", validation, async (req, res) => {
             return res.status(401).json("Email or Password is incorrect")
         }
 
-        // Give user the JWT to authorize user to access routes in the app upon login
+        // Private JWT on login
         createJWT(res, user.rows[0]?.user_id);
+        req.user = user.rows[0]?.user_id
 
     } catch (error) {
         console.error(error.message)
@@ -85,7 +79,9 @@ router.post("/register", validation, async (req, res) => {
         const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) VALUES($1, $2, $3) RETURNING *",
             [name, email, bcryptPassword])
 
+        // Private JWT on register
         createJWT(res, newUser.rows[0]?.user_id);
+        req.user = newUser.rows[0]?.user_id
 
     } catch (error) {
         console.error(error.message)
@@ -105,7 +101,7 @@ router.get("/verify", (req, res) => {
 })
 
 const createJWT = (res, user_id) => {
-    const jwt = jwtGenerator(user_id)
+    const jwt = jwtGenerator(user_id) // Call JWT generator and pass user id 
     res.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000 });
     res.json({ jwt })
 }

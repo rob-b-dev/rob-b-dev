@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import DropdownMenu from './DropdownMenu';
+import userService from '../services/user';
 
 function Header() {
   const navigate = useNavigate();
@@ -21,8 +22,13 @@ function Header() {
   const handleLogoutClick = (e) => {
     e.preventDefault();
     logout();
-    navigate('/home');
+    navigate('/');
   };
+
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    userService.getProfile();
+  }
 
   const handleRegisterClick = (e) => {
     e.preventDefault();
@@ -35,41 +41,48 @@ function Header() {
     authButtons = (
       <>
         <li>
-          <button className="button button__primary" onClick={handleLoginClick}>
+          <a className='text-md hover' onClick={handleLoginClick}>
             Log in
-          </button>
+          </a>
         </li>
         <li>
-          <button className="button button__primary" onClick={handleRegisterClick}>
+          <a className='text-md hover' onClick={handleRegisterClick}>
             New? Sign up
-          </button>
+          </a>
         </li>
       </>
     );
   } else if (isAuthenticated === true) {
     authButtons = (
-      <li>
-        <button className="icon-button" onClick={handleLogoutClick}>
-          <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
-        </button>
-      </li>
+      <>
+        <li>
+          <a className='text-md hover' onClick={handleLogoutClick}>
+            Logout
+          </a>
+        </li>
+        <li>
+          <a onClick={handleProfileClick}>
+            <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
+          </a>
+        </li>
+      </>
     );
   }
 
   return (
     <header className="header">
-      <nav className="navigation">
+      <nav className="navigation container">
         <ul className="navigation__list">
           <div className="header__left">
             <li>
-              <button className="icon-button" onClick={handleMenuClick}>
+              <a className="icon-button" onClick={handleMenuClick}>
                 <FontAwesomeIcon icon={['fas', 'bars']} size="3x" />
-              </button>
+              </a>
               {menu && <DropdownMenu />}
             </li>
             <li>
               <h1 className="logo">
-                <a href="/home">
+                <a href="/">
                   <img src="src/assets/static/logo.png" alt="Logo" />
                 </a>
               </h1>
@@ -77,10 +90,10 @@ function Header() {
           </div>
           <div className="header__right">
             <li>
-              <a href="/home"><button className="button button__primary">Home</button></a>
+              <a className='text-md hover' href="/">Home</a>
             </li>
             <li>
-              <a href="/favourites"><button className="button button__primary">Favourites</button></a>
+              <a className='text-md hover' href="/favourites">Favourites</a>
             </li>
             {authButtons}
           </div>

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';  // Import the useAuth hook
-import Header from './Header';
+import { useAuth } from '../hooks/useAuth';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -12,65 +11,66 @@ function Login() {
 
     const handleSubmitLogin = async (e) => {
         e.preventDefault();
+        // Login call
         login({
             email,
             password
         });
-        navigate("/home");
+        navigate("/");
     };
 
     return (
-        <>
-            <Header />
-            <form onSubmit={handleSubmitLogin} className="container-col container-col__form center">
-                <h2 className="header-sm">Log into my account</h2>
+        <form onSubmit={handleSubmitLogin} className='form center space-y-4'>
+            <div className='space-y-4 text-center'>
+                <h2 className='header-sm bold upper'>Log into my account</h2>
 
                 {/* Email input */}
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    id="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-
-                {/* Password input */}
-                <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
-                    value={password}
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-
-                <div className="input-checkbox-container space-x-2">
+                <div className='space-y-4 flex flex-col align-center'>
                     <input
-                        className="pointer"
-                        type="checkbox"
-                        id="password"
-                        onClick={() => setShowPassword((prev) => !prev)}
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
-                    <label htmlFor="password">Show Password</label>
+
+                    {/* Password input */}
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        value={password}
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <div className='flex space-x-2'>
+                        <input
+                            className="pointer"
+                            type="checkbox"
+                            id="password"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                        />
+                        <label htmlFor="password">Show Password</label>
+                    </div>
+
+
+                    <button className='button button__primary' type="submit">
+                        Continue
+                    </button>
                 </div>
-                <button className="button button__primary" type="submit">
-                    Continue
-                </button>
+            </div>
 
-                <p>
-                    By continuing, you are agreeing to our{' '}
-                    <a href="/termsandconditions">Terms and Conditions</a> and{' '}
-                    <a href="/termsandconditions#privacy-policy">Privacy Policy</a>.
-                </p>
 
-                <div className="self-start space-y-2">
-                    <p>Don&apos;t have an account? <a href="/register">Register</a></p>
-                    <a>Forgot password?</a>
-                </div>
-            </form>
-        </>
+            <p>
+                By continuing, you are agreeing to our{' '}
+                <a href="/termsandconditions">Terms and Conditions</a> and{' '}
+                <a href="/termsandconditions#privacy-policy">Privacy Policy</a>.
+            </p>
 
+            <p>Don&apos;t have an account? <a href="/register">Register</a></p>
+            <a >Forgot password?</a>
+        </form >
     );
 }
 

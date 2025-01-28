@@ -1,13 +1,13 @@
-import { createContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';  // Import PropTypes
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { isLoggedIn } from '../helpers/jwt';
 import authService from '../services/authentication';
-
-const AuthContext = createContext();
+import { AuthContext } from '../hooks/AuthContext';
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
+    // On refresh
     useEffect(() => {
         const checkAuthentication = async () => {
             try {
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
     const handleAuth = async (jwt) => {
         setIsAuthenticated(isLoggedIn(jwt));
-    }
+    };
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
@@ -60,5 +60,5 @@ export const AuthProvider = ({ children }) => {
 };
 
 AuthProvider.propTypes = {
-    children: PropTypes.node.isRequired, // Validate that 'children' is a React node and is required
+    children: PropTypes.node.isRequired,
 };

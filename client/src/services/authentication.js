@@ -1,3 +1,5 @@
+// Contains responses from each endpoint to authenticate the user
+
 import axiosInstance from "./axios";
 
 const authService = {
@@ -33,7 +35,7 @@ const authService = {
 
     async logout() {
         try {
-            const response = await axiosInstance.post('/auth/logout');
+            const response = await axiosInstance.post('/auth/logout'); // POST because cookie is being sent on each request
             return response.data;
         } catch (error) {
             console.error('Logout failed:', error.response?.data || error.message);

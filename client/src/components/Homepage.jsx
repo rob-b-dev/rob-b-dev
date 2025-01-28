@@ -1,9 +1,6 @@
-import Header from './Header';
-
 function Homepage() {
   return (
     <>
-      <Header />
     </>
 
   );

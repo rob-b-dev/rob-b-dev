@@ -71,6 +71,10 @@ body {
     text-decoration: underline;
 }
 
+.link {
+    color: #0000EE;
+}
+
 .upper {
     text-transform: uppercase;
 }

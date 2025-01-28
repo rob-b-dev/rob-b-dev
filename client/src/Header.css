@@ -15,11 +15,6 @@
   align-items: center;
 }
 
-/* Contents take up full page width */
-.navigation {
-  width: 100%;
-}
-
 /* Position list items side by side */
 .navigation__list {
   display: flex;
@@ -44,9 +39,38 @@
   gap: 80px;
 }
 
-/* Icon button */
-.icon-button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
+ul {
+  list-style-type: none
+}
+
+.hover {
+  text-decoration: none;
+  position: relative;
+  /* To position the pseudo-element correctly */
+}
+
+.hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  /* Position the line just below the text */
+  width: 100%;
+  height: 2px;
+  /* Thickness of the underline */
+  background-color: #0000EE;
+  /* Colour of the underline */
+  transform: scaleX(0);
+  /* Initially invisible (scale 0) */
+  transform-origin: bottom right;
+  /* Start from the right */
+  transition: transform 0.3s ease-out;
+  /* Smooth transition */
+}
+
+.hover:hover::after {
+  transform: scaleX(1);
+  /* Underline appears on hover */
+  transform-origin: bottom left;
+  /* Underline grows from left to right */
 }
