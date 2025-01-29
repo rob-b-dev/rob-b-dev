@@ -41,12 +41,12 @@ function Header() {
     authButtons = (
       <>
         <li>
-          <a className='text-md hover' onClick={handleLoginClick}>
+          <a className='hover' onClick={handleLoginClick}>
             Log in
           </a>
         </li>
         <li>
-          <a className='text-md hover' onClick={handleRegisterClick}>
+          <a className='hover' onClick={handleRegisterClick}>
             New? Sign up
           </a>
         </li>
@@ -56,7 +56,7 @@ function Header() {
     authButtons = (
       <>
         <li>
-          <a className='text-md hover' onClick={handleLogoutClick}>
+          <a className='hover' onClick={handleLogoutClick}>
             Logout
           </a>
         </li>
@@ -71,8 +71,8 @@ function Header() {
 
   return (
     <header className="header">
-      <nav className="navigation container">
-        <ul className="navigation__list">
+      <nav className="wrapper">
+        <ul className="flex">
           <div className="header__left">
             <li>
               <a className="icon-button" onClick={handleMenuClick}>
@@ -81,19 +81,19 @@ function Header() {
               {menu && <DropdownMenu />}
             </li>
             <li>
-              <h1 className="logo">
+              <h1 className="w-16 m-w-full">
                 <a href="/">
-                  <img src="src/assets/static/logo.png" alt="Logo" />
+                  <img src="src/assets/static/logo-removebg.png" alt="Logo" />
                 </a>
               </h1>
             </li>
           </div>
           <div className="header__right">
             <li>
-              <a className='text-md hover' href="/">Home</a>
+              <a className='hover' href="/">Home</a>
             </li>
             <li>
-              <a className='text-md hover' href="/favourites">Favourites</a>
+              <a className='hover' href="/favourites">Favourites</a>
             </li>
             {authButtons}
           </div>

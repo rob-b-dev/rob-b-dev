@@ -22,7 +22,6 @@ axiosInstance.interceptors.response.use(
 
             // Check for the specific status code and error message
             if (status === 403 && data.code === 'INVALID_REQUEST') {
-                // Refresh the page
                 window.location.reload();
             }
         }

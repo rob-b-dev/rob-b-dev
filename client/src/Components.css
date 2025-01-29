@@ -1,0 +1,68 @@
+@import "./assets/fonts.css";
+@import "tailwindcss";
+@import "./assets/theme.css";
+
+
+.wrapper {
+    @apply w-full pr-4 mx-auto;
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        @apply w-4/5 px-10;
+    }
+}
+
+@layer components {
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        border-radius: 25px;
+        @apply font-bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        transition: 0.3s ease;
+    }
+
+    .button__primary {
+        @apply bg-blue-800;
+        color: white;
+    }
+
+    .button__primary:hover {
+        background-color: white;
+        color: black;
+    }
+
+    .button__secondary {
+        background-color: white;
+        color: black;
+    }
+
+    .button__secondary:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .form {
+        border: 1px solid #333;
+        border-radius: 15px;
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        background-color: white;
+        width: 40%;
+        max-width: 100%;
+    }
+
+    .form input {
+        display: block;
+        padding: 10px;
+        transition: all 0.3s ease;
+        border: 1px solid #333;
+    }
+}

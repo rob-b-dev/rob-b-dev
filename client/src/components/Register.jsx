@@ -1,93 +1,106 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 function Register() {
+    const navigate = useNavigate();
+    const { isAuthenticated, register } = useAuth(); // Access the register function and authentication state from context
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
-    const { register } = useAuth();  // Access the register function from context
 
     const handleRegisterClick = async (e) => {
         e.preventDefault();
-        register({
+
+        // Register the user and wait for the process to finish
+        await register({
             name,
             email,
             password
         });
-        navigate("/");
     };
 
+    // Redirect to home page once the user is authenticated
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
+
     return (
-        <>
-            <form onSubmit={handleRegisterClick}>
-                <div>
-                    <h2>Welcome! Register here</h2>
+        <form onSubmit={handleRegisterClick} className="form center">
+            <div className="space-y-6 text-center w-4/5 mx-auto">
+                {/* Heading */}
+                <h2 className="text-blue-800 font-bold text-4xl">
+                    Welcome! Register here
+                </h2>
+                <div className="space-y-6">
+                    {/* Form Inputs */}
 
-                    {/* Name input */}
-                    <div>
+                    {/* Name Input */}
+                    <input
+                        type="text"
+                        value={name}
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                        id="name"
+                        required
+                        className="w-full rounded-xl"
+                    />
+
+                    {/* Email Input */}
+                    <input
+                        type="email"
+                        value={email}
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        id="email"
+                        required
+                        className="w-full rounded-xl"
+                    />
+
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        id="password"
+                        required
+                        className="w-full rounded-xl"
+                    />
+
+                    <div className="flex items-center space-x-2">
                         <input
-                            type="text"
-                            value={name}
-                            placeholder="Name"
-                            onChange={(e) => setName(e.target.value)}
-                            id="name"
-                            required
+                            type="checkbox"
+                            id="showPassword"
+                            onClick={() => setShowPassword((prev) => !prev)}
                         />
-
-                        {/* Email input */}
-                        <input
-                            type="email"
-                            value={email}
-                            placeholder="Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            id="email"
-                            required
-                        />
-
-                        {/* Password input */}
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            placeholder="Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            id="password"
-                            required
-                        />
-
-                        {/* Show password checkbox */}
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="password"
-                                onClick={() => setShowPassword((prev) => !prev)}
-                            />
-                            <label htmlFor="password">Show Password</label>
-                        </div>
+                        <label htmlFor="showPassword">Show Password</label>
                     </div>
 
-                    {/* Continue button */}
-                    <button>
+                    <button
+                        type="submit"
+                        className="button button__primary w-full rounded-xl"
+                    >
                         Continue
                     </button>
-
                 </div>
 
-                {/* Terms and conditions */}
-                <p>
-                    By signing up, you are agreeing to our{' '}
-                    <a href="/termsandconditions">Terms and Conditions</a> and{' '}
-                    <a href="/termsandconditions#privacy-policy">Privacy Policy</a>.
-                </p>
-
-                {/* Sign-in link */}
-                <p>
-                    Have an account? <a href="/login">Sign in</a>
-                </p>
-            </form>
-        </>
+                <div className="text-left space-y-4">
+                    <p>
+                        By signing up, you are agreeing to our{' '}
+                        <a href="/termsandconditions" className="text-blue-800 underline">Terms and Conditions</a> and{' '}
+                        <a href="/termsandconditions#privacy-policy" className="text-blue-800 underline">Privacy Policy</a>.
+                    </p>
+                    <p>
+                        Have an account?{' '}
+                        <a href="/login" className="text-blue-800 underline">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </form>
     );
 }
 

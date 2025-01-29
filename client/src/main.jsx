@@ -1,21 +1,14 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 // Global styles
-import './App.css';
+// import './Reset.css'
+import './Index.css';
+import './Components.css'
 import './Typography.css';
-import './Grid.css';
-
-// Style components
-import './Buttons.css';
-import './Header.css';
-import './Form.css';
-
 // Utils
 import './Utils.css';
-
-// Pages
-import './Homepage.css';
 
 // Import your components from their respective files
 import Homepage from './components/Homepage';
@@ -37,8 +30,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
+        <ToastContainer />
         <Header />
-        <div className="container">
+        <div className="wrapepr">
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/login" element={<Login />} />

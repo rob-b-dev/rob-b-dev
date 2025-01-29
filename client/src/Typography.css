@@ -1,85 +1,29 @@
-html,
-body {
-    font-family: 'Heebo', sans-serif;
-    background-color: transparent;
-    color: #333;
-    font-size: 15px;
-    line-height: normal;
-}
+@import "./assets/fonts.css";
+@import "tailwindcss";
+@import "./assets/theme.css";
 
-.text-xl {
-    font-size: 24px;
-}
 
-.text-lg {
-    font-size: 20px;
-}
+@layer utilities {
+    .hover {
+        text-decoration: none;
+        position: relative;
+    }
 
-.text-md {
-    font-size: 18px;
-}
+    .hover::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        @apply bg-blue-800;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.3s ease-out;
+    }
 
-.text-sm {
-    font-size: 16px;
-}
-
-.header-sm {
-    font-size: 20px;
-}
-
-/* 30px */
-.header-md {
-    font-size: 2rem;
-}
-
-/* 37.5 */
-.header-lg {
-    font-size: 2.5rem;
-}
-
-/* 45px */
-.header-xl {
-    font-size: 3rem;
-}
-
-/* 52.5px */
-.header-2xl {
-    font-size: 3.5rem;
-}
-
-.text-grey {
-    color: rgb(115, 115, 115);
-}
-
-.text-blue {
-    color: rgb(62, 84, 163)
-}
-
-.bold {
-    font-weight: 600;
-}
-
-.bold--full {
-    font-weight: 999;
-}
-
-.italic {
-    font-style: italic;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-.link {
-    color: #0000EE;
-}
-
-.upper {
-    text-transform: uppercase;
-}
-
-a {
-    color: #333;
-    text-decoration: none;
+    .hover:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
 }

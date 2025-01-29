@@ -9,8 +9,8 @@ module.exports = async (req, res, next) => {
         // Decodes and verifies the JWT payload (user id), along with the secret key - JWT would not match payload or secret if tampered with slightly
         verifyJWT(req.cookies.jwt)
 
-    } catch (error) { // Catch block executed if no JWT exists or JWT does not match payload or secret (tampered with user session)
-        const jwt = jwtGenerator(); // Generates public JWT for user
+    } catch (error) {
+        const jwt = jwtGenerator();
         res.cookie('jwt', jwt, {
             httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000,
         });
@@ -21,6 +21,8 @@ module.exports = async (req, res, next) => {
         });
     }
 
-    // If everything completes, proceed to the next middleware or route handler
     next();
+
+
+
 }

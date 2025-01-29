@@ -45,7 +45,6 @@ router.post("/login", validation, async (req, res) => {
 
         // Private JWT on login
         createJWT(res, user.rows[0]?.user_id);
-        req.user = user.rows[0]?.user_id
 
     } catch (error) {
         console.error(error.message)
@@ -53,20 +52,19 @@ router.post("/login", validation, async (req, res) => {
     }
 })
 
-// This block posts any request send to the endpoint, straight to the database - async used as these methods take time. Expression used as a route is created to register - dependent on req/res bodies not a function declaration.
 router.post("/register", validation, async (req, res) => {
     try {
         // Destructure req.body to get name, email, password
         const { name, email, password } = req.body;
 
-        // syntax used in query that replaces email as a string variable - checks if user exists.
+        // Gather user from register email field
         const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
             email
         ])
 
-        // Check for user existence. If true throw error
+        // Check for user existence. If true return error
         if (user.rows.length !== 0) {
-            return res.status(401).send('User already exists');
+            return res.status(401).json('User already exists');
         }
 
         // Bcrypt user password
@@ -79,13 +77,13 @@ router.post("/register", validation, async (req, res) => {
         const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) VALUES($1, $2, $3) RETURNING *",
             [name, email, bcryptPassword])
 
-        // Private JWT on register
+        // Private JWT on register - user id provided for this
         createJWT(res, newUser.rows[0]?.user_id);
-        req.user = newUser.rows[0]?.user_id
 
+        // Executes on code failure - therefore server code issue
     } catch (error) {
         console.error(error.message)
-        res.status(500).send("Server Error")
+        res.status(500).json("Server Error")
     }
 })
 
@@ -96,14 +94,14 @@ router.get("/verify", (req, res) => {
         })
     } catch (error) {
         console.error(error.message)
-        res.status(500).send("Server Error")
+        res.status(500).json("Server Error")
     }
 })
 
 const createJWT = (res, user_id) => {
     const jwt = jwtGenerator(user_id) // Call JWT generator and pass user id 
-    res.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000 });
-    res.json({ jwt })
+    res.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000 }); // JWT set set as cookie
+    res.json({ jwt }) // JWT sent in json
 }
 
 

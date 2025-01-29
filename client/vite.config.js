@@ -13,6 +13,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss()
+
   ],
   build: {
     minify: false, // Disable minification in production
