@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Predefine content for each axios instance
 const axiosInstance = axios.create({
@@ -22,10 +23,16 @@ axiosInstance.interceptors.response.use(
 
             // Check for the specific status code and error message
             if (status === 403 && data.code === 'INVALID_REQUEST') {
-                window.location.reload();
+                // Show the toast first
+                toast.error('User tampered with token. Please log in again.');
+
+                // Delay the page reload for the toast to be visible
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000); // Wait 3 seconds before reloading
             }
         }
-        // Reject the promise so the calling code knows an error occurred
+
         return Promise.reject(error);
     }
 );

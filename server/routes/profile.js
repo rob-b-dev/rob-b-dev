@@ -3,6 +3,9 @@ const { verifyJWT } = require("../helpers/jwt");
 // Ensures users JWT is authorized before accesing a private route with private data
 const pool = require("../db");
 
+// Middleware
+// const validation = require("../middleware/validation");
+
 // Authorization middleware means the JWT is checked here from the header across transmission.
 // The JWT is decoded in the middleware and stored in the req.user object to gather user profile here:
 router.get("/", async (req, res) => {
@@ -28,6 +31,18 @@ router.get("/", async (req, res) => {
     }
 })
 
+router.post("/update", async (req) => {
+    try {
+        const { Name, Email, Password } = req.body
+        console.log(Name)
+        console.log(Email)
+        console.log(Password)
+
+
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 
 
 module.exports = router;

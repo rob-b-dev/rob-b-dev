@@ -11,6 +11,7 @@ module.exports = async (req, res, next) => {
 
     } catch (error) {
         const jwt = jwtGenerator();
+        // Public cookie
         res.cookie('jwt', jwt, {
             httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000,
         });

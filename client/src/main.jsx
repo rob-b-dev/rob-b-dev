@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 // import './Reset.css'
 import './Index.css';
 import './Components.css'
-import './Typography.css';
+
 // Utils
 import './Utils.css';
 
@@ -15,6 +15,7 @@ import Homepage from './components/Homepage';
 import Login from './components/Login';
 import Register from './components/Register';
 import Favourites from './components/Favourites';
+import Profile from './components/Profile';
 
 // Fontawesome library
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -38,6 +39,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/favourites" element={<Favourites />} />
+            <Route path="/userprofile" element={<Profile />} />
           </Routes>
         </div>
       </AuthProvider>

@@ -9,5 +9,6 @@ function decodeJWT(jwt) {
 // If logged in the access level is private, if not the user is assigned a 
 export function isLoggedIn(jwt) {
     const decoded_jwt = decodeJWT(jwt);
-    return decoded_jwt.access_level === "PRIVATE"; // Returns bool value 
+    const isPrivate = decoded_jwt.access_level === "PRIVATE";
+    return { isPrivate, accessLevel: decoded_jwt.access_level };
 }

@@ -12,10 +12,12 @@ const jwtGenerator = require("../utils/jwtGenerator");
 // Middleware
 const validation = require("../middleware/validation");
 
+// Called on logout press
 router.post("/logout", async (req, res) => {
     try {
+        console.log("called")
         // Public JWT on logout without user id - not user specific but still handling user sessions
-        createJWT(res); // Response passed without user id. This is checked when signing the JWT and if no user id is passed the it signs a token with a public access level which is decoded and authorized in the frontend ot determine user authorization
+        createJWT(res); // Response passed without user id. This is checked when signing the JWT and if no user id is passed then it signs a token with a public access level which is decoded and authorized in the frontend ot determine user authorization
     } catch (error) {
         console.error(error.message)
         res.status(500).send("Server Error")
@@ -99,7 +101,7 @@ router.get("/verify", (req, res) => {
 })
 
 const createJWT = (res, user_id) => {
-    const jwt = jwtGenerator(user_id) // Call JWT generator and pass user id 
+    const jwt = jwtGenerator(user_id) // Call JWT generator and offer user id as a param
     res.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000 }); // JWT set set as cookie
     res.json({ jwt }) // JWT sent in json
 }

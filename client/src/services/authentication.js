@@ -8,7 +8,7 @@ const authService = {
             const response = await axiosInstance.get('/auth/verify');
             return response.data;
         } catch (error) {
-            console.error('Token verification failed:', error.response?.data || error.message);
+            console.error(error.message);
             throw error;
         }
     },
