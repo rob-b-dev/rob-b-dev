@@ -1,22 +1,25 @@
-const router = require("express").Router();
+const express = require('express');
+const router = express.Router();
 const { verifyJWT } = require("../helpers/jwt");
-// Ensures users JWT is authorized before accesing a private route with private data
-const pool = require("../db");
+const pool = require('../db'); // Ensure you have your database pool setup correctly
+const validation = require("../middleware/validation");
 
-// Middleware
-// const validation = require("../middleware/validation");
+// Function to get user ID from JWT
+const getUserId = async (req) => {
+    const decoded_jwt = verifyJWT(req.cookies.jwt);
+    const { user_id } = decoded_jwt;
+    return user_id;
+};
 
-// Authorization middleware means the JWT is checked here from the header across transmission.
-// The JWT is decoded in the middleware and stored in the req.user object to gather user profile here:
+// User checked for existence before providing profile data specific to that user
 router.get("/", async (req, res) => {
     try {
-        const decoded_jwt = verifyJWT(req.cookies.jwt)
-        const { user_id } = decoded_jwt;
+        const user_id = await getUserId(req);
 
-        const user = await pool.query("SELECT user_name, user_email, user_password FROM users WHERE user_id = $1", [user_id])
+        const user = await pool.query("SELECT user_name, user_email, user_password FROM users WHERE user_id = $1", [user_id]);
 
-        if (!user) {
-            throw new Error("No valid user") // Throw error and execute catch block
+        if (user.rows.length === 0) {
+            throw new Error("No valid user");
         }
 
         res.json({
@@ -26,23 +29,35 @@ router.get("/", async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error)
-        res.status(500).json("Server Error") // Send as response on incorrect code otherwise error is thrown and that message is logged
+        console.error(error);
+        res.status(500).json("Server Error");
     }
-})
+});
 
-router.post("/update", async (req) => {
+// User id gathered from JWT cookie when a profile update is requested and profile is updated
+router.post("/update", validation, async (req, res) => {
     try {
-        const { Name, Email, Password } = req.body
-        console.log(Name)
-        console.log(Email)
-        console.log(Password)
+        const { Name, Email, Password } = req.body;
+        const user_id = await getUserId(req);
 
+        // Check if user exists
+        const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+        if (user.rows.length === 0) {
+            throw new Error("No valid user")
+        }
+
+        // Update the user details in your database
+        await pool.query(
+            "UPDATE users SET user_name = $1, user_email = $2, user_password = $3 WHERE user_id = $4",
+            [Name, Email, Password, user_id]
+        );
+
+        res.json("Profile updated successfully");
 
     } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
+        res.status(500).json("Server error");
     }
-})
-
+});
 
 module.exports = router;

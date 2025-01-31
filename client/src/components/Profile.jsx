@@ -1,37 +1,69 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-// import userService from '../services/user';
+import { useEffect, useState } from 'react';
+import userService from '../services/user';
+import './NotFound';
 
 function Profile() {
-    const location = useLocation();
-    const { user } = location.state || {};
-
     const [isEditing, setIsEditing] = useState(false);
-    const [profileData, setProfileData] = useState(user);
+    const [profileData, setProfileData] = useState(null);
+    const [loading, setLoading] = useState(true); // Add loading state
 
-    if (!user) {
+    useEffect(() => {
+        const gatherProfile = async () => {
+            try {
+                const response = await userService.getProfile();
+                setProfileData({
+                    user_name: response.user_name,
+                    user_email: response.user_email,
+                    user_password: response.user_password,
+                });
+            } catch (error) {
+                console.error(error.response?.data);
+            } finally {
+                setLoading(false); // Set loading to false once data is fetched
+            }
+        };
+        gatherProfile();
+    }, []);
+
+    // Handle case where data is loading
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    // Handle case where user data is not available
+    if (!profileData) {
         return <div>No user data available</div>;
     }
 
+    // Toggle edit mode
     const handleEditClick = () => {
         setIsEditing(!isEditing);
     };
 
+    // Handle changes in input fields
     const handleChange = (e) => {
-        const { name, value } = e.target;  // Targets the input value
+        const { name, value } = e.target; // Targets the input value
 
         setProfileData({
             ...profileData,
-            [name]: value
+            [name]: value,
         });
     };
 
-
+    // Save the updated profile data
     const handleSaveClick = async () => {
         setIsEditing(false);
-        // const newProfileData = await userService.updateProfle(profileData);
+        try {
+            const updatedProfile = await userService.updateProfile({
+                Name: profileData.user_name,
+                Email: profileData.user_email,
+                Password: profileData.user_password,
+            });
+            console.log("Profile Data on Save:", updatedProfile); // Log profile data on save
+        } catch (error) {
+            console.error("Error updating profile:", error);
+        }
     };
-
 
     return (
         <div className='form center space-y-6 max-w-xl mx-auto'>
@@ -45,13 +77,13 @@ function Profile() {
                 {isEditing ? (
                     <input
                         type="text"
-                        name="Name"
-                        value={profileData.Name}
+                        name="user_name"
+                        value={profileData.user_name}
                         onChange={handleChange}
                         className="border rounded px-2 py-1"
                     />
                 ) : (
-                    <span>{profileData.Name}</span>
+                    <span>{profileData.user_name}</span>
                 )}
             </div>
 
@@ -63,13 +95,13 @@ function Profile() {
                 {isEditing ? (
                     <input
                         type="email"
-                        name="Email"
-                        value={profileData.Email}
+                        name="user_email"
+                        value={profileData.user_email}
                         onChange={handleChange}
                         className="border rounded px-2 py-1"
                     />
                 ) : (
-                    <span>{profileData.Email}</span>
+                    <span>{profileData.user_email}</span>
                 )}
             </div>
 
@@ -81,13 +113,13 @@ function Profile() {
                 {isEditing ? (
                     <input
                         type="password"
-                        name="Password"
-                        value={profileData.Password}
+                        name="user_password"
+                        value={profileData.user_password}
                         onChange={handleChange}
                         className="border rounded px-2 py-1"
                     />
                 ) : (
-                    <span>{profileData.Password}</span>
+                    <span>{profileData.user_password}</span>
                 )}
             </div>
 
