@@ -13,8 +13,8 @@ function Profile() {
                 const response = await userService.getProfile();
                 setProfileData({
                     user_name: response.user_name,
-                    user_email: response.user_email,
-                    user_password: response.user_password,
+                    user_email: response.user_email,   // Plain email here, no masking
+                    user_password: response.user_password, // Plain password here
                 });
             } catch (error) {
                 console.error(error.response?.data);
@@ -54,12 +54,15 @@ function Profile() {
     const handleSaveClick = async () => {
         setIsEditing(false);
         try {
-            const updatedProfile = await userService.updateProfile({
-                Name: profileData.user_name,
-                Email: profileData.user_email,
-                Password: profileData.user_password,
-            });
-            console.log("Profile Data on Save:", updatedProfile); // Log profile data on save
+            const updatedProfile = Object.fromEntries(
+                Object.entries({
+                    Name: profileData.user_name,
+                    Email: profileData.user_email,
+                    Password: profileData.user_password,
+                }).map(([key, value]) => [key.toLowerCase(), value]) // Convert keys to lowercase
+            );
+            await userService.updateProfile(updatedProfile);
+            console.log("Profile Data Sent:", updatedProfile);
         } catch (error) {
             console.error("Error updating profile:", error);
         }
@@ -96,7 +99,7 @@ function Profile() {
                     <input
                         type="email"
                         name="user_email"
-                        value={profileData.user_email}
+                        value={profileData.user_email} // Use plain email here
                         onChange={handleChange}
                         className="border rounded px-2 py-1"
                     />
@@ -114,7 +117,7 @@ function Profile() {
                     <input
                         type="password"
                         name="user_password"
-                        value={profileData.user_password}
+                        value={profileData.user_password} // Use plain password here
                         onChange={handleChange}
                         className="border rounded px-2 py-1"
                     />

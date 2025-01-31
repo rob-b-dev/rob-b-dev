@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { isLoggedIn } from '../helpers/jwt';
 import authService from '../services/authentication';
 import { AuthContext } from '../hooks/AuthContext';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { showToast } from '../helpers/showToast'
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -61,13 +62,6 @@ export const AuthProvider = ({ children }) => {
     // Change auth state depending on JWT access level
     const handleAuth = async (jwt) => {
         setIsAuthenticated(isLoggedIn(jwt));
-    };
-
-    // This block is used as a callback taking the message wanting to display as well as the type of message (success or error)
-    const showToast = (message, type) => {
-        if (!toast.isActive(message)) {
-            toast[type](message, { toastId: message });
-        }
     };
 
     return (

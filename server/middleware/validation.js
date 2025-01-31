@@ -12,17 +12,13 @@ module.exports = (req, res, next) => {
         return /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/.test(userPassword);
     }
 
-    if (req.path === '/register') {
-        // Checks for empty values. If it comes back true, there are empty values
+    if (['/register', '/userprofile'].includes(req.path)) {
         if (![email, name, password].every(Boolean)) {
-            return res.status(401).json("Missing Credentials")
-            // Checks for invalid email
+            return res.status(401).json("Missing Credentials");
         } else if (!validEmail(email)) {
-            return res.status(401).json("Invalid Email")
-        } // Checks for password length
-        else if (password.length < 8 || password.length > 32) {
+            return res.status(401).json("Invalid Email");
+        } else if (password.length < 8 || password.length > 32) {
             return res.status(401).json("Password must be between 8 and 32 characters.");
-            // Checks for password variation
         } else if (!validPassword(password)) {
             return res.status(401).json("Password must contain a symbol, special character, and capital letter.");
         }

@@ -1,4 +1,5 @@
 import axiosInstance from "./axios";
+import { showToast } from "../helpers/showToast";
 
 const userService = {
     async getProfile() {
@@ -6,18 +7,16 @@ const userService = {
             const response = await axiosInstance.get('/profile');
             return response.data;  // Ensure you're returning the data here
         } catch (error) {
-            console.error('Error getting profile data:', error.response?.data || error.message);
-            throw error;  // Throw error for handling in the calling function
+            showToast(error.response?.data, 'error')
         }
     },
 
-    async updateProfle(data) {
+    async updateProfile(data) {
         try {
             const response = await axiosInstance.post('/profile/update', data);
-            return response.data;
+            showToast(response, 'success')
         } catch (error) {
-            console.error('Error updating profile data:', error.response?.data || error.message);
-            throw error;
+            showToast(error.response?.data, 'error')
         }
     }
 };

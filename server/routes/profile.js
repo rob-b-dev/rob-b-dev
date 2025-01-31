@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 
         res.json({
             user_name: user.rows[0].user_name,
-            user_email: user.rows[0].user_email.replace(/(.{3})(.*)(?=@)/, '$1***'), // Masks everything except the first 3 characters and the domain,
+            user_email: user.rows[0].user_email, // Masks everything except the first 3 characters and the domain,
             user_password: "********"
         });
 
@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
 // User id gathered from JWT cookie when a profile update is requested and profile is updated
 router.post("/update", validation, async (req, res) => {
     try {
-        const { Name, Email, Password } = req.body;
+        const { name, email, password } = req.body;
         const user_id = await getUserId(req);
 
         // Check if user exists
@@ -49,7 +49,7 @@ router.post("/update", validation, async (req, res) => {
         // Update the user details in your database
         await pool.query(
             "UPDATE users SET user_name = $1, user_email = $2, user_password = $3 WHERE user_id = $4",
-            [Name, Email, Password, user_id]
+            [name, email, password, user_id]
         );
 
         res.json("Profile updated successfully");
