@@ -5,9 +5,8 @@ require("dotenv").config(); // Access environmental variables
 // This block authorizes the user based on the req body and generates a response to either grant or deny access
 module.exports = async (req, res, next) => {
     try {
-        // Gather jwt sent as coookie - this sends by default on every req
-        // Decodes and verifies the JWT payload (user id), along with the secret key - JWT would not match payload or secret if tampered with slightly
-        verifyJWT(req.cookies.jwt)
+        // Gather JWT sent as coookie - this sends by default on every request
+        verifyJWT(req.cookies.jwt) // Verifies the private or public JWT sent
 
     } catch (error) {
         const jwt = jwtGenerator();

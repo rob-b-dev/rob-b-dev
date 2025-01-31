@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
         const user = await pool.query("SELECT user_name, user_email, user_password FROM users WHERE user_id = $1", [user_id])
 
         if (!user) {
-            throw new Error("No valid user")
+            throw new Error("No valid user") // Throw error and execute catch block
         }
 
         res.json({
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 
     } catch (error) {
         console.error(error)
-        res.status(500).json("Server Error")
+        res.status(500).json("Server Error") // Send as response on incorrect code otherwise error is thrown and that message is logged
     }
 })
 

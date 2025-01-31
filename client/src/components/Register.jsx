@@ -25,7 +25,7 @@ function Register() {
     // Redirect to home page once the user is authenticated
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/');
+            navigate('/home');
         }
     }, [isAuthenticated, navigate]);
 

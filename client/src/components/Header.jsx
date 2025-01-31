@@ -7,18 +7,14 @@ import userService from '../services/user';
 function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
-  const [menu, setMenu] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
-  const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const [menuDropdown, setMenuDropdown] = useState(false); // Toggle menu dropdown
+  const [userProfile, setUserProfile] = useState(null); // Set state to track profile data
+  const [profileIcon, setProfileIcon] = useState(false); // Toggle profile icon state and render conditionally depending on auth state
 
-  const handleMenuClick = () => setMenu(prev => !prev);
+  const handleMenuClick = () => setMenuDropdown(prev => !prev); // Set menu dropdown when clicked. Menu is always here but the toggle state for the dropdown is changed on click
 
-  const handleLoginClick = (e) => {
-    e.preventDefault();
-    navigate('/login');
-  };
-
-  const handleProfileClick = async () => {
+  // When profile icon is pressed, user profile data is set from backend call retrieving profile data
+  const handleProfileIconClick = async () => {
     try {
       const profileData = await userService.getProfile();
       setUserProfile({
@@ -26,25 +22,21 @@ function Header() {
         Email: profileData.user_email,
         Password: profileData.user_password,
       });
+      // If any error fetching profile data, log it
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
-    setIsProfileVisible(prev => !prev);
+    // When code block is executed, toggle profile icon to true to display it on conditional render
+    setProfileIcon(prev => !prev);
   };
 
   // Log out user
   const handleLogoutClick = (e) => {
     e.preventDefault();
     logout();
-    setUserProfile(null);
-    setIsProfileVisible(false);
-    navigate('/');
-  };
-
-  // Navigate to register page
-  const handleRegisterClick = (e) => {
-    e.preventDefault();
-    navigate('/register');
+    setUserProfile(null); // Delete profile data as user is now unauthorized
+    setProfileIcon(prev => !prev); // Toggle profile icon state back to false
+    navigate('/home');
   };
 
   // Navigate to profile page with user details
@@ -55,10 +47,10 @@ function Header() {
   // Conditional rendering for authentication buttons
   const authButtonsRight = isAuthenticated ? (
     <div className='relative'>
-      <a onClick={handleProfileClick}>
+      <a onClick={handleProfileIconClick}>
         <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
       </a>
-      {isProfileVisible && userProfile && (
+      {profileIcon && userProfile && (
         <div className="dropdown-container">
           <ul>
             <li className='dropdown-item'>
@@ -76,8 +68,8 @@ function Header() {
     </div>
   ) : (
     <>
-      <li><a className='hover' onClick={handleLoginClick}>Log in</a></li>
-      <li><a className='hover' onClick={handleRegisterClick}>New? Sign up</a></li>
+      <li><a className='hover' href='/login'>Log in</a></li>
+      <li><a className='hover' href='/register'>New? Sign up</a></li>
     </>
   );
 
@@ -85,7 +77,7 @@ function Header() {
   const authButtonsLeft = (
     <div className="relative">
       <a onClick={handleMenuClick}><FontAwesomeIcon icon={['fas', 'bars']} size="3x" /></a>
-      {menu && (
+      {menuDropdown && (
         <div className="dropdown-container">
           <ul>
             <li className="dropdown-item">Item 1</li>
@@ -105,14 +97,14 @@ function Header() {
             {authButtonsLeft}
             <li>
               <h1 className="w-16 m-w-full">
-                <a href="/">
+                <a href="/home">
                   <img src="src/assets/static/logo-removebg.png" alt="Logo" />
                 </a>
               </h1>
             </li>
           </div>
           <div className="header__right">
-            <li><a className='hover' href="/">Home</a></li>
+            <li><a className='hover' href="/home">Home</a></li>
             <li><a className='hover' href="/favourites">Favourites</a></li>
             {authButtonsRight}
           </div>

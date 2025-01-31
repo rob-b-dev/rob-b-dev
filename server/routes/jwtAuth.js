@@ -15,7 +15,6 @@ const validation = require("../middleware/validation");
 // Called on logout press
 router.post("/logout", async (req, res) => {
     try {
-        console.log("called")
         // Public JWT on logout without user id - not user specific but still handling user sessions
         createJWT(res); // Response passed without user id. This is checked when signing the JWT and if no user id is passed then it signs a token with a public access level which is decoded and authorized in the frontend ot determine user authorization
     } catch (error) {

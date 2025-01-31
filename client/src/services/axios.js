@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
             // Check for the specific status code and error message
             if (status === 403 && data.code === 'INVALID_REQUEST') {
                 // Show the toast first
-                toast.error('User tampered with token. Please log in again.');
+                toast.error('User tampered with token. Session ended');
 
                 // Delay the page reload for the toast to be visible
                 setTimeout(() => {

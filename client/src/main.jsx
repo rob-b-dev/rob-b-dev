@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 // Global styles
@@ -16,6 +16,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Favourites from './components/Favourites';
 import Profile from './components/Profile';
+import Header from './components/Header';
+import NotFound from './components/NotFound';
 
 // Fontawesome library
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -23,7 +25,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { AuthProvider } from './components/AuthProvider';
-import Header from './components/Header';
+
 
 library.add(fab, fas, far);
 
@@ -32,18 +34,31 @@ function App() {
     <Router>
       <AuthProvider>
         <ToastContainer />
-        <Header />
-        <div className="wrapepr">
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/favourites" element={<Favourites />} />
-            <Route path="/userprofile" element={<Profile />} />
-          </Routes>
-        </div>
+        <Content />
       </AuthProvider>
     </Router>
+  );
+}
+
+function Content() {
+  const location = useLocation();
+  const showHeaderOn = ["/home", "/favourites", "profile"];
+  const shouldShowHeader = showHeaderOn.includes(location.pathname);
+
+  return (
+    <>
+      {shouldShowHeader && <Header />}
+      <div className="wrapper">
+        <Routes>
+          <Route path="/home" element={<Homepage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/favourites" element={<Favourites />} />
+          <Route path="/userprofile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 
