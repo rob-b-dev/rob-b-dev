@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Navigate, BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 // Global styles
@@ -44,23 +44,34 @@ function Content() {
   const location = useLocation();
   const showHeaderOn = ["/home", "/favourites", "profile"];
   const shouldShowHeader = showHeaderOn.includes(location.pathname);
+  const definedPaths = ["/home", "/login", "/register", "/favourites", "/userprofile"];
+  const isDefinedPath = definedPaths.includes(location.pathname);
 
   return (
     <>
       {shouldShowHeader && <Header />}
-      <div className="wrapper">
+      {isDefinedPath ? (
+        <div className="wrapper">
+          <Routes>
+            <Route path="/home" element={<Homepage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/favourites" element={<Favourites />} />
+            <Route path="/userprofile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      ) : (
         <Routes>
-          <Route path="/home" element={<Homepage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/favourites" element={<Favourites />} />
-          <Route path="/userprofile" element={<Profile />} />
+          <Route path="/" element={<Navigate to="/home" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      )}
     </>
   );
 }
+
+
 
 export default App;
 
