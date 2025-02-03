@@ -98,12 +98,6 @@ router.post("/update", validation, async (req, res) => {
         await pool.query(query, values);
         res.status(200).send('Profile updated successfully.');
 
-        // Reset all fields to undefined at the end of the process
-        originalFields.forEach(field => {
-            field.value = undefined;
-        });
-        console.log('fields reset to undefined', originalFields);
-
     } catch (error) {
         console.error('Error updating profile:', error);
         res.status(500).send('Internal server error.');
