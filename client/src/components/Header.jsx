@@ -10,7 +10,6 @@ function Header() {
   const [menuDropdown, setMenuDropdown] = useState(false); // Toggle menu dropdown
   const [userProfile, setUserProfile] = useState(null); // Set state to track profile data
   const [profileIcon, setProfileIcon] = useState(false); // Toggle profile icon state and render conditionally depending on auth state
-
   const handleMenuClick = () => setMenuDropdown(prev => !prev); // Set menu dropdown when clicked. Menu is always here but the toggle state for the dropdown is changed on click
 
   // When profile icon is pressed, user profile data is set from backend call retrieving profile data
@@ -28,6 +27,7 @@ function Header() {
     }
     // When code block is executed, toggle profile icon to true to display it on conditional render
     setProfileIcon(prev => !prev);
+
   };
 
   // Log out user
@@ -48,7 +48,7 @@ function Header() {
   const authButtonsRight = isAuthenticated ? (
     <div className='relative'>
       <a onClick={handleProfileIconClick}>
-        <FontAwesomeIcon icon={['fas', 'user']} size="3x" />
+        <FontAwesomeIcon icon={['fas', 'circle-user']} size="3x" />
       </a>
       {profileIcon && userProfile && (
         <div className="dropdown-container">

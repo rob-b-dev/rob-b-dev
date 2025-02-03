@@ -42,7 +42,7 @@ function App() {
 
 function Content() {
   const location = useLocation();
-  const showHeaderOn = ["/home", "/favourites", "profile"];
+  const showHeaderOn = ["/home", "/favourites", "profile", "/login", "/register"];
   const shouldShowHeader = showHeaderOn.includes(location.pathname);
   const definedPaths = ["/home", "/login", "/register", "/favourites", "/userprofile"];
   const isDefinedPath = definedPaths.includes(location.pathname);

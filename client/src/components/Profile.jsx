@@ -1,71 +1,70 @@
 import { useEffect, useState } from 'react';
 import userService from '../services/user';
-import './NotFound';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { showToast } from '../helpers/toast';
 
 function Profile() {
-    const [isEditing, setIsEditing] = useState(false);
-    const [profileData, setProfileData] = useState(null);
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [name, setName] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [originalName, setOriginalName] = useState(null);
+    const [originalEmail, setOriginalEmail] = useState(null);
+    const [originalPassword, setOriginalPassword] = useState(null)
+
+    const [isEditing, setIsEditing] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const gatherProfile = async () => {
             try {
                 const response = await userService.getProfile();
-                setProfileData({
-                    user_name: response.user_name,
-                    user_email: response.user_email,   // Plain email here, no masking
-                    user_password: response.user_password, // Plain password here
-                });
-            } catch (error) {
+                setName(response.user_name);
+                setEmail(response.user_email);
+                setPassword(response.user_password);
+                setOriginalName(response.user_name);
+                setOriginalEmail(response.user_email);
+                setOriginalPassword(response.user_password)
+            }
+            catch (error) {
                 console.error(error.response?.data);
+                return (
+                    <div>No user data available</div>
+                );
             } finally {
-                setLoading(false); // Set loading to false once data is fetched
+                setLoading(false);
             }
         };
         gatherProfile();
     }, []);
 
-    // Handle case where data is loading
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    // Handle case where user data is not available
-    if (!profileData) {
-        return <div>No user data available</div>;
-    }
-
-    // Toggle edit mode
-    const handleEditClick = () => {
-        setIsEditing(!isEditing);
+    const handleEditClick = (field) => {
+        setIsEditing(field);
     };
 
-    // Handle changes in input fields
-    const handleChange = (e) => {
-        const { name, value } = e.target; // Targets the input value
-
-        setProfileData({
-            ...profileData,
-            [name]: value,
-        });
-    };
-
-    // Save the updated profile data
     const handleSaveClick = async () => {
-        setIsEditing(false);
+        setIsEditing(null);
+        const updatedProfile = {
+            name: name !== originalName ? name : undefined,
+            email: email !== originalEmail ? email : undefined,
+            password: password !== originalPassword ? password : undefined
+        };
+        console.log("Profile Data to be Sent:", updatedProfile);
         try {
-            const updatedProfile = Object.fromEntries(
-                Object.entries({
-                    Name: profileData.user_name,
-                    Email: profileData.user_email,
-                    Password: profileData.user_password,
-                }).map(([key, value]) => [key.toLowerCase(), value]) // Convert keys to lowercase
-            );
-            await userService.updateProfile(updatedProfile);
-            console.log("Profile Data Sent:", updatedProfile);
+            const response = await userService.updateProfile(updatedProfile);
+            showToast(response, 'success')
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         } catch (error) {
-            console.error("Error updating profile:", error);
+            showToast(error.response?.data, 'error')
         }
+    };
+    const maskEmail = (email) => {
+        return email.replace(/(.{3}).*(@.*)/, "$1***$2");
     };
 
     return (
@@ -74,76 +73,91 @@ function Profile() {
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <i className="fas fa-user text-xl text-blue-600"></i>
+                    <FontAwesomeIcon icon={['fas', 'user']} className="text-xl text-blue-600" />
                     <span className="font-semibold">Name:</span>
                 </div>
-                {isEditing ? (
-                    <input
-                        type="text"
-                        name="user_name"
-                        value={profileData.user_name}
-                        onChange={handleChange}
-                        className="border rounded px-2 py-1"
-                    />
+                {isEditing === 'user_name' ? (
+                    <>
+                        <input
+                            type="text"
+                            name="user_name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="border-2 border-blue-500 rounded px-2 py-1"
+                        />
+                        <button onClick={handleSaveClick} className="ml-2 cursor-pointer">
+                            <FontAwesomeIcon icon={['fas', 'check']} />
+                        </button>
+                    </>
                 ) : (
-                    <span>{profileData.user_name}</span>
+                    <div className='space-x-2'>
+                        <span>{name}</span>
+                        <button onClick={() => handleEditClick('user_name')} className='cursor-pointer'>
+                            <FontAwesomeIcon icon={['fas', 'edit']} />
+                        </button>
+                    </div>
                 )}
             </div>
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <i className="fas fa-envelope text-xl text-blue-600"></i>
+                    <FontAwesomeIcon icon={['fas', 'envelope']} className="text-xl text-blue-600" />
                     <span className="font-semibold">Email:</span>
                 </div>
-                {isEditing ? (
-                    <input
-                        type="email"
-                        name="user_email"
-                        value={profileData.user_email} // Use plain email here
-                        onChange={handleChange}
-                        className="border rounded px-2 py-1"
-                    />
+                {isEditing === 'user_email' ? (
+                    <>
+                        <input
+                            type="email"
+                            name="user_email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="border-2 border-blue-500 rounded px-2 py-1"
+                        />
+                        <button onClick={handleSaveClick} className="ml-2 cursor-pointer">
+                            <FontAwesomeIcon icon={['fas', 'check']} />
+                        </button>
+                    </>
                 ) : (
-                    <span>{profileData.user_email}</span>
+                    <div className='space-x-2'>
+                        <span>{maskEmail(email)}</span>
+                        <button onClick={() => handleEditClick('user_email')} className='cursor-pointer'>
+                            <FontAwesomeIcon icon={['fas', 'edit']} />
+                        </button>
+                    </div>
                 )}
             </div>
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <i className="fas fa-key text-xl text-blue-600"></i>
+                    <FontAwesomeIcon icon={['fas', 'key']} className="text-xl text-blue-600" />
                     <span className="font-semibold">Password:</span>
                 </div>
-                {isEditing ? (
-                    <input
-                        type="password"
-                        name="user_password"
-                        value={profileData.user_password} // Use plain password here
-                        onChange={handleChange}
-                        className="border rounded px-2 py-1"
-                    />
+                {isEditing === 'user_password' ? (
+                    <>
+                        <input
+                            type="password"
+                            name="user_password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="border-2 border-blue-500 rounded px-2 py-1"
+                        />
+                        <button onClick={handleSaveClick} className="ml-2 cursor-pointer" >
+                            <FontAwesomeIcon icon={['fas', 'check']} />
+                        </button>
+                    </>
                 ) : (
-                    <span>{profileData.user_password}</span>
-                )}
-            </div>
-
-            <div className="flex justify-end space-x-4">
-                <button
-                    onClick={handleEditClick}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                    {isEditing ? 'Cancel' : 'Edit'}
-                </button>
-                {isEditing && (
-                    <button
-                        onClick={handleSaveClick}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    >
-                        Save
-                    </button>
+                    <div className='space-x-2'>
+                        <span>********</span>
+                        <button onClick={() => handleEditClick('user_password')} className='cursor-pointer'>
+                            <FontAwesomeIcon icon={['fas', 'edit']} />
+                        </button>
+                    </div>
                 )}
             </div>
         </div>
+
     );
+
 }
 
 export default Profile;

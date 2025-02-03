@@ -1,5 +1,4 @@
 import axiosInstance from "./axios";
-import { showToast } from "../helpers/showToast";
 
 const userService = {
     async getProfile() {
@@ -7,17 +6,21 @@ const userService = {
             const response = await axiosInstance.get('/profile');
             return response.data;  // Ensure you're returning the data here
         } catch (error) {
-            showToast(error.response?.data, 'error')
+            console.error(error.response?.data)
+            throw error
         }
     },
 
     async updateProfile(data) {
         try {
             const response = await axiosInstance.post('/profile/update', data);
-            showToast(response, 'success')
+            return response.data; // Data returned so it can be used in profile display
+
         } catch (error) {
-            showToast(error.response?.data, 'error')
+            console.error('Failed to update profile: ', error.response?.data);
+            throw error
         }
+
     }
 };
 

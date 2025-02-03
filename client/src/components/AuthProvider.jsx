@@ -5,7 +5,7 @@ import authService from '../services/authentication';
 import { AuthContext } from '../hooks/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { showToast } from '../helpers/showToast'
+import { showToast } from '../helpers/toast'
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);

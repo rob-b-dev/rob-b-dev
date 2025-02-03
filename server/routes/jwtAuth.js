@@ -65,7 +65,7 @@ router.post("/register", validation, async (req, res) => {
 
         // Check for user existence. If true return error
         if (user.rows.length !== 0) {
-            return res.status(401).json('User already exists');
+            return res.status(409).json("User already exists")
         }
 
         // Bcrypt user password
@@ -84,7 +84,7 @@ router.post("/register", validation, async (req, res) => {
         // Executes on code failure - therefore server code issue
     } catch (error) {
         console.error(error.message)
-        res.status(500).json("Server Error")
+        res.status(500).json('Server Error')
     }
 })
 
