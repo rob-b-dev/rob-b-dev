@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 const defaultOptions = {
   changeOrigin: true,
   // Switch to true in production
-  secure: false,
+  secure: true,
 }
 
 // https://vite.dev/config/
@@ -29,7 +29,7 @@ export default defineConfig({
       '/profile': {
         target: 'http://localhost:5001',
         ...defaultOptions,
-      },
+      }
     },
   },
 });

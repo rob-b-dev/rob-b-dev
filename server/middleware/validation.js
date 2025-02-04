@@ -2,23 +2,15 @@
 
 module.exports = (req, res, next) => {
     const { email, name, password } = req.body;
+    console.log(req.body)
 
-    let profileUpdateField, profileUpdateValue;
-
-    if (email !== undefined) {
-        profileUpdateField = 'email'
-        profileUpdateValue = email;
-    } else if (name !== undefined) {
-        profileUpdateField = 'name'
-        profileUpdateValue = name;
-    } else if (password !== undefined) {
-        profileUpdateField = 'password'
-        profileUpdateValue = password;
-    }
-
-    if (req.path === '/update') {
-        checkProfileUpdateField(profileUpdateValue, profileUpdateField)
-    }
+    // Define the key and value of the request body
+    // let key;
+    // let value;
+    // Object.entries(req.body).forEach(([field, val]) => {
+    //     key = field;
+    //     value = val;
+    // });
 
     function validEmail(userEmail) {
         return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -29,26 +21,7 @@ module.exports = (req, res, next) => {
         return /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/.test(userPassword);
     }
 
-    function checkProfileUpdateField(value, field) {
-        if (field === 'name') {
-            if (value.length < 3) {
-                return res.status(401).json("Name must be at least three characters")
-            }
-        }
-        else if (field === 'email') {
-            if (!validEmail(value)) {
-                return res.status(401).json("Invalid Email");
-            }
-        }
-        else if (field === 'password') {
-            if (!validPassword(value)) {
-                return res.status(401).json("Password must contain a symbol, special character, and capital letter.");
-            }
-        }
-    }
-
-
-    if (['/register'].includes(req.path)) {
+    if (req.path === '/register' || req.path === '/update') {
         if (![email, name, password].every(Boolean)) {
             return res.status(401).json("Missing Credentials");
         } else if (!validEmail(email)) {

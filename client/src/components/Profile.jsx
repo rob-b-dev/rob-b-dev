@@ -9,8 +9,7 @@ function Profile() {
     const [password, setPassword] = useState(null);
     const [originalName, setOriginalName] = useState(null);
     const [originalEmail, setOriginalEmail] = useState(null);
-    const [originalPassword, setOriginalPassword] = useState(null)
-
+    const [originalPassword, setOriginalPassword] = useState(null);
     const [isEditing, setIsEditing] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -18,6 +17,7 @@ function Profile() {
         const gatherProfile = async () => {
             try {
                 const response = await userService.getProfile();
+                console.log('received profile', response)
                 setName(response.user_name);
                 setEmail(response.user_email);
                 setPassword(response.user_password);
@@ -27,9 +27,8 @@ function Profile() {
             }
             catch (error) {
                 console.error(error.response?.data);
-                return (
-                    <div>No user data available</div>
-                );
+                return <div>No user data available</div>
+
             } finally {
                 setLoading(false);
             }
@@ -38,7 +37,7 @@ function Profile() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='text-white'>Loading...</div>;
     }
 
     const handleEditClick = (field) => {
@@ -47,12 +46,23 @@ function Profile() {
 
     const handleSaveClick = async () => {
         setIsEditing(null);
-        const updatedProfile = {
-            name: name !== originalName ? name : undefined,
-            email: email !== originalEmail ? email : undefined,
-            password: password !== originalPassword ? password : undefined
-        };
-        console.log("Profile Data to be Sent:", updatedProfile);
+
+        let value;
+
+        if (isEditing === 'user_name') {
+            value = name;
+        } else if (isEditing === 'user_email') {
+            value = email;
+        } else if (isEditing === 'user_password') {
+            value = password;
+        }
+
+        if (value === originalName || value === originalEmail || value === originalPassword) {
+            value = undefined
+        }
+
+        const updatedProfile = { [isEditing]: value };
+
         try {
             const response = await userService.updateProfile(updatedProfile);
             showToast(response, 'success')
@@ -155,9 +165,7 @@ function Profile() {
                 )}
             </div>
         </div>
-
     );
-
 }
 
 export default Profile;
