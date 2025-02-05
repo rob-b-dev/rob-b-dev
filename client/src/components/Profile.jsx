@@ -62,7 +62,7 @@ function Profile() {
         }
 
         const updatedProfile = { [isEditing]: value };
-
+        console.log('sent data', updatedProfile)
         try {
             const response = await userService.updateProfile(updatedProfile);
             showToast(response, 'success')

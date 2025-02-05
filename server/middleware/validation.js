@@ -2,15 +2,40 @@
 
 module.exports = (req, res, next) => {
     const { email, name, password } = req.body;
-    console.log(req.body)
+    console.log('validation called')
 
-    // Define the key and value of the request body
-    // let key;
-    // let value;
-    // Object.entries(req.body).forEach(([field, val]) => {
-    //     key = field;
-    //     value = val;
-    // });
+
+    if (req.path === '/update') {
+        let key;
+        let value;
+        Object.entries(req.body).forEach(([field, val]) => {
+            key = field;
+            value = val;
+        });
+        console.log(key)
+        console.log(value)
+        if (!key || value === undefined) {
+            return res.status(401).json("No changes detected");
+        }
+
+        if (key === 'user_name') {
+            validName(value)
+        } else if (key === 'user_email') {
+            if (!validEmail(value)) {
+                return res.status(401).json("Invalid Email");
+            }
+        } else {
+            if (!validPassword(password)) {
+                return res.status(409).json("Password must contain a symbol, special character, and capital letter.");
+            }
+        }
+    }
+
+    function validName(userName) {
+        if (userName.length < 3) {
+            return res.status(401).json("Name must be atleast 3 characters")
+        }
+    }
 
     function validEmail(userEmail) {
         return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -21,7 +46,7 @@ module.exports = (req, res, next) => {
         return /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/.test(userPassword);
     }
 
-    if (req.path === '/register' || req.path === '/update') {
+    if (req.path === '/register') {
         if (![email, name, password].every(Boolean)) {
             return res.status(401).json("Missing Credentials");
         } else if (!validEmail(email)) {
@@ -41,8 +66,6 @@ module.exports = (req, res, next) => {
         }
     }
 
-
-
-    // If everything completes, the next process happens which is most likely going to be in the client side unless a request has already been passed through
+    // If everything completes, move to endpoint in server
     next();
 }

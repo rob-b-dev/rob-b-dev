@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 
 // Middleware
 const validation = require("../middleware/validation");
-// const cryptography = require("../middleware/cryptography")
 
 // Function to get user ID from JWT
 const getUserId = async (req) => {
@@ -41,18 +40,12 @@ router.post("/update", validation, async (req, res) => {
     try {
         const user_id = await getUserId(req); // Gather user ID from JWT
 
-        // Define the key and value of the request body
         let key;
         let value;
         Object.entries(req.body).forEach(([field, val]) => {
             key = field;
             value = val;
         });
-
-        // ADD TO VALIDATION /// 
-        if (value === undefined) {
-            return res.status(409).send("No changes detected");
-        }
 
         // Fetch user details
         const user = await pool.query(
@@ -67,7 +60,7 @@ router.post("/update", validation, async (req, res) => {
         // Update database
         if (key === "user_password") {
             // Compare old and new passwords
-            const validPassword = await bcrypt.compare(value, user.rows[0].user_password);
+            const validPassword = bcrypt.compare(value, user.rows[0].user_password);
 
             if (validPassword) {
                 return res.status(409).send("No changes detected");
@@ -76,7 +69,7 @@ router.post("/update", validation, async (req, res) => {
             // Hash new password
             const saltRound = 10;
             const salt = await bcrypt.genSalt(saltRound);
-            value = await bcrypt.hash(value, salt);
+            value = bcrypt.hash(value, salt);  // Override the value here
         }
 
         // Construct the SQL query safely

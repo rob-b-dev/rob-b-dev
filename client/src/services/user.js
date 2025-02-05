@@ -14,11 +14,11 @@ const userService = {
     async updateProfile(data) {
         try {
             const response = await axiosInstance.post('/profile/update', data);
-            console.log(response)
+            console.log('returned data', response)
             return response.data; // Data returned so it can be used in profile display
 
         } catch (error) {
-            console.error('Failed to update profile: ', error.response?.data);
+            console.error(error.response?.data);
             throw error
         }
 
