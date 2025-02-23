@@ -33,9 +33,9 @@ function Register() {
         <form onSubmit={handleRegisterClick} className="form center">
             <div className="space-y-6 text-center w-4/5 mx-auto">
                 {/* Heading */}
-                <h2 className="text-blue-800 font-bold text-4xl">
+                <h1 className="text-blue-800 font-bold text-4xl">
                     Welcome! Register here
-                </h2>
+                </h1>
                 <div className="space-y-6">
                     {/* Form Inputs */}
 

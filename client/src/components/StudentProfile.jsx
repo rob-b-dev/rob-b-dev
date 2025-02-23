@@ -3,7 +3,7 @@ import userService from '../services/user';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { showToast } from '../helpers/toast';
 
-function Profile() {
+function StudentProfile() {
     const [name, setName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -17,7 +17,6 @@ function Profile() {
         const gatherProfile = async () => {
             try {
                 const response = await userService.getProfile();
-                console.log('received profile', response)
                 setName(response.user_name);
                 setEmail(response.user_email);
                 setPassword(response.user_password);
@@ -79,7 +78,7 @@ function Profile() {
 
     return (
         <div className='form center space-y-6 max-w-xl mx-auto'>
-            <h1 className='text-blue-800 font-bold text-4xl text-center'>Profile</h1>
+            <h1 className='text-blue-800 font-bold text-4xl text-center'>Student Profile</h1>
 
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -123,6 +122,7 @@ function Profile() {
                             onChange={(e) => setEmail(e.target.value)}
                             className="border-2 border-blue-500 rounded px-2 py-1"
                         />
+                        {/* When editing apply a check icon to ensure submition */}
                         <button onClick={handleSaveClick} className="ml-2 cursor-pointer">
                             <FontAwesomeIcon icon={['fas', 'check']} />
                         </button>
@@ -168,4 +168,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default StudentProfile;

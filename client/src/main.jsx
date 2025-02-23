@@ -14,8 +14,11 @@ import './Utils.css';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
 import Register from './components/Register';
-import Favourites from './components/Favourites';
-import Profile from './components/Profile';
+import BookSessions from './components/BookSessions';
+import MySessions from './components/MySessions';
+import PublishSessions from './components/PublishSessions';
+import StudentProfile from './components/StudentProfile';
+import TutorProfile from './components/TutorProfile';
 import Header from './components/Header';
 import NotFound from './components/NotFound';
 
@@ -25,7 +28,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { AuthProvider } from './components/AuthProvider';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 library.add(fab, fas, far);
 
@@ -42,9 +45,9 @@ function App() {
 
 function Content() {
   const location = useLocation();
-  const showHeaderOn = ["/home", "/favourites", "/userprofile", "/login", "/register"];
+  const showHeaderOn = ["/home", "/studentprofile", "/login", "/register", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile"];
   const shouldShowHeader = showHeaderOn.includes(location.pathname);
-  const definedPaths = ["/home", "/login", "/register", "/favourites", "/userprofile"];
+  const definedPaths = ["/home", "/login", "/register", "/studentprofile", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile"];
   const isDefinedPath = definedPaths.includes(location.pathname);
 
   return (
@@ -56,8 +59,16 @@ function Content() {
             <Route path="/home" element={<Homepage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/favourites" element={<Favourites />} />
-            <Route path="/userprofile" element={<Profile />} />
+
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/booksessions" element={<BookSessions />} />
+              <Route path="/mysessions" element={<MySessions />} />
+              <Route path="/publishsessions" element={<PublishSessions />} />
+              <Route path="/studentprofile" element={<StudentProfile />} />
+              <Route path="/tutorprofile" element={<TutorProfile />} />
+            </Route>
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
@@ -70,6 +81,7 @@ function Content() {
     </>
   );
 }
+
 
 
 

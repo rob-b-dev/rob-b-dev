@@ -13,7 +13,6 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss()
-
   ],
   build: {
     minify: false, // Disable minification in production
@@ -26,10 +25,14 @@ export default defineConfig({
         target: 'http://localhost:5001',
         ...defaultOptions,
       },
-      '/profile': {
+      '/profile/student': {
         target: 'http://localhost:5001',
         ...defaultOptions,
-      }
+      },
+      '/profile/tutor': {
+        target: 'http://localhost:5001',
+        ...defaultOptions,
+      },
     },
   },
 });

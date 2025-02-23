@@ -79,6 +79,7 @@
     .hover {
         text-decoration: none;
         position: relative;
+        @apply cursor-pointer;
     }
 
     .hover::after {

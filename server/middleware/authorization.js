@@ -1,5 +1,5 @@
 const jwtGenerator = require("../utils/jwtGenerator");
-const { verifyJWT } = require("../helpers/jwt")
+const { verifyJWT } = require("../helpers/jwt");
 require("dotenv").config(); // Access environmental variables
 
 // This block authorizes the user based on the req body and generates a response to either grant or deny access

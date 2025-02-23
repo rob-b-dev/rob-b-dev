@@ -22,7 +22,7 @@ function jwtGenerator(user_id) { // User id passed is optional
 
     // Sign payload based on optional user id pass - either private or public from this
     return jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: '1h'
+        expiresIn: "1h"
     })
 }
 

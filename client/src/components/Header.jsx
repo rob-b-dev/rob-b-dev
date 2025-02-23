@@ -3,20 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../hooks/useAuth';
 import userService from '../services/user';
+import { showToast } from '../helpers/toast';
 
 function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
   const [menuDropdown, setMenuDropdown] = useState(false); // Toggle menu dropdown
-  const [userProfile, setUserProfile] = useState(null); // Set state to track profile data
+  const [studentProfile, setStudentProfile] = useState(null); // Set state to track profile data
   const [profileIcon, setProfileIcon] = useState(false); // Toggle profile icon state and render conditionally depending on auth state
+
   const handleMenuClick = () => setMenuDropdown(prev => !prev); // Set menu dropdown when clicked. Menu is always here but the toggle state for the dropdown is changed on click
 
   // When profile icon is pressed, user profile data is set from backend call retrieving profile data
   const handleProfileIconClick = async () => {
     try {
       const profileData = await userService.getProfile();
-      setUserProfile({
+      setStudentProfile({
         Name: profileData.user_name,
         Email: profileData.user_email,
         Password: profileData.user_password,
@@ -34,32 +36,48 @@ function Header() {
   const handleLogoutClick = (e) => {
     e.preventDefault();
     logout();
-    setUserProfile(null); // Delete profile data as user is now unauthorized
+    setStudentProfile(null); // Delete profile data as user is now unauthorized
     setProfileIcon(prev => !prev); // Toggle profile icon state back to false
     navigate('/home');
   };
 
   // Navigate to profile page with user details
-  const handleProfileLinkClick = () => {
-    navigate('/userprofile', { state: { user: userProfile } });
+  const handleStudentProfileLinkClick = () => {
+    navigate('/studentprofile');
+  };
+
+  const handleTutorProfileLinkClick = () => {
+    navigate('/tutorprofile');
+  };
+
+  const handleSessionNavigation = (path) => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      showToast('Login needed to access', 'error')
+    } else {
+      navigate(path);
+    }
   };
 
   // Conditional rendering for authentication buttons
   const authButtonsRight = isAuthenticated ? (
     <div className='relative'>
-      <a onClick={handleProfileIconClick}>
+      <a className='cursor-pointer' onClick={handleProfileIconClick}>
         <FontAwesomeIcon icon={['fas', 'circle-user']} size="3x" />
       </a>
-      {profileIcon && userProfile && (
+      {profileIcon && studentProfile && (
         <div className="dropdown-container">
           <ul>
             <li className='dropdown-item'>
-              <a onClick={handleProfileLinkClick}>Profile</a>
+              <button className='cursor-pointer' onClick={handleStudentProfileLinkClick}>Student Profile</button>
+            </li>
+            <li className='dropdown-item'>
+              <button className='cursor-pointer' onClick={handleTutorProfileLinkClick}>Tutor Profile</button>
             </li>
             <li className='dropdown-item'><a href="/settings">Settings</a></li>
             <li className='dropdown-item'><a href="/support">Support</a></li>
             <li className='dropdown-item'>
-              <a onClick={handleLogoutClick}>Logout</a>
+              <button className='cursor-pointer' onClick={handleLogoutClick}>Logout</button>
             </li>
 
           </ul>
@@ -76,7 +94,7 @@ function Header() {
   // Left side auth buttons for mobile menu
   const authButtonsLeft = (
     <div className="relative">
-      <a onClick={handleMenuClick}><FontAwesomeIcon icon={['fas', 'bars']} size="3x" /></a>
+      <button className='cursor-pointer' onClick={handleMenuClick}><FontAwesomeIcon icon={['fas', 'bars']} size="3x" /></button>
       {menuDropdown && (
         <div className="dropdown-container">
           <ul>
@@ -91,7 +109,7 @@ function Header() {
 
   return (
     <header className="header">
-      <nav className="wrapper">
+      <nav className="wrapper ">
         <ul className="flex">
           <div className="header__left">
             {authButtonsLeft}
@@ -105,7 +123,9 @@ function Header() {
           </div>
           <div className="header__right">
             <li><a className='hover' href="/home">Home</a></li>
-            <li><a className='hover' href="/favourites">Favourites</a></li>
+            <li><button className="hover" onClick={() => handleSessionNavigation('/booksessions')}>Book Session</button></li>
+            <li><button className="hover" onClick={() => handleSessionNavigation('/mysessions')}>My Sessions</button></li>
+            <li><button className="hover" onClick={() => handleSessionNavigation('/publishsessions')}>Publish Sessions</button></li>
             {authButtonsRight}
           </div>
         </ul>

@@ -29,9 +29,9 @@ function Login() {
         <form onSubmit={handleSubmitLogin} className="form center">
             <div className="space-y-6 text-center w-4/5 mx-auto">
                 {/* Heading */}
-                <h2 className="text-blue-800 font-bold text-4xl">
+                <h1 className="text-blue-800 font-bold text-4xl">
                     Login
-                </h2>
+                </h1>
                 <div className="space-y-6">
 
                     {/* Email Input */}
@@ -40,6 +40,7 @@ function Login() {
                         placeholder="Email"
                         value={email}
                         id="email"
+                        name='email'
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         className="w-full rounded-xl"
@@ -51,6 +52,7 @@ function Login() {
                         placeholder="Password"
                         value={password}
                         id="password"
+                        name='password'
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         className="w-full rounded-xl"
@@ -65,13 +67,6 @@ function Login() {
                                 onClick={() => setShowPassword((prev) => !prev)}
                             />
                             <label htmlFor="showPassword">Show Password</label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
-                                id="rememberme"
-                            />
-                            <label htmlFor="rememberme">Remember me</label>
                         </div>
                     </div>
 

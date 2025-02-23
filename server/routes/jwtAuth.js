@@ -10,7 +10,7 @@ const pool = require("../db");
 const jwtGenerator = require("../utils/jwtGenerator");
 
 // Middleware
-const validation = require("../middleware/validation");
+const studentValidation = require("../middleware/studentValidation");
 
 // Called on logout press
 router.post("/logout", async (req, res) => {
@@ -23,13 +23,13 @@ router.post("/logout", async (req, res) => {
     }
 });
 
-router.post("/login", validation, async (req, res) => {
+router.post("/login", studentValidation, async (req, res) => {
     try {
         // Destructure req.body
         const { email, password } = req.body;
 
         // Check if user doesnt exist. If user doesnt exist then error is thrown
-        const user = await pool.query("SELECT * FROM users WHERE user_email = $1",
+        const user = await pool.query("SELECT * FROM students WHERE user_email = $1",
             [email]);
 
         if (user.rows.length === 0) {
@@ -53,13 +53,13 @@ router.post("/login", validation, async (req, res) => {
     }
 })
 
-router.post("/register", validation, async (req, res) => {
+router.post("/register", studentValidation, async (req, res) => {
     try {
         // Destructure req.body to get name, email, password
         const { name, email, password } = req.body;
 
         // Gather user from register email field
-        const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
+        const user = await pool.query("SELECT * FROM students WHERE user_email = $1", [
             email
         ])
 
@@ -75,7 +75,7 @@ router.post("/register", validation, async (req, res) => {
         const bcryptPassword = await bcrypt.hash(password, salt)
 
         // Enter new user inside database
-        const newUser = await pool.query("INSERT INTO users (user_name, user_email, user_password) VALUES($1, $2, $3) RETURNING *",
+        const newUser = await pool.query("INSERT INTO students (user_name, user_email, user_password) VALUES($1, $2, $3) RETURNING *",
             [name, email, bcryptPassword])
 
         // Private JWT on register - user id provided for this
@@ -101,7 +101,12 @@ router.get("/verify", (req, res) => {
 
 const createJWT = (res, user_id) => {
     const jwt = jwtGenerator(user_id) // Call JWT generator and offer user id as a param
-    res.cookie('jwt', jwt, { httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000 }); // JWT set set as cookie
+    res.cookie('jwt', jwt, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Strict',
+        maxAge: 3600000
+    }); // JWT set set as cookie
     res.json({ jwt }) // JWT sent in json
 }
 

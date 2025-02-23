@@ -1,24 +1,25 @@
 const express = require("express")
 const cors = require("cors")
 const jwtAuth = require("./routes/jwtAuth");
-const profile = require("./routes/profile")
+const studentProfile = require("./routes/studentProfile")
+const tutorProfile = require("./routes/tutorProfile")
 const cookieParser = require("cookie-parser");
 const authorization = require("./middleware/authorization");
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 
 const app = express()
 
 // Configure rate limiter
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per `windowMs`
-    message: 'Too many requests from this IP, please try again after 15 minutes.',
-    headers: true, // Adds X-RateLimit headers to responses
-});
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // Limit each IP to 100 requests per `windowMs`
+//     message: 'Too many requests from this IP, please try again after 15 minutes.',
+//     headers: true, // Adds X-RateLimit headers to responses
+// });
 
-app.use(limiter);
+// app.use(limiter);
 
-app.use(cookieParser()); // Use cookie-parser middleware
+app.use(cookieParser()); // Use cookie-parser middleware to reduce code and confusion
 
 app.use(authorization);
 
@@ -30,7 +31,9 @@ app.use(express.json()) // Access to req.body on client side
 app.use("/auth", jwtAuth)
 
 // Profile route for when a user wants to access their profile data
-app.use("/profile", profile)
+app.use("/profile/student", studentProfile)
+
+app.use("/profile/tutor", tutorProfile)
 
 app.listen(5001, () => {
     console.log("App running on port 5001")
