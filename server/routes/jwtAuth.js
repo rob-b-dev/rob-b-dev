@@ -1,5 +1,4 @@
 // Private routes
-
 const router = require("express").Router(); // Building routes
 const bcrypt = require("bcrypt");
 
@@ -11,6 +10,7 @@ const jwtGenerator = require("../utils/jwtGenerator");
 
 // Middleware
 const studentValidation = require("../middleware/studentValidation");
+const { getUserId } = require("../helpers/jwt");
 
 // Called on logout press
 router.post("/logout", async (req, res) => {
@@ -29,23 +29,23 @@ router.post("/login", studentValidation, async (req, res) => {
         const { email, password } = req.body;
 
         // Check if user doesnt exist. If user doesnt exist then error is thrown
-        const user = await pool.query("SELECT * FROM students WHERE user_email = $1",
-            [email]);
+        const user = (await pool.query("SELECT * FROM students WHERE user_email = $1",
+            [email]))?.rows[0];
 
-        if (user.rows.length === 0) {
+        if (!user) {
             return res.status(401).json("Email or Password is incorrect");
         }
 
         // Check if incoming password is the same as the database password
         // '[0]' is used to access the value of the returned object
-        const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
+        const validPassword = await bcrypt.compare(password, user.user_password);
 
         if (!validPassword) {
             return res.status(401).json("Email or Password is incorrect")
         }
 
         // Private JWT on login
-        createJWT(res, user.rows[0]?.user_id);
+        createJWT(res, user?.user_id);
 
     } catch (error) {
         console.error(error.message)
@@ -88,10 +88,15 @@ router.post("/register", studentValidation, async (req, res) => {
     }
 })
 
-router.get("/verify", (req, res) => {
+router.get("/verify", async (req, res) => {
     try {
+        const user_id = getUserId(req.cookies.jwt);
+        const user = (await pool.query(`SELECT * FROM students WHERE user_id = $1`,
+            [user_id]))?.rows[0];
+
         return res.json({
-            jwt: req.cookies.jwt
+            jwt: req.cookies.jwt,
+            has_tutor_profile: user?.roles?.includes("tutor")
         })
     } catch (error) {
         console.error(error.message)

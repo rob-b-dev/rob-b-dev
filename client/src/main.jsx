@@ -3,12 +3,7 @@ import { Navigate, BrowserRouter as Router, Routes, Route, useLocation } from 'r
 import { ToastContainer } from 'react-toastify';
 
 // Global styles
-// import './Reset.css'
 import './Index.css';
-import './Components.css'
-
-// Utils
-import './Utils.css';
 
 // Import your components from their respective files
 import Homepage from './components/Homepage';

@@ -1,95 +1,64 @@
-@import "./assets/fonts.css";
-@import "tailwindcss";
-@import "./assets/theme.css";
-
-
-.wrapper {
-    @apply w-full pr-4 mx-auto;
-}
-
-@media (min-width: 768px) {
-    .wrapper {
-        @apply w-4/5 px-10;
-    }
-}
-
-.dropdown-container {
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    min-width: 150px;
-    padding: 5px 0;
-}
-
-.dropdown-item {
-    padding: 10px;
-    text-align: center;
-    color: #333;
-    background-color: white;
-    display: block;
-    text-decoration: none;
-}
-
-.dropdown-item:hover {
-    background-color: #f0f0f0;
-}
-
 @layer components {
+    .header {
+        @apply border-b-2 border-gray-300 shadow-md;
+    }
+
+    .header__left,
+    .header__right {
+        @apply flex items-center gap-20;
+    }
+
+    .header__right {
+        @apply ml-auto;
+    }
+
+    .wrapper {
+        @apply w-full pr-4 mx-auto;
+    }
+
+    @media (min-width: 768px) {
+        .wrapper {
+            @apply w-4/5 px-10;
+        }
+    }
+
+    .dropdown-container {
+        @apply absolute top-[120%] left-1/2 bg-white border border-gray-300 rounded shadow-md z-50 min-w-[150px] p-1.5 transform -translate-x-1/2;
+    }
+
+    .dropdown-item {
+        @apply block p-2 text-center text-gray-800 bg-white hover:bg-gray-100;
+    }
+
     .button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid black;
-        border-radius: 25px;
-        @apply font-bold;
-        cursor: pointer;
-        text-transform: uppercase;
-        padding: 12px 24px;
-        transition: 0.3s ease;
+        @apply flex justify-center items-center border border-black rounded-[25px] font-bold cursor-pointer uppercase px-6 py-3 transition duration-300 ease-in-out;
+    }
+
+    .button:disabled {
+        @apply bg-gray-400 text-gray-700 cursor-not-allowed border-gray-300;
     }
 
     .button__primary {
-        @apply bg-blue-800;
-        color: white;
+        @apply bg-blue-800 text-white;
     }
 
-    .button__primary:hover {
-        background-color: white;
-        color: black;
+    .button__primary:hover:not(:disabled) {
+        @apply bg-white text-black;
     }
 
     .button__secondary {
-        background-color: white;
-        color: black;
+        @apply bg-white text-black;
     }
 
-    .button__secondary:hover {
-        background-color: black;
-        color: white;
+    .button__secondary:hover:not(:disabled) {
+        @apply bg-black text-white;
     }
 
     .form {
-        border: 1px solid #333;
-        border-radius: 15px;
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        padding: 30px;
-        background-color: white;
-        width: 40%;
-        max-width: 100%;
+        @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
     }
 
     .form input {
-        display: block;
-        padding: 10px;
-        transition: all 0.3s ease;
-        border: 1px solid #333;
+        @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
     }
 }

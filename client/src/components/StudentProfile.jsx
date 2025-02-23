@@ -65,9 +65,6 @@ function StudentProfile() {
         try {
             const response = await userService.updateProfile(updatedProfile);
             showToast(response, 'success')
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
         } catch (error) {
             showToast(error.response?.data, 'error')
         }

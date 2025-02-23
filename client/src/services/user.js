@@ -23,16 +23,6 @@ const userService = {
 
     },
 
-    async checkTutorProfile(data) {
-        try {
-            const response = await axiosInstance.get('profile/tutor/check', data);
-            return response.data
-        } catch (error) {
-            console.error(error.response?.data)
-            throw error
-        }
-    },
-
     async updateTutorProfile(data) {
         try {
             const response = await axiosInstance.post('profile/tutor/update', data);

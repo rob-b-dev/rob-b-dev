@@ -6,8 +6,14 @@ function decodeJWT(jwt) {
     return jwtDecode(jwt);
 }
 
-// If logged in the access level is private, if not the user is assigned a 
+export function hasTutorProfile(jwt) {
+    const decoded_jwt = decodeJWT(jwt);
+    return decoded_jwt.has_tutor_account;
+}
+
+// If logged in the access level is private, if not the user is assigned a public JWT
 export function isLoggedIn(jwt) {
     const decoded_jwt = decodeJWT(jwt);
     return decoded_jwt.access_level === "PRIVATE";
 }
+

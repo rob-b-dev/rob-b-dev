@@ -1,145 +1,141 @@
-import { useState, useEffect } from "react"
-import { showToast } from "../helpers/toast"
-import userService from "../services/user"
+import { useForm } from "react-hook-form";
+import { showToast } from "../helpers/toast";
+import userService from "../services/user";
+import { useAuth } from '../hooks/useAuth';
+import { useEffect } from "react";
 
 function TutorProfile() {
-    const [bio, setBio] = useState(null)
-    const [subjects, setSubjects] = useState(null)
-    const [experience, setExperience] = useState(null)
-    const [availability, setAvailability] = useState(null)
-    const [hourlyRate, setHourlyRate] = useState(null);
+    const { hasTutorProfile } = useAuth();
+
+    const {
+        register,
+        handleSubmit,
+        reset, // Use reset to set initial values without marking form as dirty
+        formState: { isDirty }
+    } = useForm({
+        defaultValues: {
+            bio: "",
+            subjects: "",
+            experience: "",
+            availability: "",
+            hourlyRate: ""
+        }
+    });
 
     useEffect(() => {
-        const gatherProfile = async () => {
+        const fetchProfile = async () => {
+            if (!hasTutorProfile) return;
+
             try {
                 const response = await userService.getTutorProfile();
-                setBio(response.bio);
-                setSubjects(response.subjects?.join(", "));
-                setExperience(response.experience_years);
-                setAvailability(response.availability?.join(", "));
-                setHourlyRate(`£${response.hourly_rate}`);
+
+                // Use reset() instead of setValue() to avoid marking form as dirty
+                reset({
+                    bio: response.bio,
+                    subjects: response.subjects?.join(", "),
+                    experience: response.experience_years,
+                    availability: response.availability?.join(", "),
+                    hourlyRate: `£${response.hourly_rate}`
+                });
             } catch (error) {
                 console.error(error.response?.data);
             }
         };
-        gatherProfile();
-    }, []);
+        fetchProfile();
+    }, [hasTutorProfile, reset]); // Ensure reset is in dependencies
+
+    const parseHourlyRate = (value) => {
+        if (value.startsWith("£")) {
+            value = value.slice(1);
+        }
+        return parseFloat(value) || 0;
+    };
 
     const sanitizeInput = (input) => {
         return input
-            .replace(/,+/g, ',')   // Remove multiple commas
+            .replace(/,+/g, ',') // Remove multiple commas
             .split(',')
-            .map(subject =>
-                subject
-                    .trim()
-                    .replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, '') // Remove non-alphabetic at start & end
-                    .toLowerCase() // Convert to lowercase
-            )
-            .filter(subject => subject !== ''); // Remove empty values
+            .map(subject => subject.trim().replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, '').toLowerCase())
+            .filter(subject => subject !== '');
     };
 
-    const handleHourlyRateChange = (e) => {
-        let value = e.target.value;
-
-        // Ensure it always starts with "£"
-        if (!value.startsWith("£")) {
-            value = "£" + value.replace(/£/g, ""); // Remove any extra £
-        }
-
-        setHourlyRate(value);
-    };
-
-    const handleFocus = () => {
-        if (hourlyRate === "") {
-            setHourlyRate("£"); // Add £ when clicked
-        }
-    };
-
-    const handleBlur = () => {
-        if (hourlyRate === "£") {
-            setHourlyRate(""); // Remove £ if nothing was entered
-        }
-    };
-
-    const handleSubmit = async () => {
+    const onSubmit = async (data) => {
         try {
-            const response = await userService.updateTutorProfile({
-                bio,
-                subjects: sanitizeInput(subjects),
-                experience_years: parseInt(experience, 10), // Parse int in base 10
-                availability: sanitizeInput(availability),
-                hourly_rate: hourlyRate
-            })
-            showToast(response, 'success')
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
+            const updatedProfile = {
+                bio: data.bio,
+                subjects: sanitizeInput(data.subjects),
+                experience_years: parseInt(data.experience, 10),
+                availability: sanitizeInput(data.availability),
+                hourly_rate: parseHourlyRate(data.hourlyRate)
+            };
+
+            const response = await userService.updateTutorProfile(updatedProfile);
+            showToast(response, 'success');
+
+            // ✅ Reset the form to updated values (marking it as NOT dirty)
+            reset({
+                bio: updatedProfile.bio,
+                subjects: updatedProfile.subjects.join(", "),
+                experience: updatedProfile.experience_years,
+                availability: updatedProfile.availability.join(", "),
+                hourlyRate: `£${updatedProfile.hourly_rate}`
+            });
 
         } catch (error) {
-            showToast(error.response?.data, 'error')
+            showToast(error.response?.data, 'error');
         }
-    }
-
+    };
 
     return (
-        <div className='form center space-y-6 max-w-xl mx-auto'>
-            <h1 className="text-blue-800 font-bold text-4xl flex justify-center items-center text-center w-full">Tutor Profile</h1>
-
+        <form className='form center space-y-6 max-w-xl mx-auto p-6' onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="text-blue-800 font-bold text-4xl text-center">Tutor Profile</h1>
 
             <textarea
-                className="block p-2 transition-all duration-300 ease-in-out border border-gray-900 resize-none overflow-auto"
+                {...register("bio")}
+                className="block p-2 border border-gray-900 resize-none"
                 placeholder="Bio (max 255 characters)"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
                 rows={3}
                 required
             />
 
             <div className="flex gap-4 w-full">
-                <input className="w-4/6 transition-all duration-300 ease-in-out border border-gray-900"
+                <input
+                    {...register("subjects")}
+                    className="w-4/6 border border-gray-900"
                     type="text"
                     placeholder="Subjects list (example: Maths, English)"
-                    value={subjects}
-                    onChange={(e) => setSubjects(e.target.value)}
                     required
                 />
-                <input className="w-2/6 transition-all duration-300 ease-in-out border border-gray-900"
-                    type="text"
+                <input
+                    {...register("experience")}
+                    className="w-2/6 border border-gray-900"
+                    type="number"
                     placeholder="Experience (years)"
-                    value={experience}
-                    onChange={(e) => setExperience(e.target.value)}
                     required
                 />
             </div>
 
-            <input className="transition-all duration-300 ease-in-out border border-gray-900" type="text"
+            <input
+                {...register("availability")}
+                className="border border-gray-900"
+                type="text"
                 placeholder="Availability list (example: Monday 10-12PM)"
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
                 required
             />
 
-            <input className="w-2/6 transition-all duration-300 ease-in-out border border-gray-900" type="text"
+            <input
+                {...register("hourlyRate")}
+                className="w-2/6 border border-gray-900"
+                type="text"
                 placeholder="Hourly rate"
-                value={hourlyRate}
-                onChange={handleHourlyRateChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
                 required
             />
 
-
-            <button
-                className="button button__primary w-full rounded-xl"
-                type="submit"
-                onClick={handleSubmit}
-            >
+            <button className="button button__primary w-full rounded-xl disabled:disabled" type="submit" disabled={!isDirty}>
                 Continue
             </button>
-
-        </div>
-    )
-
+        </form>
+    );
 }
 
-export default TutorProfile
+export default TutorProfile;

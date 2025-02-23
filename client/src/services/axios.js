@@ -19,15 +19,10 @@ axiosInstance.interceptors.response.use(
         // Check if the error has a response object
         if (error.response) {
             const { status, data } = error.response;
-
             if (status === 403)
-
-                // Check for the specific status code and error message
+                // If a private JWT has been changed to public, access is not granted to any route and user session is reset
                 if (status === 403 && data.code === 'INVALID_REQUEST') {
-                    // Show the toast first
-                    // toast.error('User tampered with token. Session ended');
-
-                    window.location.href = "/";
+                    location.reload()
                 }
         }
 

@@ -1,7 +1,13 @@
 @import "./assets/fonts.css";
-@import "tailwindcss";
 @import "./assets/theme.css";
+@import "tailwindcss";
+@import "./Components.css";
 
+@layer utilities {
+  .center {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
+}
 
 html,
 body {
@@ -21,33 +27,4 @@ h4 {
 
 img {
   @apply block w-full h-auto;
-}
-
-.center {
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
-}
-
-li {
-  list-style-type: none;
-}
-
-
-@layer utilities {
-  .header {
-    border-bottom: 2px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .header__left {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-  }
-
-  .header__right {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    gap: 80px;
-  }
 }
