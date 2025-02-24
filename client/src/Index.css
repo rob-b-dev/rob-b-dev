@@ -1,30 +1,84 @@
 @import "./assets/fonts.css";
 @import "./assets/theme.css";
 @import "tailwindcss";
-@import "./Components.css";
+
+@layer base {
+
+  html,
+  body {
+    @apply font-page overflow-hidden bg-transparent text-black text-base;
+  }
+
+  #root {
+    @apply h-screen;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-title-primary;
+  }
+
+  img {
+    @apply block w-full h-auto;
+  }
+
+  form {
+    @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
+  }
+
+  form input {
+    @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
+  }
+}
+
+@layer components {
+  .wrapper {
+    @apply w-full pr-4 mx-auto;
+  }
+
+  @media (min-width: 768px) {
+    .wrapper {
+      @apply w-4/5 px-10;
+    }
+  }
+
+  .dropdown-container {
+    @apply absolute top-[120%] left-1/2 bg-white border border-gray-300 rounded shadow-md z-50 min-w-[150px] p-1.5 transform -translate-x-1/2;
+  }
+
+  .dropdown-item {
+    @apply block p-2 text-center text-gray-800 bg-white hover:bg-gray-100;
+  }
+
+  .button {
+    @apply flex justify-center items-center border border-black rounded-[25px] font-bold cursor-pointer uppercase px-6 py-3 transition duration-300 ease-in-out;
+  }
+
+  .button:disabled {
+    @apply bg-gray-400 text-gray-700 cursor-not-allowed border-gray-300;
+  }
+
+  .button__primary {
+    @apply bg-blue-800 text-white;
+  }
+
+  .button__primary:hover:not(:disabled) {
+    @apply bg-white text-black;
+  }
+
+  .button__secondary {
+    @apply bg-white text-black;
+  }
+
+  .button__secondary:hover:not(:disabled) {
+    @apply bg-black text-white;
+  }
+}
 
 @layer utilities {
   .center {
     @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
   }
-}
-
-html,
-body {
-  @apply font-page overflow-hidden bg-transparent text-black text-base;
-}
-
-#root {
-  @apply h-screen;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  @apply font-title-primary;
-}
-
-img {
-  @apply block w-full h-auto;
 }

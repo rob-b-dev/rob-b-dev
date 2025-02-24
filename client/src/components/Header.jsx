@@ -1,21 +1,19 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../hooks/useAuth';
 import userService from '../services/user';
-import { showToast } from '../helpers/toast';
 
 function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
-  const [menuDropdown, setMenuDropdown] = useState(false); // Toggle menu dropdown
-  const [studentProfile, setStudentProfile] = useState(null); // Set state to track profile data
-  const [profileIcon, setProfileIcon] = useState(false); // Toggle profile icon state and render conditionally depending on auth state
+  const [menuDropdown, setMenuDropdown] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
+  const [studentProfile, setStudentProfile] = useState(null);
 
-  const handleMenuClick = () => setMenuDropdown(prev => !prev); // Set menu dropdown when clicked. Menu is always here but the toggle state for the dropdown is changed on click
+  const toggleDropdown = (setter) => setter(prev => !prev);
 
-  // When profile icon is pressed, user profile data is set from backend call retrieving profile data
-  const handleProfileIconClick = async () => {
+  const fetchProfile = async () => {
     try {
       const profileData = await userService.getProfile();
       setStudentProfile({
@@ -23,111 +21,94 @@ function Header() {
         Email: profileData.user_email,
         Password: profileData.user_password,
       });
-      // If any error fetching profile data, log it
+      toggleDropdown(setProfileDropdown);
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
-    // When code block is executed, toggle profile icon to true to display it on conditional render
-    setProfileIcon(prev => !prev);
-
   };
 
-  // Log out user
-  const handleLogoutClick = (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
     logout();
-    setStudentProfile(null); // Delete profile data as user is now unauthorized
-    setProfileIcon(prev => !prev); // Toggle profile icon state back to false
+    setStudentProfile(null);
+    setProfileDropdown(false);
     navigate('/home');
   };
 
-  // Navigate to profile page with user details
-  const handleStudentProfileLinkClick = () => {
-    navigate('/studentprofile');
-  };
+  const getNavClass = ({ isActive }) => (isActive ? "font-semibold underline" : "");
 
-  const handleTutorProfileLinkClick = () => {
-    navigate('/tutorprofile');
-  };
+  // Menu Configuration
+  const menuItems = [
+    { path: "/home", label: "Home" },
+    { path: "/booksessions", label: "Book Session" },
+    { path: "/mysessions", label: "My Sessions" },
+    { path: "/publishsessions", label: "Publish Sessions" }
+  ];
 
-  const handleSessionNavigation = (path) => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      showToast('Login needed to access', 'error')
-    } else {
-      navigate(path);
-    }
-  };
-
-  // Conditional rendering for authentication buttons
-  const authButtonsRight = isAuthenticated ? (
-    <div className='relative'>
-      <a className='cursor-pointer' onClick={handleProfileIconClick}>
-        <FontAwesomeIcon icon={['fas', 'circle-user']} size="3x" />
-      </a>
-      {profileIcon && studentProfile && (
-        <div className="dropdown-container">
-          <ul>
-            <li className='dropdown-item'>
-              <button className='cursor-pointer' onClick={handleStudentProfileLinkClick}>Student Profile</button>
-            </li>
-            <li className='dropdown-item'>
-              <button className='cursor-pointer' onClick={handleTutorProfileLinkClick}>Tutor Profile</button>
-            </li>
-            <li className='dropdown-item'><a href="/settings">Settings</a></li>
-            <li className='dropdown-item'><a href="/support">Support</a></li>
-            <li className='dropdown-item'>
-              <button className='cursor-pointer' onClick={handleLogoutClick}>Logout</button>
-            </li>
-
-          </ul>
-        </div>
-      )}
-    </div>
-  ) : (
-    <>
-      <li><a className='hover' href='/login'>Log in</a></li>
-      <li><a className='hover' href='/register'>New? Sign up</a></li>
-    </>
-  );
-
-  // Left side auth buttons for mobile menu
-  const authButtonsLeft = (
-    <div className="relative">
-      <button className='cursor-pointer' onClick={handleMenuClick}><FontAwesomeIcon icon={['fas', 'bars']} size="3x" /></button>
-      {menuDropdown && (
-        <div className="dropdown-container">
-          <ul>
-            <li className="dropdown-item">Item 1</li>
-            <li className="dropdown-item">Item 2</li>
-            <li className="dropdown-item">Item 3</li>
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+  const profileMenuItems = [
+    { path: "/studentprofile", label: "Student Profile" },
+    { path: "/tutorprofile", label: "Tutor Profile" },
+    { path: "/settings", label: "Settings" },
+    { path: "/support", label: "Support" }
+  ];
 
   return (
-    <header className="header">
-      <nav className="wrapper ">
-        <ul className="flex">
-          <div className="header__left">
-            {authButtonsLeft}
-            <li>
-              <h1 className="w-16 m-w-full">
-                <a href="/home">
-                  <img src="src/assets/static/logo-removebg.png" alt="Logo" />
-                </a>
-              </h1>
+    <header className="border-b-2 border-gray-300 shadow-md">
+      <nav className="wrapper flex items-center justify-between p-4">
+        <div className="relative">
+          <button className="cursor-pointer" onClick={() => toggleDropdown(setMenuDropdown)}>
+            <FontAwesomeIcon icon={['fas', 'bars']} size="2x" />
+          </button>
+          {menuDropdown && (
+            <div className="dropdown-container">
+              <ul>
+                <li className="dropdown-item">Item 1</li>
+                <li className="dropdown-item">Item 2</li>
+                <li className="dropdown-item">Item 3</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <h1>
+          <NavLink to="/home">
+            <img src="src/assets/static/logo-removebg.png" alt="Logo" className="w-16" />
+          </NavLink>
+        </h1>
+
+        <ul className="flex items-center gap-6">
+          {menuItems.map(({ path, label }) => (
+            <li key={path}>
+              <NavLink className={getNavClass} to={path}>{label}</NavLink>
             </li>
-          </div>
-          <div className="header__right">
-            <li><a className='hover' href="/home">Home</a></li>
-            <li><button className="hover" onClick={() => handleSessionNavigation('/booksessions')}>Book Session</button></li>
-            <li><button className="hover" onClick={() => handleSessionNavigation('/mysessions')}>My Sessions</button></li>
-            <li><button className="hover" onClick={() => handleSessionNavigation('/publishsessions')}>Publish Sessions</button></li>
-            {authButtonsRight}
-          </div>
+          ))}
+
+          {isAuthenticated ? (
+            <div className="relative">
+              <button className="cursor-pointer" onClick={fetchProfile}>
+                <FontAwesomeIcon icon={['fas', 'circle-user']} size="2x" />
+              </button>
+              {profileDropdown && studentProfile && (
+                <div className="dropdown-container">
+                  <ul>
+                    {profileMenuItems.map(({ path, label }) => (
+                      <li key={path}>
+                        <NavLink className={getNavClass} to={path}>{label}</NavLink>
+                      </li>
+                    ))}
+                    <li className="dropdown-item">
+                      <button onClick={handleLogout}>Logout</button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <li><NavLink className={getNavClass} to="/login">Log in</NavLink></li>
+              <li><NavLink className={getNavClass} to="/register">New? Sign up</NavLink></li>
+            </>
+          )}
         </ul>
       </nav>
     </header>
