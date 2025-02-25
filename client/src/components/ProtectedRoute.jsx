@@ -1,3 +1,5 @@
+// This route protects sensitive data depending on the users authenticated state through url manipulation
+
 import { Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../hooks/AuthContext";

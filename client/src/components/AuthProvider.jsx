@@ -16,12 +16,11 @@ export const AuthProvider = ({ children }) => {
         const checkAuthentication = async () => {
             try {
                 const response = await authService.verifyToken();
-                handleAuth(response);
-                setHasTutorProfile(!!response.has_tutor_profile)
-                // This block executes when the user tampers with a JWT - this is checked in /verify which calls the authorization middleware
+                handleAuth(response.jwt);
+                setHasTutorProfile(!!response.has_tutor_profile) // Converts line to boolean
             } catch (error) {
-                setIsAuthenticated(false); // User not authorized if JWT tampered with
-                console.error(error.response?.data) // Message from middleware logged in console for a few seconds before page reload
+                setIsAuthenticated(false);
+                console.error(error.response?.data)
             }
         };
         checkAuthentication();
@@ -29,11 +28,9 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (data) => {
         try {
-            // Executes on login submit if data is valid
             const response = await authService.login(data);
-            handleAuth(response); // Gathers private JWT when logged in 
+            handleAuth(response.jwt);
             showToast('Login successful', 'success')
-            // This block executes when the validation middleware of /login returns an error
         } catch (error) {
             showToast(error.response?.data, 'error')
         }
@@ -41,20 +38,18 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (data) => {
         try {
-            // Executes on register submit if data is valid
             const response = await authService.register(data);
-            handleAuth(response); // Gathers private JWT when logged in 
+            handleAuth(response.jwt);
             showToast('Register successful', 'success')
         } catch (error) {
-            // This block executes when the validation middleware of /login returns an error
             showToast(error.response?.data, 'error')
         }
     };
 
     const logout = async () => {
         try {
-            const response = await authService.logout(); // User handed public JWT on logout
-            handleAuth(response); // Auth state changed due when access level of JWT is checked and recognised as PUBLIC
+            const response = await authService.logout();
+            handleAuth(response.jwt); // Auth state changed due when access level of JWT is checked and recognised as PUBLIC
             showToast('Logout successful', 'success')
         } catch (error) {
             console.error('Logout failed:', error.response?.data);
@@ -62,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Change auth state depending on JWT access level
-    const handleAuth = async ({ jwt }) => {
+    const handleAuth = async (jwt) => {
         setIsAuthenticated(isLoggedIn(jwt));
     };
 

@@ -6,11 +6,7 @@
 
   html,
   body {
-    @apply font-page overflow-hidden bg-transparent text-black text-base;
-  }
-
-  #root {
-    @apply h-screen;
+    @apply font-page bg-transparent text-black text-base;
   }
 
   h1,
@@ -42,6 +38,10 @@
     .wrapper {
       @apply w-4/5 px-10;
     }
+  }
+
+  .section {
+    @apply mt-40 mb-40
   }
 
   .dropdown-container {

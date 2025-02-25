@@ -96,6 +96,7 @@ router.get("/verify", async (req, res) => {
 
         return res.json({
             jwt: req.cookies.jwt,
+            // If tutor profile includes tutor, this value is set to true and is sent off to the frotnend on every request
             has_tutor_profile: user?.roles?.includes("tutor")
         })
     } catch (error) {

@@ -29,7 +29,7 @@ function Login() {
         <form onSubmit={handleSubmitLogin} className="form center">
             <div className="space-y-6 text-center w-4/5 mx-auto">
                 {/* Heading */}
-                <h1 className="text-blue-800 font-bold text-4xl">
+                <h1 className="text-blue-800 font-bold text-4xl font-title-secondary">
                     Login
                 </h1>
                 <div className="space-y-6">

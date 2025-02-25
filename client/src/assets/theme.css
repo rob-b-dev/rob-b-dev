@@ -6,15 +6,16 @@ Place these into the inline block to define a custom css class */
     --color-white: #ffffff;
     --color-black: #333;
     --page-font: "Roboto";
-    --title-font-primary: "Lexend Giga";
+    --title-font-primary: 'Itim', cursive;
     --title-font-secondary: "Montserrat", sans-serif;
     --shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-    --shadow-bottom:
+
 }
 
 /* Use this block to make use of variables defined in theme, which can be used in elements to increase simplicity */
 @theme inline {
     --font-page: var(--page-font);
-    --font-title-primary: var(--title-font__primary);
+    --font-title-primary: var(--title-font-primary);
     --font-title-secondary: var(--title-font-secondary);
+    --shadow: var(--shadow);
 }

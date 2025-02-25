@@ -75,13 +75,15 @@ function Content() {
       )}
     </>
   );
+
 }
-
-
-
 
 export default App;
 
 // Rendering the app to the DOM
-const root = createRoot(document.getElementById('root'));
-root.render(<App />);
+const container = document.getElementById('root');
+if (!container._reactRootContainer) {
+  const root = createRoot(container);
+  root.render(<App />);
+}
+

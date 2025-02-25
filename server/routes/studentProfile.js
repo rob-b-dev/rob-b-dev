@@ -14,6 +14,8 @@ router.post("/update", studentValidation, async (req, res) => {
         let key = Object.keys(req.body)[0];
         let value = Object.values(req.body)[0];
 
+        console.log(req.body)
+
         // Fetch user
         const user = await pool.query("SELECT user_name, user_email, user_password FROM students WHERE user_id = $1", [user_id]);
 
@@ -23,6 +25,13 @@ router.post("/update", studentValidation, async (req, res) => {
 
         // Update database
         if (key === "user_password") {
+
+            const validPassword = await bcrypt.compare(value, user.rows[0].user_password);
+
+            if (validPassword) {
+                return res.status(400).json("Password must not match original")
+            }
+
             // Hash new password
             const saltRound = 10;
             const salt = await bcrypt.genSalt(saltRound);

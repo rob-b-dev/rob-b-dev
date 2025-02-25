@@ -31,10 +31,11 @@ router.post("/update", tutorValidation, async (req, res) => {
             [user_id, user.rows[0].user_email, formattedBio, subjects, experience_years, availability, hourly_rate]
         );
 
-        // Update user role
-        await pool.query("UPDATE students SET roles = array_append(roles, 'tutor') WHERE user_id = $1",
-            [user_id]
-        )
+        // Update user role on tutor profile creation only not update
+        if (!user.rows[0].roles.includes('tutor')) {
+            await pool.query("UPDATE students SET roles = array_append(roles, 'tutor') WHERE user_id = $1", [user_id]);
+        }
+
 
 
         res.status(200).send("Profile updated")

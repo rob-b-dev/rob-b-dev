@@ -1,81 +1,96 @@
-import { useEffect, useState } from 'react';
-import userService from '../services/user';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { showToast } from '../helpers/toast';
+import { useForm } from "react-hook-form";
+import { showToast } from "../helpers/toast";
+import userService from "../services/user";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function StudentProfile() {
-    const [profile, setProfile] = useState({ name: '', email: '', password: '' });
-    const [originalProfile, setOriginalProfile] = useState({});
+    const { register, handleSubmit, reset, watch, formState: { isDirty } } = useForm({
+        defaultValues: { name: "", email: "", password: "********" }
+    });
+
     const [isEditing, setIsEditing] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
             try {
                 const response = await userService.getProfile();
-                setProfile({
-                    name: response.user_name,
-                    email: response.user_email,
-                    password: response.user_password
-                });
-                setOriginalProfile(response);
+                reset({ name: response.user_name, email: response.user_email, password: "********" });
             } catch (error) {
                 console.error(error.response?.data);
-            } finally {
-                setLoading(false);
             }
         })();
-    }, []);
+    }, [reset]);
 
-    if (loading) return <div className='text-white'>Loading...</div>;
-
-    const handleEditClick = (field) => setIsEditing(field);
-    const handleChange = (e) => setProfile({ ...profile, [e.target.name]: e.target.value });
-    const maskEmail = (email) => email.replace(/(.{3}).*(@.*)/, "$1***$2");
-
-    const handleSaveClick = async () => {
-        setIsEditing(null);
-        if (profile[isEditing] === originalProfile[isEditing]) return;
-
-        try {
-            const response = await userService.updateProfile({ [isEditing]: profile[isEditing] });
-            showToast(response, 'success');
-        } catch (error) {
-            showToast(error.response?.data, 'error');
+    const handleEditClick = (field) => {
+        setIsEditing(field);
+        if (field === "password") {
+            reset({ ...watch(), password: "" });
         }
     };
 
-    const renderField = (label, field, type = 'text', maskFn) => (
-        <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-                <FontAwesomeIcon icon={['fas', field === 'password' ? 'key' : field === 'email' ? 'envelope' : 'user']} className="text-xl text-blue-600" />
-                <span className="font-semibold">{label}:</span>
-            </div>
-            {isEditing === field ? (
-                <>
-                    <input type={type} name={field} value={profile[field]} onChange={handleChange} className="border-2 border-blue-500 rounded px-2 py-1" />
-                    <button onClick={handleSaveClick} className="ml-2 cursor-pointer">
-                        <FontAwesomeIcon icon={['fas', 'check']} />
-                    </button>
-                </>
-            ) : (
-                <div className='space-x-2'>
-                    <span>{maskFn ? maskFn(profile[field]) : profile[field]}</span>
-                    <button onClick={() => handleEditClick(field)} className='cursor-pointer'>
-                        <FontAwesomeIcon icon={['fas', 'edit']} />
-                    </button>
-                </div>
-            )}
-        </div>
-    );
+    const handleCancelClick = () => {
+        setIsEditing(null);
+        reset();
+    };
+
+    const onSubmit = async (data) => {
+        const fieldKey = isEditing;
+        const fieldValue = watch(fieldKey);
+
+        const updatedProfile = {
+            [`user_${fieldKey}`]: fieldKey === "password" && fieldValue === "********" ? undefined : fieldValue
+        };
+
+        try {
+            const response = await userService.updateProfile(updatedProfile);
+            showToast(response, "success");
+            setIsEditing(null);
+            reset({ ...data, password: "********" });
+        } catch (error) {
+            showToast(error.response?.data, "error");
+        }
+    };
 
     return (
-        <div className='form center space-y-6 max-w-xl mx-auto'>
-            <h1 className='text-blue-800 font-bold text-4xl text-center'>Student Profile</h1>
-            {renderField("Name", "name")}
-            {renderField("Email", "email", "email", maskEmail)}
-            {renderField("Password", "password", "password", () => "********")}
-        </div>
+        <form className="center space-y-6 max-w-xl mx-auto p-8 border border-gray-800 bg-white rounded-2xl shadow-2xl shadow-gray-900/50" onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="text-blue-800 font-bold text-4xl text-center font-title-secondary">Student Profile</h1>
+
+            {[{ key: "name", label: "Name", icon: "user" }, { key: "email", label: "Email", icon: "envelope" }, { key: "password", label: "Password", icon: "key" }].map(({ key, label, icon }) => (
+                <div key={key} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6">
+                        <FontAwesomeIcon icon={["fas", icon]} className="text-xl text-blue-600" />
+                        <span className="font-semibold">{label}:</span>
+                    </div>
+                    {isEditing === key ? (
+                        <div className="flex space-x-6 items-center">
+                            <input
+                                type={key === "password" ? "password" : "text"}
+                                {...register(key)}
+                                placeholder={key === "password" ? "Enter new password" : ""}
+                                className="border-2 border-blue-500 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                            <button type="button" onClick={handleCancelClick} className="ml-2 cursor-pointer">
+                                <FontAwesomeIcon icon={["fas", "times"]} className="text-red-600" />
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-6">
+                            <span>{key === "password" ? "********" : watch(key)}</span>
+                            <button type="button" onClick={() => handleEditClick(key)} className="cursor-pointer">
+                                <FontAwesomeIcon icon={["fas", "edit"]} className="text-blue-600" />
+                            </button>
+                        </div>
+                    )}
+                </div>
+            ))}
+
+            {isEditing && (
+                <button className="button button__primary w-full rounded-xl disabled:disabled" type="submit" disabled={!isDirty}>
+                    Continue
+                </button>
+            )}
+        </form>
     );
 }
 
