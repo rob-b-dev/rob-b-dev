@@ -1,19 +1,46 @@
 @import "./assets/fonts.css";
-@import "./assets/theme.css";
+@import "./assets/themes.css";
 @import "tailwindcss";
 
 @layer base {
 
   html,
   body {
-    @apply font-page bg-transparent text-black text-base;
+    @apply font-page bg-transparent min-h-screen flex flex-col flex-grow;
+  }
+
+  .dark {
+    @apply bg-gray-900;
+  }
+
+  header {
+    @apply bg-white
+  }
+
+  footer {
+    @apply bg-[#efefef]
+  }
+
+  .dark header {
+    @apply text-white bg-gray-900;
+  }
+
+  .dark footer {
+    @apply text-white bg-gray-900
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-title-primary;
+    @apply font-title-primary text-black;
+  }
+
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4 {
+    @apply font-title-primary text-white;
   }
 
   img {
@@ -27,21 +54,24 @@
   form input {
     @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
   }
+
+  form input::placeholder,
+  form textarea,
+  form input {
+    @apply text-black
+  }
+
 }
 
 @layer components {
   .wrapper {
-    @apply w-full pr-4 mx-auto;
+    @apply w-full mx-auto;
   }
 
   @media (min-width: 768px) {
     .wrapper {
-      @apply w-4/5 px-10;
+      @apply w-4/5;
     }
-  }
-
-  .section {
-    @apply mt-40 mb-40
   }
 
   .dropdown-container {
@@ -74,6 +104,14 @@
 
   .button__secondary:hover:not(:disabled) {
     @apply bg-black text-white;
+  }
+
+  .dark .button__primary {
+    @apply bg-gray-800 text-white;
+  }
+
+  .dark .button__primary:hover:not(:disabled) {
+    @apply bg-white text-black;
   }
 }
 

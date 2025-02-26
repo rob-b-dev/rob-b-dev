@@ -15,7 +15,9 @@ import PublishSessions from './components/PublishSessions';
 import StudentProfile from './components/StudentProfile';
 import TutorProfile from './components/TutorProfile';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import NotFound from './components/NotFound';
+import GenerateTerms from './components/GenerateTerms';
 
 // Fontawesome library
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -42,18 +44,21 @@ function Content() {
   const location = useLocation();
   const showHeaderOn = ["/home", "/studentprofile", "/login", "/register", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile"];
   const shouldShowHeader = showHeaderOn.includes(location.pathname);
-  const definedPaths = ["/home", "/login", "/register", "/studentprofile", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile"];
+  const definedPaths = ["/home", "/login", "/register", "/studentprofile", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile", "/termsandconditions"];
   const isDefinedPath = definedPaths.includes(location.pathname);
+  const showFooterOn = ["/home"];
+  const shouldShowFooter = showFooterOn.includes(location.pathname);
 
   return (
     <>
       {shouldShowHeader && <Header />}
       {isDefinedPath ? (
         <div className="wrapper">
-          <Routes>
+          <Routes className="wrapper">
             <Route path="/home" element={<Homepage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/termsandconditions" element={<GenerateTerms />} />
 
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
@@ -73,6 +78,7 @@ function Content() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       )}
+      {shouldShowFooter && <Footer />}
     </>
   );
 

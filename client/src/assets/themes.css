@@ -1,0 +1,12 @@
+@theme {
+    --page-font: "Roboto";
+    --title-font-primary: 'Itim', cursive;
+    --title-font-secondary: "Montserrat", sans-serif;
+}
+
+/* This block defines the themes as variables which can be used inline without the '--' */
+@theme inline {
+    --font-page: var(--page-font);
+    --font-title-primary: var(--title-font-primary);
+    --font-title-secondary: var(--title-font-secondary);
+}
