@@ -15,7 +15,7 @@ function PublishSessions() {
     }, [hasTutorProfile, navigate]); // Run only when `hasTutorProfile` changes
 
     return (
-        <h1 className="text-center text-6xl font-bold mt-40 ">Publish Sessions</h1>
+        <h1></h1>
     );
 }
 

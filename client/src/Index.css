@@ -6,19 +6,35 @@
 
   html,
   body {
-    @apply font-page bg-transparent min-h-screen flex flex-col flex-grow;
+    @apply font-page bg-transparent;
+  }
+
+  @media (max-width: 1280px) {
+
+    html,
+    body {
+      @apply text-sm
+    }
+  }
+
+  @media (max-width: 1024px) {
+
+    html,
+    body {
+      @apply text-xs
+    }
   }
 
   .dark {
-    @apply bg-gray-900;
+    @apply bg-[#171b2f] text-white;
   }
 
   header {
-    @apply bg-white
+    @apply bg-[#DCDCDC]
   }
 
   footer {
-    @apply bg-[#efefef]
+    @apply bg-[#DCDCDC] justify-center flex items-center h-26
   }
 
   .dark header {
@@ -26,7 +42,29 @@
   }
 
   .dark footer {
-    @apply text-white bg-gray-900
+    @apply text-white bg-[#1c2436]
+  }
+
+  .card-container {
+    @apply flex justify-center max-h-full text-center
+  }
+
+  .card {
+    @apply w-[21%] flex flex-col items-center justify-center text-center gap-4 bg-[#DCDCDC] p-7 shadow-md shadow-gray-500/50 rounded-2xl
+  }
+
+  @media (max-width: 718px) {
+    .card-container {
+      @apply block max-w-full text-center space-y-8;
+    }
+
+    .card {
+      @apply w-[70%] mx-auto;
+    }
+  }
+
+  .dark .card {
+    @apply bg-[#1c2436]
   }
 
   h1,
@@ -51,16 +89,13 @@
     @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
   }
 
-  form input {
-    @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
-  }
-
-  form input::placeholder,
-  form textarea,
-  form input {
+  .dark form {
     @apply text-black
   }
 
+  form input {
+    @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
+  }
 }
 
 @layer components {
@@ -71,6 +106,10 @@
   @media (min-width: 768px) {
     .wrapper {
       @apply w-4/5;
+    }
+
+    footer {
+      @apply h-22
     }
   }
 
@@ -99,10 +138,10 @@
   }
 
   .button__secondary {
-    @apply bg-white text-black;
+    @apply bg-[#3e84f7] text-black;
   }
 
-  .button__secondary:hover:not(:disabled) {
+  .button__secondary:hover {
     @apply bg-black text-white;
   }
 
@@ -110,8 +149,20 @@
     @apply bg-gray-800 text-white;
   }
 
+  .dark .button__primary:disabled {
+    @apply bg-black;
+  }
+
   .dark .button__primary:hover:not(:disabled) {
     @apply bg-white text-black;
+  }
+
+  .dark .button__secondary {
+    @apply text-white;
+  }
+
+  .dark .button__secondary:hover {
+    @apply text-black bg-white;
   }
 }
 

@@ -46,7 +46,7 @@ function Content() {
   const shouldShowHeader = showHeaderOn.includes(location.pathname);
   const definedPaths = ["/home", "/login", "/register", "/studentprofile", "/booksessions", "/mysessions", "/publishsessions", "/tutorprofile", "/termsandconditions"];
   const isDefinedPath = definedPaths.includes(location.pathname);
-  const showFooterOn = ["/home"];
+  const showFooterOn = ["/home", "/booksessions", "/mysessions", "/publishsessions"];
   const shouldShowFooter = showFooterOn.includes(location.pathname);
 
   return (

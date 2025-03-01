@@ -18,7 +18,12 @@ CREATE TABLE tutors (
     hourly_rate NUMERIC(10,2) NOT NULL CHECK (hourly_rate >= 0)
 );
 
-
+CREATE TABLE user_issues (
+   user_id UUID PRIMARY KEY REFERENCES students(user_id) ON DELETE CASCADE,
+   issue_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+   issue_details TEXT NOT NULL
+   issue_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
 
 -- Note:
 -- To access DB, run in terminal:

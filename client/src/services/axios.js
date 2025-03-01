@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
         if (error.response) {
             const { status, data } = error.response;
             if (status === 403)
-                // If a private JWT has been changed to public, access is not granted to any route and user session is reset
+                // If a public token is given because of verification failure (tampering) then reload page and reset session
                 if (status === 403 && data.code === 'INVALID_REQUEST') {
                     location.reload()
                 }

@@ -9,9 +9,9 @@ export default {
     ],
     darkMode: 'class', // Enables manual dark mode using a class
     theme: {
-        extend: {
-
-        },
+        extend: {},
     },
-    plugins: [forms, aspectRatio, lineClamp],
+    plugins: [forms, aspectRatio, lineClamp], // Plugins
+    // Forms allows for default form styles making styling easier
+    // Aspect ratio allows for 
 };

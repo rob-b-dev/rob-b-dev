@@ -57,7 +57,7 @@ function StudentProfile() {
             <h1 className="text-blue-800 font-bold text-4xl text-center font-title-secondary">Student Profile</h1>
 
             {[{ key: "name", label: "Name", icon: "user" }, { key: "email", label: "Email", icon: "envelope" }, { key: "password", label: "Password", icon: "key" }].map(({ key, label, icon }) => (
-                <div key={key} className="flex items-center justify-between">
+                <div key={key} className="flex items-center justify-between text-black">
                     <div className="flex items-center space-x-6">
                         <FontAwesomeIcon icon={["fas", icon]} className="text-xl text-blue-600" />
                         <span className="font-semibold">{label}:</span>

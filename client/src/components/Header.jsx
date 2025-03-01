@@ -64,7 +64,6 @@ function Header() {
   const profileMenuItems = [
     { path: "/studentprofile", label: "Student Profile" },
     { path: "/tutorprofile", label: "Tutor Profile" },
-    { path: "/settings", label: "Settings" },
     { path: "/support", label: "Support" },
     { label: "Logout", action: handleLogout } // Action to handle logout
   ];
@@ -73,21 +72,22 @@ function Header() {
     <header className="fixed top-0 left-0 w-full border-b-2 border-gray-300 shadow-md z-50">
       <nav className="wrapper flex items-center justify-between p-4">
         <div className="flex items-center gap-10">
+          <h1>
+            <NavLink to="/home">
+              <img src="src/assets/static/logo-removebg.png" alt="Logo" className="w-16" />
+            </NavLink>
+          </h1>
           <div className="relative">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full transition-colors cursor-pointer ${theme === 'light' ? 'bg-white text-yellow-500' : 'text-blue-400'}`}
+              className={`p-2 rounded-full transition-colors cursor-pointer ${theme === 'light' ? 'bg-[#DCDCDC] text-yellow-500' : 'text-blue-400'}`}
             >
               {/* If light toggle sun, else toggle moon */}
               <FontAwesomeIcon icon={theme === 'light' ? faSun : faMoon} className="text-xl" />
             </button>
           </div>
 
-          <h1>
-            <NavLink to="/home">
-              <img src="src/assets/static/logo-removebg.png" alt="Logo" className="w-16" />
-            </NavLink>
-          </h1>
+
         </div>
 
         <ul className="flex items-center gap-10">

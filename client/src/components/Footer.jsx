@@ -3,22 +3,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Footer() {
     const year = new Date().getFullYear();
     return (
-        <footer className="py-6 w-full absolute bottom-0 left-0 border-t-2 border-gray-300 shadow-md z-50">
-            <div className="wrapper">
-                <ul className="flex justify-between items-center mb-3">
-                    <li className="text-center flex flex-col gap-2">
-                        Branding and Marketing by <br /> <span>COMPANY NAME</span>
-                    </li>
-                    <li className="text-center cursor-pointer">Terms and Conditions</li>
-                    <li className="text-center cursor-pointer">Contact Us</li>
-                    <li className="text-center cursor-pointer">Report an Issue</li>
-                </ul>
-                <div className="flex flex-col items-center">
-                    <FontAwesomeIcon icon={["far", "copyright"]} className="text-sm mb-1 font-thin" />
-                    <p className="text-sm font-thin text-center">{year} My Company - All rights reserved</p>
+        <div className="flex flex-col h-[250px]"> {/* Ensures the <div> is at least 400px tall, but it can grow if needed. */}
+            {/* flex-grow makes <main> expand to push the footer to the bottom when there's little content. */}
+            < main className="flex-grow" >
+            </main >
+
+            <footer className="py-4 w-full border-t-2 border-gray-300 shadow-md">
+                <div className="wrapper mx-auto">
+                    <ul className="flex justify-between mb-3 w-full max-w-sm mx-auto">
+                        <li className="text-center cursor-pointer">Contact us</li>
+                        <li className="text-center cursor-pointer">Terms & Conditions</li>
+                        <li className="text-center cursor-pointer">Report an Issue</li>
+                    </ul>
+                    <div className="flex justify-center items-center space-x-2">
+                        <FontAwesomeIcon icon={["far", "copyright"]} className="text-sm font-thin" />
+                        <p className="text-sm font-thin text-center">{year} My Company - All rights reserved</p>
+                    </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
+        </div >
     );
 }
 
