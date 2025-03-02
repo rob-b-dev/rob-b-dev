@@ -9,11 +9,27 @@
     @apply font-page bg-transparent;
   }
 
+  .dark {
+
+    html,
+    body,
+    :root {
+      @apply bg-[#313338] text-white;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      @apply text-white;
+    }
+  }
+
   @media (max-width: 1280px) {
 
     html,
     body {
-      @apply text-sm
+      @apply text-sm;
     }
   }
 
@@ -21,36 +37,83 @@
 
     html,
     body {
-      @apply text-xs
+      @apply text-xs;
     }
   }
 
-  .dark {
-    @apply bg-[#171b2f] text-white;
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-title-primary text-black;
   }
 
+  img {
+    @apply block w-full h-auto;
+  }
+
+  form {
+    @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
+  }
+
+  .dark form {
+    @apply text-white bg-[#2b2d31];
+  }
+
+  form input {
+    @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
+  }
+}
+
+@layer components {
   header {
-    @apply bg-[#DCDCDC]
-  }
-
-  footer {
-    @apply bg-[#DCDCDC] justify-center flex items-center h-26
+    @apply bg-[#DCDCDC];
   }
 
   .dark header {
-    @apply text-white bg-gray-900;
+    @apply text-white bg-[#1e1f22];
+  }
+
+  footer {
+    @apply bg-[#DCDCDC] justify-center flex items-center h-30 py-4 w-full border-t-2 border-gray-300 shadow-md;
   }
 
   .dark footer {
-    @apply text-white bg-[#1c2436]
+    @apply text-white bg-[#232428];
+  }
+
+  @media (max-width: 718px) {
+    footer {
+      @apply mt-10;
+    }
+  }
+
+  @media (min-width: 768px) {
+    footer {
+      @apply h-22;
+    }
+  }
+
+  .wrapper {
+    @apply w-full mx-auto;
+  }
+
+  @media (min-width: 768px) {
+    .wrapper {
+      @apply w-4/5;
+    }
   }
 
   .card-container {
-    @apply flex justify-center max-h-full text-center
+    @apply flex justify-center max-h-full text-center;
   }
 
   .card {
-    @apply w-[21%] flex flex-col items-center justify-center text-center gap-4 bg-[#DCDCDC] p-7 shadow-md shadow-gray-500/50 rounded-2xl
+    @apply w-[21%] flex flex-col items-center justify-center text-center gap-4 bg-[#DCDCDC] p-7 shadow-md shadow-gray-500/50 rounded-2xl;
+  }
+
+  .dark .card {
+    @apply bg-[#2b2d31];
   }
 
   @media (max-width: 718px) {
@@ -63,62 +126,20 @@
     }
   }
 
-  .dark .card {
-    @apply bg-[#1c2436]
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-title-primary text-black;
-  }
-
-  .dark h1,
-  .dark h2,
-  .dark h3,
-  .dark h4 {
-    @apply font-title-primary text-white;
-  }
-
-  img {
-    @apply block w-full h-auto;
-  }
-
-  form {
-    @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
-  }
-
-  .dark form {
-    @apply text-black
-  }
-
-  form input {
-    @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
-  }
-}
-
-@layer components {
-  .wrapper {
-    @apply w-full mx-auto;
-  }
-
-  @media (min-width: 768px) {
-    .wrapper {
-      @apply w-4/5;
-    }
-
-    footer {
-      @apply h-22
-    }
-  }
-
   .dropdown-container {
     @apply absolute top-[120%] left-1/2 bg-white border border-gray-300 rounded shadow-md z-50 min-w-[150px] p-1.5 transform -translate-x-1/2;
   }
 
+  .dark .dropdown-container {
+    @apply bg-[#2b2d31]
+  }
+
   .dropdown-item {
     @apply block p-2 text-center text-gray-800 bg-white hover:bg-gray-100;
+  }
+
+  .dark .dropdown-item {
+    @apply bg-[#2b2d31] text-white
   }
 
   .button {
@@ -150,7 +171,7 @@
   }
 
   .dark .button__primary:disabled {
-    @apply bg-black;
+    @apply border-none;
   }
 
   .dark .button__primary:hover:not(:disabled) {

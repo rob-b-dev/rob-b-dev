@@ -1,4 +1,4 @@
-// Library which provides functions to handle form submissions and reset its state
+// useForm is a React Hook that simplifies form handling by managing state, validation, and submission.
 import { useForm } from "react-hook-form";
 import { showToast } from "../helpers/toast";
 import userService from "../services/user";
@@ -7,20 +7,24 @@ import { useEffect } from "react";
 
 function TutorProfile() {
     const { hasTutorProfile } = useAuth();
-    // Include props where values are edited/used
-    // Formstate checks if any form field has been modified from its default value and updates the dirty state, ensuring more responsive UI
-    // Provides functions to handle form submission and reset its state.
-    const { register, handleSubmit, reset, formState: { isDirty } } = useForm({
-        defaultValues: { bio: "", subjects: "", experience: "", availability: "", hourlyRate: "" }
+    // formState tracks whether any form field has been modified from its default value, updating the dirty state for UI responsiveness.
+    // The useForm hook provides:
+    // - register: Connects input fields to React Hook Form's state management (useForm)
+    // - handleSubmit: Handles form submission logic.
+    // - reset: Resets the form fields to their default values.
+    const { register, handleSubmit, reset, watch, formState: { isDirty } } = useForm({
+        defaultValues: { bio: "", subjects: "", experience: "", availability: "", hourlyRate: "" } // Initial form values
     });
 
+    console.log("Current Bio:", watch("bio"));
+
     useEffect(() => {
-        // Do not execute if no tutor profile exists as there is no data to gather
+        // Exit early if the tutor profile doesn't exist (no data to fetch)
         if (!hasTutorProfile) return;
         (async () => {
             try {
                 const res = await userService.getTutorProfile();
-                // On load, form field values are reset to database values and dirty state is reset
+                // Update the form with the retrieved data and reset the dirty state
                 reset({
                     bio: res.bio,
                     subjects: res.subjects?.join(", "),
@@ -63,7 +67,7 @@ function TutorProfile() {
     };
 
     return (
-        <form className="center space-y-6 max-w-xl mx-auto p-8 border border-gray-800 bg-white rounded-2xl shadow-2xl shadow-gray-900/50" onSubmit={handleSubmit(onSubmit)}>
+        <form className="center space-y-6 max-w-xl mx-auto p-8 border border-gray-800 rounded-2xl shadow-2xl shadow-gray-900/50" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-blue-800 font-bold text-4xl text-center font-title-secondary">Tutor Profile</h1>
 
             <div>
@@ -79,7 +83,7 @@ function TutorProfile() {
                 </div>
                 <div className="w-4/6">
                     <h2 className="text-blue-800 font-bold text-lg">Subjects</h2>
-                    <input {...register("subjects")} className="w-full border border-gray-900 p-2" type="text" placeholder="e.g., Maths, English" required />
+                    <input {...register("subjects")} className="w-full border border-gray-900 p-2 " type="text" placeholder="e.g., Maths, English" required />
                 </div>
             </div>
 
@@ -91,7 +95,7 @@ function TutorProfile() {
             <div>
                 <h2 className="text-blue-800 font-bold text-lg">Hourly Rate</h2>
                 <div className="flex items-center border border-gray-900 p-2">
-                    <span className="text-gray-700">£</span>
+                    <span>£</span>
                     <input {...register("hourlyRate")} className="w-full border-none focus:outline-none" type="text" required />
                 </div>
             </div>

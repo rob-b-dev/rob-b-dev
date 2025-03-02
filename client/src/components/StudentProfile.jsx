@@ -53,11 +53,11 @@ function StudentProfile() {
     };
 
     return (
-        <form className="center space-y-6 max-w-xl mx-auto p-8 border border-gray-800 bg-white rounded-2xl shadow-2xl shadow-gray-900/50" onSubmit={handleSubmit(onSubmit)}>
+        <form className="center space-y-6 max-w-xl mx-auto p-8 border border-gray-800 rounded-2xl shadow-2xl shadow-gray-900/50" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-blue-800 font-bold text-4xl text-center font-title-secondary">Student Profile</h1>
 
             {[{ key: "name", label: "Name", icon: "user" }, { key: "email", label: "Email", icon: "envelope" }, { key: "password", label: "Password", icon: "key" }].map(({ key, label, icon }) => (
-                <div key={key} className="flex items-center justify-between text-black">
+                <div key={key} className="flex items-center justify-between">
                     <div className="flex items-center space-x-6">
                         <FontAwesomeIcon icon={["fas", icon]} className="text-xl text-blue-600" />
                         <span className="font-semibold">{label}:</span>

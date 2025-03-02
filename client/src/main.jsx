@@ -50,38 +50,39 @@ function Content() {
   const shouldShowFooter = showFooterOn.includes(location.pathname);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       {shouldShowHeader && <Header />}
-      {isDefinedPath ? (
-        <div className="wrapper">
-          <Routes className="wrapper">
-            <Route path="/home" element={<Homepage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/termsandconditions" element={<GenerateTerms />} />
+      <main className="flex-grow">
+        {isDefinedPath ? (
+          <div className="wrapper">
+            <Routes>
+              <Route path="/home" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/termsandconditions" element={<GenerateTerms />} />
 
-            {/* Protected Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/booksessions" element={<BookSessions />} />
-              <Route path="/mysessions" element={<MySessions />} />
-              <Route path="/publishsessions" element={<PublishSessions />} />
-              <Route path="/studentprofile" element={<StudentProfile />} />
-              <Route path="/tutorprofile" element={<TutorProfile />} />
-            </Route>
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/booksessions" element={<BookSessions />} />
+                <Route path="/mysessions" element={<MySessions />} />
+                <Route path="/publishsessions" element={<PublishSessions />} />
+                <Route path="/studentprofile" element={<StudentProfile />} />
+                <Route path="/tutorprofile" element={<TutorProfile />} />
+              </Route>
 
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
-      ) : (
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      )}
+        )}
+      </main>
       {shouldShowFooter && <Footer />}
-    </>
+    </div>
   );
-
 }
 
 export default App;

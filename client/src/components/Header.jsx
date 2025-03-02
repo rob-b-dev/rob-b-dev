@@ -11,19 +11,16 @@ function Header() {
   const { isAuthenticated, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [studentProfile, setStudentProfile] = useState(null);
-  const [theme, setTheme] = useState(localStorage.getItem('theme')); // Gather theme from local storage
+  const [theme, setTheme] = useState(localStorage.getItem('theme')); // Get the saved theme from local storage on page load to keep state
 
-  // Block to track the state of theme and toggle between dark theme on state change, accessing the dark class in global css
+  // Apply the dark theme when 'theme' changes
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    // Set the theme in local storage so the state can be constant
-    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark'); // Add or remove the 'dark' class on <html>
+    localStorage.setItem('theme', theme); // Save the theme to local storage
   }, [theme]);
 
-  // Toggle between light and dark themes
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+  // Switch between light and dark mode
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   // Toggle the profile dropdown and fetch profile data
   const toggleDropdown = async () => {
