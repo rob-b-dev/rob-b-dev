@@ -83,13 +83,13 @@ function TutorProfile() {
                 </div>
                 <div className="w-4/6">
                     <h2 className="text-blue-800 font-bold text-lg">Subjects</h2>
-                    <input {...register("subjects")} className="w-full border border-gray-900 p-2 " type="text" placeholder="e.g., Maths, English" required />
+                    <input {...register("subjects")} className="w-full border border-gray-900 p-2 " type="text" placeholder="e.g. Maths, English" required />
                 </div>
             </div>
 
             <div>
                 <h2 className="text-blue-800 font-bold text-lg">Availability</h2>
-                <input {...register("availability")} className="border border-gray-900 p-2 w-full" type="text" placeholder="e.g., Monday 10-12PM" required />
+                <input {...register("availability")} className="border border-gray-900 p-2 w-full" type="text" placeholder="e.g. Monday 10-12PM" required />
             </div>
 
             <div>

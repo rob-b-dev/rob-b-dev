@@ -14,7 +14,7 @@
     html,
     body,
     :root {
-      @apply bg-[#313338] text-white;
+      @apply bg-[#171b2f] text-white;
     }
 
     h1,
@@ -56,13 +56,34 @@
     @apply border border-gray-800 rounded-xl shadow-lg flex flex-col p-8 bg-white w-2/5 max-w-full;
   }
 
-  .dark form {
-    @apply text-white bg-[#2b2d31];
+  form input::placeholder,
+  form textarea::placeholder {
+    @apply text-[#636c72];
   }
+
+  form input,
+  form textarea {
+    @apply text-black;
+  }
+
+  .dark form input::placeholder,
+  .dark form textarea::placeholder {
+    @apply text-gray-400
+  }
+
+  .dark form {
+    @apply text-black;
+  }
+
+  /* .dark form input,
+  .dark form textarea {
+    @apply text-white;
+  } */
 
   form input {
     @apply block p-2 transition duration-300 ease-in-out border border-gray-800;
   }
+
 }
 
 @layer components {
@@ -71,7 +92,7 @@
   }
 
   .dark header {
-    @apply text-white bg-[#1e1f22];
+    @apply text-white bg-gray-900;
   }
 
   footer {
@@ -79,7 +100,7 @@
   }
 
   .dark footer {
-    @apply text-white bg-[#232428];
+    @apply text-white bg-[#1c2436];
   }
 
   @media (max-width: 718px) {
@@ -113,7 +134,7 @@
   }
 
   .dark .card {
-    @apply bg-[#2b2d31];
+    @apply bg-[#1c2436];
   }
 
   @media (max-width: 718px) {
@@ -130,16 +151,8 @@
     @apply absolute top-[120%] left-1/2 bg-white border border-gray-300 rounded shadow-md z-50 min-w-[150px] p-1.5 transform -translate-x-1/2;
   }
 
-  .dark .dropdown-container {
-    @apply bg-[#2b2d31]
-  }
-
   .dropdown-item {
     @apply block p-2 text-center text-gray-800 bg-white hover:bg-gray-100;
-  }
-
-  .dark .dropdown-item {
-    @apply bg-[#2b2d31] text-white
   }
 
   .button {
@@ -171,7 +184,7 @@
   }
 
   .dark .button__primary:disabled {
-    @apply border-none;
+    @apply bg-black;
   }
 
   .dark .button__primary:hover:not(:disabled) {
