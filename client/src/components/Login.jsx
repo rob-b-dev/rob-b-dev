@@ -29,9 +29,9 @@ function Login() {
         <form onSubmit={handleSubmitLogin} className="form center">
             <div className="space-y-6 text-center w-4/5 mx-auto">
                 {/* Heading */}
-                <h1 className="text-blue-800 font-bold text-4xl font-title-secondary">
+                <h2 className="text-blue-800 font-extrabold text-4xl">
                     Login
-                </h1>
+                </h2>
                 <div className="space-y-6">
 
                     {/* Email Input */}
@@ -92,7 +92,9 @@ function Login() {
                     </p>
                     <a href="#" className="text-blue-800 underline">Forgot password?</a>
                 </div>
+
             </div>
+
         </form>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faMoon, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon, faUserCircle, faUniversalAccess } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../hooks/useAuth';
 import userService from '../services/user';
 import { showToast } from '../helpers/toast';
@@ -9,22 +9,24 @@ import { showToast } from '../helpers/toast';
 function Header() {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [accessibilityDropdownOpen, setAccessibilityDropdownOpen] = useState(false);
   const [studentProfile, setStudentProfile] = useState(null);
-  const [theme, setTheme] = useState(localStorage.getItem('theme')); // Get the saved theme from local storage on page load to keep state
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [showMagnifier, setShowMagnifier] = useState(false);
 
-  // Apply the dark theme when 'theme' changes
+  const toggleMagnify = () => setShowMagnifier((prev) => !prev);
+
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark'); // Add or remove the 'dark' class on <html>
-    localStorage.setItem('theme', theme); // Save the theme to local storage
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Switch between light and dark mode
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-  // Toggle the profile dropdown and fetch profile data
-  const toggleDropdown = async () => {
-    setDropdownOpen((prev) => !prev);
+  const toggleProfileDropdown = async () => {
+    setProfileDropdownOpen((prev) => !prev);
+    setAccessibilityDropdownOpen(false);
     try {
       const profileData = await userService.getProfile();
       setStudentProfile({
@@ -37,19 +39,20 @@ function Header() {
     }
   };
 
-  // Handle user logout
+  const toggleAccessibilityDropdown = () => {
+    setAccessibilityDropdownOpen((prev) => !prev);
+  };
+
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
     setStudentProfile(null);
-    setDropdownOpen(false);
+    setProfileDropdownOpen(false);
     navigate('/home');
   };
 
-  // IsActive class for active tabs selected
   const getNavClass = ({ isActive }) => (isActive ? "font-semibold underline text-blue-400" : "");
 
-  // Menu items and props for mapping to reduce code
   const menuItems = [
     { path: "/home", label: "Home" },
     { path: "/booksessions", label: "Book Session" },
@@ -57,12 +60,11 @@ function Header() {
     { path: "/publishsessions", label: "Publish Sessions" }
   ];
 
-  // profike dropdown items and props for mapping to reduce code
   const profileMenuItems = [
     { path: "/studentprofile", label: "Student Profile" },
     { path: "/tutorprofile", label: "Tutor Profile" },
     { path: "/support", label: "Support" },
-    { label: "Logout", action: handleLogout } // Action to handle logout
+    { label: "Logout", action: handleLogout }
   ];
 
   return (
@@ -74,17 +76,35 @@ function Header() {
               <img src="src/assets/static/logo-removebg.png" alt="Logo" className="w-16" />
             </NavLink>
           </h1>
-          <div className="relative">
+          <div className="flex gap-5">
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-full transition-colors cursor-pointer ${theme === 'light' ? 'bg-[#DCDCDC] text-yellow-500' : 'text-blue-400'}`}
             >
-              {/* If light toggle sun, else toggle moon */}
               <FontAwesomeIcon icon={theme === 'light' ? faSun : faMoon} className="text-xl" />
             </button>
+            <div className="relative">
+              <button onClick={toggleAccessibilityDropdown} className="p-2 rounded-full">
+                <FontAwesomeIcon icon={faUniversalAccess} className="text-xl" />
+              </button>
+              {accessibilityDropdownOpen && (
+                <div className="dropdown-container">
+                  <ul>
+                    <li className="dropdown-item">
+                      <button className='cursor-pointer' onClick={toggleMagnify}>
+                        {showMagnifier ? 'Disable magnifier' : 'Enable magnifier'}
+                      </button>
+                    </li>
+                    <li className="dropdown-item">
+                      <button className='cursor-pointer'>
+                        Change language
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
-
-
         </div>
 
         <ul className="flex items-center gap-10">
@@ -96,7 +116,6 @@ function Header() {
                   navigate('/login');
                 }}>{label}</button>
               ) : (
-                // NavLink to display the label and path to navigate to through mapping
                 <NavLink className={getNavClass} to={path}>{label}</NavLink>
               )}
             </li>
@@ -104,10 +123,10 @@ function Header() {
 
           {isAuthenticated ? (
             <div className="relative">
-              <button className="cursor-pointer" onClick={toggleDropdown}>
+              <button className="cursor-pointer" onClick={toggleProfileDropdown}>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </button>
-              {dropdownOpen && studentProfile && (
+              {profileDropdownOpen && studentProfile && (
                 <div className="dropdown-container">
                   <ul>
                     {profileMenuItems.map(({ path, label, action }) => (
@@ -125,10 +144,10 @@ function Header() {
             </div>
           ) : (
             <div className="relative">
-              <button className="cursor-pointer" onClick={toggleDropdown}>
+              <button className="cursor-pointer" onClick={toggleProfileDropdown}>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </button>
-              {dropdownOpen && (
+              {profileDropdownOpen && (
                 <div className="dropdown-container">
                   <ul>
                     <li className="dropdown-item">
@@ -144,6 +163,7 @@ function Header() {
           )}
         </ul>
       </nav>
+
     </header>
   );
 }

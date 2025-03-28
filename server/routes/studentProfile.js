@@ -14,8 +14,6 @@ router.post("/update", studentValidation, async (req, res) => {
         let key = Object.keys(req.body)[0];
         let value = Object.values(req.body)[0];
 
-        console.log(req.body)
-
         // Fetch user
         const user = await pool.query("SELECT user_name, user_email, user_password FROM students WHERE user_id = $1", [user_id]);
 

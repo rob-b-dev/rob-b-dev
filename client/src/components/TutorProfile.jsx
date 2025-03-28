@@ -12,11 +12,10 @@ function TutorProfile() {
     // - register: Connects input fields to React Hook Form's state management (useForm)
     // - handleSubmit: Handles form submission logic.
     // - reset: Resets the form fields to their default values.
-    const { register, handleSubmit, reset, watch, formState: { isDirty } } = useForm({
+    const { register, handleSubmit, reset, formState: { isDirty } } = useForm({
         defaultValues: { bio: "", subjects: "", experience: "", availability: "", hourlyRate: "" } // Initial form values
     });
 
-    console.log("Current Bio:", watch("bio"));
 
     useEffect(() => {
         // Exit early if the tutor profile doesn't exist (no data to fetch)

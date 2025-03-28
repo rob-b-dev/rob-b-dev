@@ -19,11 +19,13 @@ CREATE TABLE tutors (
 );
 
 CREATE TABLE user_issues (
-   user_id UUID PRIMARY KEY REFERENCES students(user_id) ON DELETE CASCADE,
-   issue_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-   issue_details TEXT NOT NULL
-   issue_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-)
+   user_id UUID REFERENCES students(user_id) ON DELETE CASCADE,
+   issue_id UUID DEFAULT uuid_generate_v4(),
+   issue_details TEXT NOT NULL,
+   issue_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (user_id, issue_id)
+);
+
 
 -- Note:
 -- To access DB, run in terminal:

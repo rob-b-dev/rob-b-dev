@@ -25,6 +25,10 @@
     }
   }
 
+  .cursor-zoom {
+    cursor: zoom-in;
+  }
+
   @media (max-width: 1280px) {
 
     html,

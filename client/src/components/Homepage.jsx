@@ -8,7 +8,6 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
-    console.log(path);
     if (!isAuthenticated) {
       showToast("Login needed to access", "error");
       navigate("/login");
@@ -41,7 +40,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div className="card-container gap-10 mt-30 h-[80%]">
+      <div className="mt-30 card-container gap-10">
         <div className="card">
           <div className="p-6 w-10 h-10 bg-white rounded-full flex items-center justify-center">
             <FontAwesomeIcon icon={["fas", "bolt"]} className="text-xl text-yellow-500" />

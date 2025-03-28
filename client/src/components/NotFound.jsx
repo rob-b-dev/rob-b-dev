@@ -5,6 +5,7 @@ function NotFound() {
     // Sets bool for dark mode toggle
     const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
+
     useEffect(() => {
         setIsDarkMode(localStorage.getItem("theme") === "dark");
 

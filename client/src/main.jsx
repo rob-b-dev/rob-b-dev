@@ -69,8 +69,6 @@ function Content() {
                 <Route path="/studentprofile" element={<StudentProfile />} />
                 <Route path="/tutorprofile" element={<TutorProfile />} />
               </Route>
-
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         ) : (
