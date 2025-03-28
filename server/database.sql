@@ -1,36 +1,24 @@
-CREATE DATABASE webapp
-
-CREATE TABLE students (
+CREATE TABLE users (
   user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_name VARCHAR(255) NOT NULL,
-  user_email VARCHAR(255) NOT NULL,
+  user_fname VARCHAR(255) NOT NULL,
+  user_lname VARCHAR(255) NOT NULL,
+  user_phone VARCHAR(18) NOT NULL
+  user_email VARCHAR(255) UNIQUE NOT NULL,
   user_password VARCHAR(255) NOT NULL,
-  roles TEXT[] NOT NULL DEFAULT ARRAY['student'] 
 );
 
-CREATE TABLE tutors (
-    user_id UUID PRIMARY KEY REFERENCES students(user_id) ON DELETE CASCADE,
-    user_email VARCHAR(255) NOT NULL,
-    bio TEXT NOT NULL, 
-    subjects TEXT[] NOT NULL, 
-    experience_years INT NOT NULL CHECK (experience_years >= 0),
-    availability TEXT[] NOT NULL ,
-    hourly_rate NUMERIC(10,2) NOT NULL CHECK (hourly_rate >= 0)
+CREATE TABLE booking_details (
+    booking_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,
+    booking_type VARCHAR(16),
+    product_type VARCHAR(24),
+    booking_time VARCHAR(12),
+    booking_date VARCHAR(16),
+    booking_location VARCHAR(12)
+    PRIMARY KEY (booking_id, user_id)
 );
 
-CREATE TABLE user_issues (
-   user_id UUID REFERENCES students(user_id) ON DELETE CASCADE,
-   issue_id UUID DEFAULT uuid_generate_v4(),
-   issue_details TEXT NOT NULL,
-   issue_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY (user_id, issue_id)
+CREATE TABLE user_address (
+    user_id UUID NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,
+    address_line VARCHAR(33),
 );
-
-
--- Note:
--- To access DB, run in terminal:
---- 1) brew services start postgresql
---- 2) psql -U admin webapp;
-
---- methods to view pg table online
---- standard sql to display users - select * from users;

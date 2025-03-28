@@ -1,47 +1,35 @@
 import axiosInstance from "./axios";
 
 const userService = {
-    async getProfile() {
+    async gatherProfile() {
         try {
-            const response = await axiosInstance.get('/profile/student/fetch');
-            return response.data;  // Ensure you're returning the data here
+            const response = await axiosInstance.get('/user/gather')
+            return response.data
         } catch (error) {
-            console.error(error.response?.data)
+            console.error(error.message)
             throw error
         }
     },
 
     async updateProfile(data) {
         try {
-            const response = await axiosInstance.post('/profile/student/update', data);
-            return response.data; // Data returned so it can be used in profile display
-
+            const response = await axiosInstance.post('/user/update', data)
+            return response
         } catch (error) {
-            console.error(error.response?.data);
-            throw error
-        }
-
-    },
-
-    async updateTutorProfile(data) {
-        try {
-            const response = await axiosInstance.post('profile/tutor/update', data);
-            return response.data
-        } catch (error) {
-            console.error(error.response?.data)
+            console.error(error.message)
             throw error
         }
     },
 
-    async getTutorProfile(data) {
+    async deleteProfile() {
         try {
-            const response = await axiosInstance.get('profile/tutor/fetch', data);
-            return response.data
+            const response = await axiosInstance.post('/user/delete')
+            return response
         } catch (error) {
-            console.error(error.response?.data)
+            console.error(error.message)
             throw error
         }
     }
-};
+}
 
 export default userService;

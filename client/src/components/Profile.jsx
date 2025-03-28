@@ -33,8 +33,7 @@ function Profile() {
                     email: profileData.email,
                     phoneNumber: profileData.phoneNumber,
                     password: "********",
-                    postcode: profileData.postcode,
-                    addressLine: profileData.addressLine,
+                    address: profileData.address
                 });
             } catch (error) {
                 console.error("Error fetching profile data:", error);
@@ -187,8 +186,7 @@ function Profile() {
                     {renderField("Email", "email", "email")}
                     {renderField("Phone Number", "phoneNumber", "tel")}
                     {renderField("Password", "password", "password")}
-                    {renderField("Address Line", "addressLine", "text", 'mt-10')}
-                    {renderField("Postcode", "postcode", "text")}
+                    {renderField("Address Line", "address", "text", 'mt-10')}
                 </div>
             </div>
         </form>

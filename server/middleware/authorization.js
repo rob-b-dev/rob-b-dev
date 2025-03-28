@@ -1,16 +1,15 @@
+const { VerifyJWT } = require('../helpers/jwt')
 const jwtGenerator = require("../utils/jwtGenerator");
-const { verifyJWT } = require("../helpers/jwt");
-require("dotenv").config(); // Access environmental variables
 
-// This block authorizes the user based on the req body and generates a response to either grant or deny access
 module.exports = async (req, res, next) => {
     try {
-        // Gather JWT sent as coookie - this sends by default on every request
-        verifyJWT(req.cookies.jwt) // Verifies the private or public JWT sent
-
+        // Verify JWT to check for tampering
+        VerifyJWT(req.cookies.jwt)
     } catch (error) {
+        // Generate PUBLIC JWT if tampered with
         const jwt = jwtGenerator();
-        // Public cookie
+        // Set generated JWT as a cookie before responding, ensuring the client provides it to the backend in future requests
+        // Cookie needs to be set here so it is available for backend logic on the next request
         res.cookie('jwt', jwt, {
             httpOnly: true, secure: false, sameSite: 'Strict', maxAge: 3600000,
         });
@@ -21,8 +20,5 @@ module.exports = async (req, res, next) => {
         });
     }
 
-    next();
-
-
-
+    next()
 }
